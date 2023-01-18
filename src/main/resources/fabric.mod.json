@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "addon-template",
+  "version": "${version}",
+  "name": "Addon Template",
+  "description": "An addon template for the Meteor addons.",
+  "authors": [
+    "seasnail"
+  ],
+  "contact": {
+    "repo": "https://github.com/RacoonDog/meteor-addon-template",
+    "sources": "https://github.com/RacoonDog/meteor-addon-template",
+    "issues": "https://github.com/RacoonDog/meteor-addon-template/issues"
+  },
+  "license": "MPL-2.0",
+  "icon": "assets/template/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "com.example.addon.AddonTemplate"
+    ]
+  },
+  "mixins": [
+    "addon-template.mixins.json"
+  ],
+  "custom": {
+    "meteor-client:color": "225,25,25",
+    "modmenu": {
+      "badges": [ "meteor" ]
+    }
+  },
+  "depends": {
+    "java": ">=17",
+    "fabricloader": ">=0.12",
+    "minecraft": ">=${mc_version}",
+    "meteor-client": "*"
+  }
+}
