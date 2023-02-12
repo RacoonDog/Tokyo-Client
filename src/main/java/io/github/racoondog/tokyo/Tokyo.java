@@ -87,8 +87,6 @@ public class Tokyo extends MeteorAddon {
             credit.sections.add(1, new TitleScreenCredits.Section(" (", TitleScreenCredits.GRAY));
             credit.sections.add(2, new TitleScreenCredits.Section(localVersionString, TitleScreenCredits.WHITE));
             credit.sections.add(3, new TitleScreenCredits.Section(")", TitleScreenCredits.GRAY));
-
-            credit.calculateWidth();
         });
 
         // Modules

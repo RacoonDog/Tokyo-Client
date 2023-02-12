@@ -19,8 +19,7 @@
     "prefix.ChatUtilsMixin",
     "prefix.IFontManager",
     "prefix.IMinecraftClient",
-    "prefix.IStyle",
-    "prefix.TEMPORARYMIXIN"
+    "prefix.IStyle"
   ],
   "injectors": {
     "defaultRequire": 1
