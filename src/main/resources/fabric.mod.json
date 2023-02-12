@@ -1,30 +1,32 @@
 {
   "schemaVersion": 1,
-  "id": "addon-template",
+  "id": "tokyo-client",
   "version": "${version}",
-  "name": "Addon Template",
-  "description": "An addon template for the Meteor addons.",
+  "name": "Tokyo Client",
+  "description": "With my Tokyo girls sipping Tokyo tea.",
   "authors": [
-    "seasnail"
+    "Crosby"
   ],
   "contact": {
-    "repo": "https://github.com/RacoonDog/meteor-addon-template",
-    "sources": "https://github.com/RacoonDog/meteor-addon-template",
-    "issues": "https://github.com/RacoonDog/meteor-addon-template/issues"
+    "repo": "https://github.com/RacoonDog/Tokyo-Client",
+    "sources": "https://github.com/RacoonDog/Tokyo-Client",
+    "issues": "https://github.com/RacoonDog/Tokyo-Client/issues"
   },
   "license": "MPL-2.0",
-  "icon": "assets/template/icon.png",
+  "icon": "assets/tokyo-client/icon.png",
   "environment": "client",
   "entrypoints": {
     "meteor": [
-      "com.example.addon.AddonTemplate"
+      "io.github.racoondog.tokyo.Tokyo"
     ]
   },
   "mixins": [
-    "addon-template.mixins.json"
+    "tokyo-client.mixins.json",
+    "tokyo-client-auth.mixins.json"
   ],
+  "accessWidener": "tokyo-client.accesswidener",
   "custom": {
-    "meteor-client:color": "225,25,25",
+    "meteor-client:color": "204,48,255",
     "modmenu": {
       "badges": [ "meteor" ]
     }
@@ -33,6 +35,7 @@
     "java": ">=17",
     "fabricloader": ">=0.12",
     "minecraft": ">=${mc_version}",
-    "meteor-client": "*"
+    "meteor-client": "*",
+    "meteor-shared-addon-utils": ">=${msau_version}"
   }
 }

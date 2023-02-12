@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "io.github.racoondog.tokyo.auth.mixin",
+  "plugin": "io.github.racoondog.tokyo.auth.MixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "ClientMainMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
