@@ -1,16 +1,15 @@
 package io.github.racoondog.tokyo.utils;
 
 import com.google.common.collect.Lists;
-import io.github.racoondog.tokyo.mixin.prefix.IStyle;
 import it.unimi.dsi.fastutil.chars.CharPredicate;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.text.Style;
-import org.jetbrains.annotations.Range;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 @Environment(EnvType.CLIENT)
@@ -166,7 +165,8 @@ public final class StringUtils {
 
     public static boolean isMostlyUppercase(CharSequence seq, int index, int len) {
         int upper = 0;
-        for (int i = index; i < Math.min(index + len, seq.length()); i++) {
+        int endIndex = Math.min(index + len, seq.length());
+        for (int i = index; i < endIndex; i++) {
             if (Character.isUpperCase(seq.charAt(i))) upper++;
         }
         return upper * 2 >= len + 1;
@@ -205,20 +205,5 @@ public final class StringUtils {
 
     public static int indexOfIgnoreCase(CharSequence str, int ch) {
         return indexOfIgnoreCase(str, ch, 0);
-    }
-
-    public static Style cloneStyle(Style root) {
-        IStyle accessor = (IStyle) root;
-
-        return Style.EMPTY.withColor(accessor.tokyo$getColor())
-            .withBold(accessor.tokyo$getBold())
-            .withItalic(accessor.tokyo$getItalic())
-            .withUnderline(accessor.tokyo$getUnderlined())
-            .withStrikethrough(accessor.tokyo$getStrikethrough())
-            .withObfuscated(accessor.tokyo$getObfuscated())
-            .withClickEvent(accessor.tokyo$getClickEvent())
-            .withHoverEvent(accessor.tokyo$getHoverEvent())
-            .withInsertion(accessor.tokyo$getInsertion())
-            .withFont(accessor.tokyo$getFont());
     }
 }

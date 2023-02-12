@@ -1,5 +1,6 @@
 package io.github.racoondog.tokyo.utils;
 
+import io.github.racoondog.tokyo.mixin.prefix.IStyle;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -54,5 +55,20 @@ public final class TextUtils {
         }
 
         return output;
+    }
+
+    public static Style cloneStyle(Style root) {
+        IStyle accessor = (IStyle) root;
+
+        return Style.EMPTY.withColor(accessor.tokyo$getColor())
+            .withBold(accessor.tokyo$getBold())
+            .withItalic(accessor.tokyo$getItalic())
+            .withUnderline(accessor.tokyo$getUnderlined())
+            .withStrikethrough(accessor.tokyo$getStrikethrough())
+            .withObfuscated(accessor.tokyo$getObfuscated())
+            .withClickEvent(accessor.tokyo$getClickEvent())
+            .withHoverEvent(accessor.tokyo$getHoverEvent())
+            .withInsertion(accessor.tokyo$getInsertion())
+            .withFont(accessor.tokyo$getFont());
     }
 }

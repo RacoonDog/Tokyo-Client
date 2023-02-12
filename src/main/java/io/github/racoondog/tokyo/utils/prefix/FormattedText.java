@@ -1,7 +1,6 @@
 package io.github.racoondog.tokyo.utils.prefix;
 
 import io.github.racoondog.tokyo.utils.NbtUtils;
-import io.github.racoondog.tokyo.utils.StringUtils;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
@@ -37,7 +36,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
         this.defaultText = text = defaultText;
         this.defaultMode = mode = defaultMode;
         this.defaultStyle = defaultStyle;
-        style = StringUtils.cloneStyle(defaultStyle);
+        style = TextUtils.cloneStyle(defaultStyle);
         this.defaultColorFrom = defaultColorFrom;
         from = defaultColorFrom.copy();
         this.defaultColorTo = defaultColorTo;
@@ -82,7 +81,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
     public FormattedText set(FormattedText value) {
         text = value.text;
         mode = value.mode;
-        style = StringUtils.cloneStyle(value.style);
+        style = TextUtils.cloneStyle(value.style);
         from = value.from.copy();
         to = value.to.copy();
         rainbowColor = value.rainbowColor;
@@ -95,7 +94,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
         FormattedText formattedText = new FormattedText(defaultText);
         formattedText.text = text;
         formattedText.mode = mode;
-        formattedText.style = StringUtils.cloneStyle(style);
+        formattedText.style = TextUtils.cloneStyle(style);
         formattedText.from = from.copy();
         formattedText.to = to.copy();
         formattedText.rainbowColor = rainbowColor;
