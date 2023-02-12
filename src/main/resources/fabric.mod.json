@@ -21,8 +21,7 @@
     ]
   },
   "mixins": [
-    "tokyo-client.mixins.json",
-    "tokyo-client-auth.mixins.json"
+    "tokyo-client.mixins.json"
   ],
   "accessWidener": "tokyo-client.accesswidener",
   "custom": {

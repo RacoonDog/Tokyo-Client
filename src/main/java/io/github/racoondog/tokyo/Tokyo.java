@@ -3,7 +3,6 @@ package io.github.racoondog.tokyo;
 import com.mojang.logging.LogUtils;
 import io.github.racoondog.meteorsharedaddonutils.features.TitleScreenCredits;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAddon;
-import io.github.racoondog.tokyo.auth.Authenticator;
 import io.github.racoondog.tokyo.systems.TokyoStarscript;
 import io.github.racoondog.tokyo.systems.modules.*;
 import io.github.racoondog.tokyo.utils.TextUtils;
@@ -38,7 +37,7 @@ public class Tokyo extends MeteorAddon {
     //todo discordsrv client-side (webhook + bot)
     //todo multi-instance-meteor
     //todo mod integrations? (ClientCommands, SeedMapper, nodus dev stuff, etc.)
-    //todo ai chat things? idk
+    //todo ai chat things? idfk
     //todo starscript fuckery things like reflection and just more uses
     //todo uuid logger
     //todo beacon range viewer?
@@ -46,13 +45,12 @@ public class Tokyo extends MeteorAddon {
     //todo better notifications addon (SIM gave me permission)
     //todo auto unfriend when a certain damage threshold has been dealt
     //todo sync clients using C2C packets
+    //cope?
     @Override
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
 
         INSTANCE = this;
-
-        Authenticator.init();
 
         // ChatUtils prefix
         prefix = Text.literal("")
