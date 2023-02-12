@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 
 import java.io.Writer;
 
+//TODO will replace with own implementation
 @Environment(EnvType.CLIENT)
 public class CSVWriter extends com.opencsv.CSVWriter {
     public CSVWriter(Writer writer) {

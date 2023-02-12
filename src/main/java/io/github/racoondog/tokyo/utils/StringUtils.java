@@ -1,5 +1,6 @@
 package io.github.racoondog.tokyo.utils;
 
+import com.google.common.collect.Lists;
 import io.github.racoondog.tokyo.mixin.prefix.IStyle;
 import it.unimi.dsi.fastutil.chars.CharPredicate;
 import net.fabricmc.api.EnvType;
@@ -7,14 +8,34 @@ import net.fabricmc.api.Environment;
 import net.minecraft.text.Style;
 import org.jetbrains.annotations.Range;
 
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 @Environment(EnvType.CLIENT)
 public final class StringUtils {
     private static final Random RANDOM = ThreadLocalRandom.current();
+
+    public static String[] recursiveSplit(String root, String... regexes) {
+        List<String> tokens = Lists.newArrayList(root);
+
+        for (var regex : regexes) {
+            Pattern regexPattern = Pattern.compile(regex);
+
+            for (int i = 0; i < tokens.size(); i++) {
+                String[] split = regexPattern.split(tokens.get(i));
+
+                if (split.length > 1) {
+                    tokens.remove(i);
+                    tokens.addAll(i, Arrays.asList(split));
+                    i += split.length - 1;
+                }
+            }
+        }
+
+        return tokens.toArray(new String[0]);
+    }
 
     public static int countChars(CharSequence text, char... characters) {
         if (characters.length <= 0) return 0;
@@ -139,9 +160,13 @@ public final class StringUtils {
         }
     }
 
+    public static boolean isMostlyUppercase(CharSequence seq) {
+        return isMostlyUppercase(seq, 0, seq.length());
+    }
+
     public static boolean isMostlyUppercase(CharSequence seq, int index, int len) {
         int upper = 0;
-        for (int i = index; i < index + len; i++) {
+        for (int i = index; i < Math.min(index + len, seq.length()); i++) {
             if (Character.isUpperCase(seq.charAt(i))) upper++;
         }
         return upper * 2 >= len + 1;

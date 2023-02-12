@@ -259,6 +259,7 @@ public class FormattedTextScreen extends WindowScreen {
         onClosed(() -> formattedText.style = formattedText.style.withFont(Identifier.tryParse(fontDropdown.get())));
     }
 
+    @SuppressWarnings("resource")
     private static String[] getLoadedFonts() {
         Set<Identifier> fontIdentifiers = ((IFontManager) ((IMinecraftClient) mc).tokyo$getFontManager()).tokyo$getFontStorages().keySet();
         String[] fontNames = new String[fontIdentifiers.size()];

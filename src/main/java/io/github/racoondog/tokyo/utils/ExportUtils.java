@@ -30,12 +30,11 @@ public final class ExportUtils {
         Path p = EXPORT_FOLDER;
 
         String[] tokens = splitSeparator(fileName);
-        if (tokens != null) {
-            for (int i = 0; i < tokens.length - 1; i++) {
-                p = p.resolve(tokens[i]);
-            }
-            fileName = tokens[tokens.length - 1];
+
+        for (int i = 0; i < tokens.length - 1; i++) {
+            p = p.resolve(tokens[i]);
         }
+        fileName = tokens[tokens.length - 1];
 
         Path file = p.resolve(fileName + fileExtension);
 
@@ -70,12 +69,8 @@ public final class ExportUtils {
         }
     }
 
-    @Nullable
     private static String[] splitSeparator(String fileName) {
-        if (fileName.contains("/")) return fileName.split("/");
-        if (fileName.contains("\\\\")) return fileName.split("\\\\");
-        if (fileName.contains(File.separator)) return fileName.split(File.separator);
-        return null;
+        return StringUtils.recursiveSplit(fileName, "/", "\\\\", File.separator);
     }
 
     public enum Mode {
