@@ -1,6 +1,8 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -15,12 +17,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.util.math.MathHelper;
-import org.joml.Vector2i;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 //todo find some way to fix the node height not updating
 //todo probably via threading and iterating through blocks
@@ -164,22 +163,26 @@ public class DragonNodeESP extends Module {
 
         private static void create(int x, int z) {
             PathNode node = new PathNode(x, z);
-            LOCATION_NODE_MAP.put(new Vector2i(x, z), node);
+            LOCATION_NODE_MAP.put(pack(x, z), node);
             NODES.add(node);
         }
 
         private static void create(int x, int y, int z) {
             PathNode node = new PathNode(x, z);
             node.y = y;
-            LOCATION_NODE_MAP.put(new Vector2i(x, z), node);
+            LOCATION_NODE_MAP.put(pack(x, z), node);
             NODES.add(node);
         }
 
-        private static final Map<Vector2i, PathNode> LOCATION_NODE_MAP = new HashMap<>(25);
+        private static final Short2ObjectMap<PathNode> LOCATION_NODE_MAP = new Short2ObjectOpenHashMap<>(25);
         private static final List<PathNode> NODES = new ArrayList<>(25);
 
+        private static short pack(int x, int z) {
+            return (short) (((x + 60) << 7) | (z + 60));
+        }
+
         private static PathNode fromPos(int x, int z) {
-            return LOCATION_NODE_MAP.get(new Vector2i(x, z));
+            return LOCATION_NODE_MAP.get(pack(x, z));
         }
 
         private static void clear() {
