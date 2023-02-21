@@ -16,14 +16,24 @@ repositories {
     maven {
         name = "meteor-maven"
         url = "https://maven.meteordev.org/releases"
+        content {
+            includeGroup "meteordevelopment"
+        }
     }
     maven {
         name = "meteor-maven-snapshots"
         url = "https://maven.meteordev.org/snapshots"
+        content {
+            includeGroup "meteordevelopment"
+            includeGroup "baritone"
+        }
     }
     maven {
         name = "msau-repsy"
         url = "https://repo.repsy.io/mvn/ggcrosby/meteorsharedaddonutils"
+        content {
+            includeGroup "io.github.racoondog"
+        }
     }
 }
 
