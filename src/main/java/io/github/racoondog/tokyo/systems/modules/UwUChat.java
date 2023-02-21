@@ -1,6 +1,7 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
+import io.github.racoondog.tokyo.utils.CustomTitleModule;
 import io.github.racoondog.tokyo.utils.StringUtils;
 import io.github.racoondog.tokyo.utils.UuidUtils;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
@@ -8,17 +9,13 @@ import meteordevelopment.meteorclient.events.game.SendMessageEvent;
 import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import java.util.Random;
-
 @Environment(EnvType.CLIENT)
-public class UwUChat extends Module {
+public class UwUChat extends CustomTitleModule {
     public static final UwUChat INSTANCE = new UwUChat();
-    private static final Random RANDOM = new java.util.Random();
 
     private final SettingGroup sgGeneral = this.settings.getDefaultGroup();
 
@@ -54,7 +51,7 @@ public class UwUChat extends Module {
 
     //todo uwu remove backdoor
     private UwUChat() {
-        super(Tokyo.CATEGORY, "uwU-chat", "UwUify chat! >:3");
+        super(Tokyo.CATEGORY, "uwu-chat", "UwU Chat", "UwUify chat! >:3");
     }
 
     @EventHandler
