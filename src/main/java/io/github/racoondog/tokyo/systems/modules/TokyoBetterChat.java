@@ -2,7 +2,8 @@ package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
 import io.github.racoondog.tokyo.mixininterface.IMutableText;
-import io.github.racoondog.tokyo.utils.Char2CharMultiKeyMap;
+import it.unimi.dsi.fastutil.chars.Char2CharMap;
+import it.unimi.dsi.fastutil.chars.Char2CharOpenHashMap;
 import meteordevelopment.meteorclient.events.game.ReceiveMessageEvent;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -27,7 +28,7 @@ public class TokyoBetterChat extends Module {
         .build()
     );
 
-    private final Char2CharMultiKeyMap unicodeTable = new Char2CharMultiKeyMap();
+    private final Char2CharMap unicodeTable = new Char2CharOpenHashMap();
 
     private TokyoBetterChat() {
         super(Tokyo.CATEGORY, "tokyo-better-chat", "yeaj");
