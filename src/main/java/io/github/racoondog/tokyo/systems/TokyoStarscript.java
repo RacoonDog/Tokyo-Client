@@ -25,7 +25,7 @@ public final class TokyoStarscript {
         double minBound = ss.popNumber("First argument to tokyo.seeded_random() needs to be a number.");
         double maxBound = ss.popNumber("Second argument to tokyo.seeded_random() needs to be a number.");
 
-        double rand = argCount == 2 ? random : Objects.hash(random, ss.popString("Third argument to tokyo.seeded_random() needs to be a string."));
+        double rand = argCount == 2 ? random : Objects.hash(random, ss.pop());
 
         return Value.number((rand * Math.abs(Math.pow(minBound, maxBound))) % (maxBound - minBound) + minBound);
     }
