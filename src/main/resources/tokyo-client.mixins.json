@@ -19,7 +19,8 @@
     "prefix.ChatUtilsMixin",
     "prefix.IFontManager",
     "prefix.IMinecraftClient",
-    "prefix.IStyle"
+    "prefix.IStyle",
+    "tokyobetterchat.MutableTextMixin"
   ],
   "injectors": {
     "defaultRequire": 1

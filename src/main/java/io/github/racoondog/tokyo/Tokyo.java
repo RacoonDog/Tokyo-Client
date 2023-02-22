@@ -101,6 +101,7 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(DragonNodeESP.INSTANCE);
         Modules.get().add(AutoUnfriend.INSTANCE);
         Modules.get().add(EntityPosDebugger.INSTANCE);
+        Modules.get().add(TokyoBetterChat.INSTANCE);
 
         Systems.addPreLoadTask(ChatManager.INSTANCE::toggle);
 
