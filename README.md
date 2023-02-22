@@ -1,8 +1,8 @@
 <div align="center">
   <!-- Logo and Title -->
   <img src="/src/main/resources/assets/tokyo-client/icon.png" alt="logo" width="30%"/>
-  <h1>Meteor Addon Template</h1>
-  <p>A template to allow easy usage of the Meteor Addon API.</p>
+  <h1>Tokyo Client</h1>
+  <p>Anarchy tool of the future.</p>
 
   <!-- Fancy badges -->
   <img src="https://img.shields.io/badge/Minecraft%20Version-1.19.3-blueviolet" alt="Minecraft Version">
