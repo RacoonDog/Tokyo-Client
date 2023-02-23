@@ -50,14 +50,14 @@ public class ChatManager extends Module {
         if (timer == 0) {
             //Priority
             if (priority.get() != Priority.None && lastIndex < messageBuffer.size()) {
-                for (var it = messageBuffer.listIterator(lastIndex); it.hasNext();) {
-                    Message message = it.next();
+                int index = lastIndex;
+                while (index < messageBuffer.size()) {
+                    Message message = messageBuffer.get(index++);
                     if (message.priority == priority.get()) {
-                        lastIndex = it.nextIndex();
+                        lastIndex = index;
                         timer = chatDelay.get();
                         send(message);
-                        it.remove();
-                        return;
+                        messageBuffer.remove(index);
                     }
                 }
             } else lastIndex = messageBuffer.size();

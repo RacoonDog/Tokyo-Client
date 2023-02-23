@@ -4,10 +4,14 @@ import com.mojang.logging.LogUtils;
 import io.github.racoondog.meteorsharedaddonutils.features.TitleScreenCredits;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAddon;
 import io.github.racoondog.tokyo.systems.TokyoStarscript;
+import io.github.racoondog.tokyo.systems.commands.QuickLaunchCommand;
+import io.github.racoondog.tokyo.systems.hud.ImageHud;
 import io.github.racoondog.tokyo.systems.modules.*;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.systems.Systems;
+import meteordevelopment.meteorclient.systems.commands.Commands;
+import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -102,6 +106,10 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(AutoUnfriend.INSTANCE);
         Modules.get().add(EntityPosDebugger.INSTANCE);
         Modules.get().add(TokyoBetterChat.INSTANCE);
+
+        Hud.get().register(ImageHud.INFO);
+
+        Commands.get().add(QuickLaunchCommand.INSTANCE);
 
         Systems.addPreLoadTask(ChatManager.INSTANCE::toggle);
 

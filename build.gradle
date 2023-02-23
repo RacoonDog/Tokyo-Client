@@ -35,6 +35,13 @@ repositories {
             includeGroup "io.github.racoondog"
         }
     }
+    maven {
+        name = "launch-args-api-repsy"
+        url = "https://repo.repsy.io/mvn/ggcrosby/launchargsapi"
+        content {
+            includeGroup "io.github.racoondog"
+        }
+    }
 }
 
 dependencies {
@@ -45,9 +52,13 @@ dependencies {
     modImplementation "meteordevelopment:meteor-client:${project.meteor_version}"
 
     // Libraries
-    modImplementation(include("io.github.racoondog:MeteorSharedAddonUtils:${project.msau_version}") {
+    modImplementation(include(fabricApi.module("fabric-api-base", project.fapi_version)))
+    modImplementation(include("io.github.racoondog:MeteorSharedAddonUtils:${project.msau_version}")) {
         transitive = false
-    })
+    }
+    modImplementation(include("io.github.racoondog:LaunchArgsAPI:${project.launchargsapi_version}")) {
+        transitive = false
+    }
 
     modImplementation(include("com.opencsv:opencsv:4.1"))
 }

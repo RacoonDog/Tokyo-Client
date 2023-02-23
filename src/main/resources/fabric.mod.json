@@ -18,6 +18,9 @@
   "entrypoints": {
     "meteor": [
       "io.github.racoondog.tokyo.Tokyo"
+    ],
+    "argsListener": [
+      "io.github.racoondog.tokyo.LaunchHandler"
     ]
   },
   "mixins": [

@@ -3,6 +3,7 @@
   "package": "io.github.racoondog.tokyo.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "Renderer2DMixin",
     "SpamBackdoor",
     "StarscriptMixin",
     "chatmanager.ChatScreenMixin",
@@ -11,6 +12,7 @@
     "export.logoutspots.ILogoutSpotsEntry",
     "export.logoutspots.LogoutSpotsMixin",
     "jukebox.MusicTrackerMixin",
+    "multiinstance.WAccountMixin",
     "oldchunks.ChunkDeltaUpdateS2CPacketMixin",
     "oldchunks.ClientPlayNetworkHandlerMixin",
     "oldchunks.PackedIntegerArrayMixin",
