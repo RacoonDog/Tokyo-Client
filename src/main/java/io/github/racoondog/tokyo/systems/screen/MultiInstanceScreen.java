@@ -41,6 +41,7 @@ public class MultiInstanceScreen extends WindowScreen {
     private WTextBox jre;
     private WTextBox xms;
     private WTextBox xmx;
+    private WTextBox xmn;
     private WTextBox jvmOpts;
     private WTextBox launchArgs;
     private WTextBox width;
