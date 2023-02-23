@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.newchunks;
+package io.github.racoondog.tokyo.mixin.oldchunks;
 
 import io.github.racoondog.tokyo.systems.modules.OldChunks;
 import net.fabricmc.api.EnvType;
