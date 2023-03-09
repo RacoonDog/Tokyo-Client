@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.utils;
+package io.github.racoondog.tokyo.utils.misc;
 
 import it.unimi.dsi.fastutil.ints.Int2LongMap;
 import it.unimi.dsi.fastutil.ints.Int2LongOpenHashMap;

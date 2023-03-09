@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.utils;
+package io.github.racoondog.tokyo.utils.misc;
 
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.chars.CharPredicate;

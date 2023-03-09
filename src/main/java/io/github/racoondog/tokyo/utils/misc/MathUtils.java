@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.utils;
+package io.github.racoondog.tokyo.utils.misc;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

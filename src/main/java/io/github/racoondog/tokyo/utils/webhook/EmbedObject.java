@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.utils.webhook;
 
 import com.google.gson.JsonObject;
-import io.github.racoondog.tokyo.utils.JsonSerializable;
+import io.github.racoondog.tokyo.utils.misc.JsonSerializable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 

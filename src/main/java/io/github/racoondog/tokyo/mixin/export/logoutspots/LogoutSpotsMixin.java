@@ -1,8 +1,8 @@
 package io.github.racoondog.tokyo.mixin.export.logoutspots;
 
-import io.github.racoondog.tokyo.utils.CSVWriter;
-import io.github.racoondog.tokyo.utils.ExportUtils;
-import io.github.racoondog.tokyo.utils.FileUtils;
+import io.github.racoondog.tokyo.utils.misc.CSVWriter;
+import io.github.racoondog.tokyo.utils.misc.ExportUtils;
+import io.github.racoondog.tokyo.utils.misc.FileUtils;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;

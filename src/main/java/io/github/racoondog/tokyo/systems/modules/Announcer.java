@@ -2,8 +2,8 @@ package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
 import io.github.racoondog.tokyo.mixininterface.IStarscript;
-import io.github.racoondog.tokyo.utils.MathUtils;
-import io.github.racoondog.tokyo.utils.VerboseUtils;
+import io.github.racoondog.tokyo.utils.misc.MathUtils;
+import io.github.racoondog.tokyo.utils.misc.VerboseUtils;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.DropItemsEvent;
 import meteordevelopment.meteorclient.events.entity.player.BreakBlockEvent;

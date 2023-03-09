@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
-import io.github.racoondog.tokyo.utils.StringUtils;
+import io.github.racoondog.tokyo.utils.misc.StringUtils;
 import io.github.racoondog.tokyo.utils.UuidUtils;
 import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.events.game.SendMessageEvent;

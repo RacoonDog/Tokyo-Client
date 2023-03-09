@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.mixin.chatmanager;
 
 import io.github.racoondog.tokyo.systems.modules.ChatManager;
-import io.github.racoondog.tokyo.utils.VerboseUtils;
+import io.github.racoondog.tokyo.utils.misc.VerboseUtils;
 import meteordevelopment.meteorclient.settings.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.Spam;
