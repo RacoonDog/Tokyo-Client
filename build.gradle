@@ -61,6 +61,10 @@ dependencies {
     }
 
     modImplementation(include("com.opencsv:opencsv:4.1"))
+
+    implementation(include("net.dv8tion:JDA:${project.jda_version}")) {
+        exclude module: 'opus-java'
+    }
 }
 
 processResources {

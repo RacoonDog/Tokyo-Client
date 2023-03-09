@@ -22,6 +22,12 @@
     "prefix.IFontManager",
     "prefix.IMinecraftClient",
     "prefix.IStyle",
+    "supersampling.FramebufferMixin",
+    "supersampling.INativeImage",
+    "supersampling.IWindow",
+    "supersampling.MeshMixin",
+    "supersampling.ScreenshotRecorderMixin",
+    "supersampling.WindowMixin",
     "tokyobetterchat.MutableTextMixin"
   ],
   "injectors": {

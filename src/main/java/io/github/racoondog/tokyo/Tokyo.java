@@ -38,7 +38,6 @@ public class Tokyo extends MeteorAddon {
 
     private MutableText prefix;
 
-    //todo discordsrv client-side (webhook + bot)
     //todo multi-instance-meteor
     //todo mod integrations? (ClientCommands, SeedMapper, nodus dev stuff, etc.)
     //todo ai chat things? idfk
@@ -105,7 +104,10 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(DragonNodeESP.INSTANCE);
         Modules.get().add(AutoUnfriend.INSTANCE);
         Modules.get().add(EntityPosDebugger.INSTANCE);
+        Modules.get().add(SuperSampling.INSTANCE);
+        Modules.get().add(DiscordSRV.INSTANCE);
         Modules.get().add(TokyoBetterChat.INSTANCE);
+        Modules.get().add(ClientSync.INSTANCE);
 
         Hud.get().register(ImageHud.INFO);
 

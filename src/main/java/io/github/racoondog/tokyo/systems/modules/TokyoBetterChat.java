@@ -36,6 +36,13 @@ public class TokyoBetterChat extends Module {
         String[] regularCharacters = "abcdefghijklmnopqrstuvwxyz".split("");
 
         buildUnicodeTable("ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ", regularCharacters);
+        buildUnicodeTable("ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ", regularCharacters);
+        buildUnicodeTable("ɐqɔpǝɟɓɥıɾʞlɯuodbɹsʇnʌʍxʎz", regularCharacters);
+        buildUnicodeTable("ɒdɔbɘᎸǫʜiꞁʞ|mᴎoqpɿꙅƚuvwxʏƹ", regularCharacters);
+        buildUnicodeTable("ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖqʳˢᵗᵘᵛʷˣʸᶻ", regularCharacters);
+        buildUnicodeTable("ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ", regularCharacters);
+        buildUnicodeTable("ᗩᗷᑕᗪEᖴGᕼIᒍKᒪᗰᑎOᑭᑫᖇᔕTᑌᐯᗯ᙭Yᘔ", regularCharacters);
+        buildUnicodeTable("ᴀʙᴄᴅᴇꜰɢhɪjᴋʟᴍɴᴏqʀꜱᴛuvwxyz", regularCharacters);
     }
 
     private void buildUnicodeTable(String str, String[] reg) {
