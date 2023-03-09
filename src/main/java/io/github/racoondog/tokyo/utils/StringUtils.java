@@ -16,14 +16,22 @@ import java.util.regex.Pattern;
 public final class StringUtils {
     private static final Random RANDOM = ThreadLocalRandom.current();
 
-    public static String[] recursiveSplit(String root, String... regexes) {
+    public static Pattern[] compile(String... regexes) {
+        Pattern[] patterns = new Pattern[regexes.length];
+
+        for (int i = 0; i < regexes.length; i++) {
+            patterns[i] = Pattern.compile(regexes[i]);
+        }
+
+        return patterns;
+    }
+
+    public static String[] recursiveSplit(String root, Pattern... regexes) {
         List<String> tokens = Lists.newArrayList(root);
 
         for (var regex : regexes) {
-            Pattern regexPattern = Pattern.compile(regex);
-
             for (int i = 0; i < tokens.size(); i++) {
-                String[] split = regexPattern.split(tokens.get(i));
+                String[] split = regex.split(tokens.get(i));
 
                 if (split.length > 1) {
                     tokens.remove(i);
@@ -34,6 +42,10 @@ public final class StringUtils {
         }
 
         return tokens.toArray(new String[0]);
+    }
+
+    public static String[] recursiveSplit(String root, String... regexes) {
+        return recursiveSplit(root, compile(regexes));
     }
 
     public static int countChars(CharSequence text, char... characters) {

@@ -13,12 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 @Environment(EnvType.CLIENT)
 public final class ExportUtils {
     public static final Path EXPORT_FOLDER = FileUtils.TOKYO_FOLDER_LOCAL.resolve("export");
     public static final Supplier<String> WORLDNAME = Utils::getWorldName;
     public static final Supplier<String> DATETIME = Util::getFormattedCurrentTime;
+    private static final Pattern[] SEPARATORS = StringUtils.compile("/", "\\\\", File.separator);
 
     public static Path computePath(String fileName, @Nullable String fileExtension) {
         return computePath(fileName, fileExtension, Mode.OVERWRITE);
@@ -70,7 +72,7 @@ public final class ExportUtils {
     }
 
     private static String[] splitSeparator(String fileName) {
-        return StringUtils.recursiveSplit(fileName, "/", "\\\\", File.separator);
+        return StringUtils.recursiveSplit(fileName, SEPARATORS);
     }
 
     public enum Mode {
