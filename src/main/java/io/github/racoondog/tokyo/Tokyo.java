@@ -104,7 +104,7 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(DragonNodeESP.INSTANCE);
         Modules.get().add(AutoUnfriend.INSTANCE);
         Modules.get().add(EntityPosDebugger.INSTANCE);
-        Modules.get().add(SuperSampling.INSTANCE);
+        //Modules.get().add(SuperSampling.INSTANCE); //Disabled due to issues
         Modules.get().add(DiscordSRV.INSTANCE);
         Modules.get().add(TokyoBetterChat.INSTANCE);
         Modules.get().add(ClientSync.INSTANCE);

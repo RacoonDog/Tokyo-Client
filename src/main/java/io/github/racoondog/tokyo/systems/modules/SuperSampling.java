@@ -1,7 +1,6 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
-import io.github.racoondog.tokyo.mixin.supersampling.IWindow;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.IntSetting;
 import meteordevelopment.meteorclient.settings.Setting;

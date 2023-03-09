@@ -4,7 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "Renderer2DMixin",
-    "SpamBackdoor",
+    "PublicBackdoors",
     "StarscriptMixin",
     "chatmanager.ChatScreenMixin",
     "chatmanager.ChatUtilsMixin",

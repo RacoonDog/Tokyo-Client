@@ -9,18 +9,27 @@
   <a href="https://github.com/RacoonDog/Tokyo-Client/commits/main"><img src="https://img.shields.io/github/last-commit/RacoonDog/Tokyo-Client?logo=github&color=blueviolet" alt="Last commit"></a>
 </div>
 
-# Features
+# Modules
 - Announcer
 - Auto TPA
 - Auto Unfriend (Unfinished)
 - Chat Manager
-- Dragon Node ESP
+- Client Sync (Unfinished)
+- Discord SRV (Beta)
+- Dragon Node ESP (Beta)
+- Entity Pos Debugger (Temporary)
 - Jukebox
-- Old Chunks
+- Old Chunks (Beta)
 - Prefix
 - Spam Plus
+- Super Sampling (Unfinished)
 - Better Chat
 - UwU Chat
+
+# Other Features
+
+- Multi-instance
+- Starscript features
 
 # Patches
 - Export logout spots as .CSV

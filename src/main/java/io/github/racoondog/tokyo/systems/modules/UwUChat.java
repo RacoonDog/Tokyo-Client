@@ -8,10 +8,13 @@ import meteordevelopment.meteorclient.events.game.SendMessageEvent;
 import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
+import meteordevelopment.meteorclient.settings.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class UwUChat extends Module {
@@ -49,6 +52,13 @@ public class UwUChat extends Module {
         .build()
     );
 
+    private final Setting<List<String>> blacklist = sgGeneral.add(new StringListSetting.Builder()
+        .name("blacklist")
+        .description("Words that will never be modified. Not case sensitive.")
+        .defaultValue("lol", "lmao")
+        .build()
+    );
+
     //todo uwu remove backdoor
     private UwUChat() {
         super(Tokyo.CATEGORY, "uwU-chat", "UwUify chat! >:3");
@@ -67,6 +77,11 @@ public class UwUChat extends Module {
                 if (i != 0) sb.append(' ');
 
                 String token = tokens[i];
+
+                if (StringUtils.listContainsIgnoreCase(blacklist.get(), token)) {
+                    sb.append(token);
+                    continue;
+                }
 
                 if ((float) StringUtils.countChars(token, 'r', 'l') / token.length() <= skipPercentage.get()) {
                     StringBuilder tsb = new StringBuilder(token);

@@ -13,14 +13,11 @@ import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class ImageHud extends HudElement {

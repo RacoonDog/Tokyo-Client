@@ -7,16 +7,13 @@ import meteordevelopment.meteorclient.events.game.ReceiveMessageEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
-import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Webhook;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import org.joml.Runtime;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

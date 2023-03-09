@@ -206,4 +206,11 @@ public final class StringUtils {
     public static int indexOfIgnoreCase(CharSequence str, int ch) {
         return indexOfIgnoreCase(str, ch, 0);
     }
+
+    public static boolean listContainsIgnoreCase(List<? extends CharSequence> strings, String token) {
+        for (var str : strings) {
+            if (str.toString().equalsIgnoreCase(token)) return true;
+        }
+        return false;
+    }
 }
