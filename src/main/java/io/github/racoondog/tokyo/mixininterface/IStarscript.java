@@ -7,10 +7,10 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public interface IStarscript {
-    String _run_rawOutput(Script script, StringBuilder sb);
+    String tokyo$run_rawOutput(Script script, StringBuilder sb);
 
     static String run_rawOutput(Script script, StringBuilder sb) {
-        return ((IStarscript) MeteorStarscript.ss)._run_rawOutput(script, sb);
+        return ((IStarscript) MeteorStarscript.ss).tokyo$run_rawOutput(script, sb);
     }
 
     static String run_rawOutput(Script script) {

@@ -15,12 +15,12 @@ public abstract class PalettedContainerMixin<T> implements IPalettedContainer<T>
     @Shadow private volatile PalettedContainer.Data<T> data;
 
     @Override
-    public Palette<T> _getPalette() {
+    public Palette<T> tokyo$getPalette() {
         return this.data.palette();
     }
 
     @Override
-    public PaletteStorage _getStorage() {
+    public PaletteStorage tokyo$getStorage() {
         return this.data.storage();
     }
 }

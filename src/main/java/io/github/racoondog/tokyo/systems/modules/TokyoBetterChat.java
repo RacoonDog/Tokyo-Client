@@ -76,7 +76,7 @@ public class TokyoBetterChat extends Module {
                 if (unicodeTable.containsKey(c)) sb.append(unicodeTable.get(c));
                 else sb.append(c);
             }
-            ((IMutableText) mutableText).setTextContent(new LiteralTextContent(sb.toString()));
+            IMutableText.setTextContent(mutableText, new LiteralTextContent(sb.toString()));
         }
     }
 }

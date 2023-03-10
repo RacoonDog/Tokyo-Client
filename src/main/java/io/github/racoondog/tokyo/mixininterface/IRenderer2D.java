@@ -10,7 +10,7 @@ public interface IRenderer2D {
     IRenderer2D COLOR = (IRenderer2D) Renderer2D.COLOR;
     IRenderer2D TEXTURE = (IRenderer2D) Renderer2D.TEXTURE;
 
-    void texQuadHFlip(double x, double y, double width, double height, Color color);
-    void texQuadVFlip(double x, double y, double width, double height, Color color);
-    void texQuadHVFlip(double x, double y, double width, double height, Color color);
+    void tokyo$texQuadHFlip(double x, double y, double width, double height, Color color);
+    void tokyo$texQuadVFlip(double x, double y, double width, double height, Color color);
+    void tokyo$texQuadHVFlip(double x, double y, double width, double height, Color color);
 }

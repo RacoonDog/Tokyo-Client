@@ -108,6 +108,7 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(DiscordSRV.INSTANCE);
         Modules.get().add(TokyoBetterChat.INSTANCE);
         Modules.get().add(ClientSync.INSTANCE);
+        Modules.get().add(ChatEmojis.INSTANCE);
 
         Hud.get().register(ImageHud.INFO);
 

@@ -133,9 +133,9 @@ public class ImageHud extends HudElement {
 
         Renderer2D.TEXTURE.begin();
 
-        if (hFlip.get() && vFlip.get()) IRenderer2D.TEXTURE.texQuadHVFlip(x, y, getWidth(), getHeight(), colorFilter.get());
-        else if (hFlip.get()) IRenderer2D.TEXTURE.texQuadHFlip(x, y, getWidth(), getHeight(), colorFilter.get());
-        else if (vFlip.get()) IRenderer2D.TEXTURE.texQuadVFlip(x, y, getWidth(), getHeight(), colorFilter.get());
+        if (hFlip.get() && vFlip.get()) IRenderer2D.TEXTURE.tokyo$texQuadHVFlip(x, y, getWidth(), getHeight(), colorFilter.get());
+        else if (hFlip.get()) IRenderer2D.TEXTURE.tokyo$texQuadHFlip(x, y, getWidth(), getHeight(), colorFilter.get());
+        else if (vFlip.get()) IRenderer2D.TEXTURE.tokyo$texQuadVFlip(x, y, getWidth(), getHeight(), colorFilter.get());
         else Renderer2D.TEXTURE.texQuad(x, y, getWidth(), getHeight(), colorFilter.get());
 
         Renderer2D.TEXTURE.render(null);

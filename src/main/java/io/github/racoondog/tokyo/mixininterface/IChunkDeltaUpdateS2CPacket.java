@@ -8,19 +8,19 @@ import net.minecraft.util.math.ChunkSectionPos;
 
 @Environment(EnvType.CLIENT)
 public interface IChunkDeltaUpdateS2CPacket {
-    short[] _getPosition();
-    ChunkSectionPos _getSectionPos();
-    BlockState[] _getBlockStates();
+    short[] tokyo$getPosition();
+    ChunkSectionPos tokyo$getSectionPos();
+    BlockState[] tokyo$getBlockStates();
 
     static short[] getPosition(ChunkDeltaUpdateS2CPacket packet) {
-        return ((IChunkDeltaUpdateS2CPacket) packet)._getPosition();
+        return ((IChunkDeltaUpdateS2CPacket) packet).tokyo$getPosition();
     }
 
     static ChunkSectionPos getSectionPos(ChunkDeltaUpdateS2CPacket packet) {
-        return ((IChunkDeltaUpdateS2CPacket) packet)._getSectionPos();
+        return ((IChunkDeltaUpdateS2CPacket) packet).tokyo$getSectionPos();
     }
 
     static BlockState[] getBlockStates(ChunkDeltaUpdateS2CPacket packet) {
-        return ((IChunkDeltaUpdateS2CPacket) packet)._getBlockStates();
+        return ((IChunkDeltaUpdateS2CPacket) packet).tokyo$getBlockStates();
     }
 }

@@ -16,7 +16,7 @@ public class MutableTextMixin implements IMutableText {
     @Shadow @Final @Mutable private TextContent content;
 
     @Override
-    public void setTextContent(TextContent content) {
+    public void tokyo$setTextContent(TextContent content) {
         this.content = content;
     }
 }

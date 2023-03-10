@@ -27,7 +27,7 @@ public abstract class StarscriptMixin implements IStarscript {
     @Shadow public abstract Value peek(int offset);
 
     @Override
-    public String _run_rawOutput(Script script, StringBuilder sb) {
+    public String tokyo$run_rawOutput(Script script, StringBuilder sb) {
         stack.clear();
 
         sb.setLength(0);

@@ -18,17 +18,17 @@ public abstract class ChunkDeltaUpdateS2CPacketMixin implements IChunkDeltaUpdat
     @Shadow @Final private BlockState[] blockStates;
 
     @Override
-    public short[] _getPosition() {
+    public short[] tokyo$getPosition() {
         return this.positions;
     }
 
     @Override
-    public ChunkSectionPos _getSectionPos() {
+    public ChunkSectionPos tokyo$getSectionPos() {
         return this.sectionPos;
     }
 
     @Override
-    public BlockState[] _getBlockStates() {
+    public BlockState[] tokyo$getBlockStates() {
         return this.blockStates;
     }
 }

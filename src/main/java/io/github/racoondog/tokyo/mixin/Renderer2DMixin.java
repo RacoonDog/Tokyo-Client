@@ -16,7 +16,7 @@ public abstract class Renderer2DMixin implements IRenderer2D {
     @Shadow @Final public Mesh triangles;
 
     @Override
-    public void texQuadHFlip(double x, double y, double width, double height, Color color) {
+    public void tokyo$texQuadHFlip(double x, double y, double width, double height, Color color) {
         triangles.quad(
             triangles.vec2(x + width, y).vec2(0, 0).color(color).next(),
             triangles.vec2(x + width, y + height).vec2(0, 1).color(color).next(),
@@ -26,7 +26,7 @@ public abstract class Renderer2DMixin implements IRenderer2D {
     }
 
     @Override
-    public void texQuadVFlip(double x, double y, double width, double height, Color color) {
+    public void tokyo$texQuadVFlip(double x, double y, double width, double height, Color color) {
         triangles.quad(
             triangles.vec2(x, y + height).vec2(0, 0).color(color).next(),
             triangles.vec2(x, y).vec2(0, 1).color(color).next(),
@@ -36,7 +36,7 @@ public abstract class Renderer2DMixin implements IRenderer2D {
     }
 
     @Override
-    public void texQuadHVFlip(double x, double y, double width, double height, Color color) {
+    public void tokyo$texQuadHVFlip(double x, double y, double width, double height, Color color) {
         triangles.quad(
             triangles.vec2(x + width, y + height).vec2(0, 0).color(color).next(),
             triangles.vec2(x + width, y).vec2(0, 1).color(color).next(),

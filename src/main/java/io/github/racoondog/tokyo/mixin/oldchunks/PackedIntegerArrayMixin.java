@@ -15,12 +15,12 @@ public abstract class PackedIntegerArrayMixin implements IPackedIntegerArray {
     @Shadow @Final private long maxValue;
 
     @Override
-    public int _getElementsPerLong() {
+    public int tokyo$getElementsPerLong() {
         return this.elementsPerLong;
     }
 
     @Override
-    public long _getMaxValue() {
+    public long tokyo$getMaxValue() {
         return this.maxValue;
     }
 }
