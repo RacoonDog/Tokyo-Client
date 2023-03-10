@@ -1,6 +1,7 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
+import io.github.racoondog.tokyo.utils.ChunkUtils;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
@@ -15,14 +16,16 @@ import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.chunk.WorldChunk;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//todo find some way to fix the node height not updating
-//todo probably via threading and iterating through blocks
 @Environment(EnvType.CLIENT)
 public class DragonNodeESP extends Module {
     public static final DragonNodeESP INSTANCE = new DragonNodeESP();
@@ -92,18 +95,25 @@ public class DragonNodeESP extends Module {
                     break;
                 }
             }
-            if (entity == null) {
-                reset();
-                return; //No dragons found
-            }
+
+            //No dragons found
+            if (entity == null) return;
         }
 
-        if (entity.isDead() || entity.getHealth() <= 0) {
-            reset();
-            return;
-        }
+        if (entity.isDead() || entity.getHealth() <= 0) return;
 
         for (var node : PathNode.NODES) {
+            if (node.x != 0 && node.z != 0) {
+                WorldChunk chunk = ChunkUtils.getChunk(node.x, node.z);
+
+                for (int y = mc.world.getTopY() - 1; y >= node.y; y--) {
+                    if (!ChunkUtils.getChunkBlockState(chunk, node.x, y, node.z).isOf(Blocks.AIR)) {
+                        node.y = y;
+                        break;
+                    }
+                }
+            }
+
             node.lineColor = nodeLineColor.get();
             node.sideColor = nodeSideColor.get();
         }
@@ -124,6 +134,7 @@ public class DragonNodeESP extends Module {
 
     //todo these can be static
     private void generateNodes() {
+        reset();
         for (int i = 0; i < 24; ++i) {
             int m;
             int l;
