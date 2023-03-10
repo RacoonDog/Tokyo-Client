@@ -3,9 +3,10 @@
   "package": "io.github.racoondog.tokyo.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "Renderer2DMixin",
     "PublicBackdoors",
+    "Renderer2DMixin",
     "StarscriptMixin",
+    "chatemojis.VisibleMixin",
     "chatmanager.ChatScreenMixin",
     "chatmanager.ChatUtilsMixin",
     "chatmanager.SpamMixin",
@@ -22,12 +23,6 @@
     "prefix.IFontManager",
     "prefix.IMinecraftClient",
     "prefix.IStyle",
-    "supersampling.FramebufferMixin",
-    "supersampling.INativeImage",
-    "supersampling.IWindow",
-    "supersampling.MeshMixin",
-    "supersampling.ScreenshotRecorderMixin",
-    "supersampling.WindowMixin",
     "tokyobetterchat.MutableTextMixin"
   ],
   "injectors": {

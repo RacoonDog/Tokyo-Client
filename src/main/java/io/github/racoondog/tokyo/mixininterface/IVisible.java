@@ -9,6 +9,6 @@ public interface IVisible {
     boolean tokyo$hasEmojis();
 
     static boolean hasEmojis(ChatHudLine.Visible line) {
-        return ((IVisible) line).tokyo$hasEmojis();
+        return ((IVisible) (Object) line).tokyo$hasEmojis();
     }
 }

@@ -22,7 +22,6 @@
 - Old Chunks (Beta)
 - Prefix
 - Spam Plus
-- Super Sampling (Unfinished)
 - Better Chat
 - UwU Chat
 
