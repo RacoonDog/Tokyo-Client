@@ -6,7 +6,6 @@
     "PublicBackdoors",
     "Renderer2DMixin",
     "StarscriptMixin",
-    "chatemojis.VisibleMixin",
     "chatmanager.ChatScreenMixin",
     "chatmanager.ChatUtilsMixin",
     "chatmanager.SpamMixin",

@@ -1,8 +1,8 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
-import io.github.racoondog.tokyo.utils.misc.FileUtils;
 import io.github.racoondog.tokyo.utils.TextPresets;
+import io.github.racoondog.tokyo.utils.misc.FileUtils;
 import io.github.racoondog.tokyo.utils.misc.VerboseUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
