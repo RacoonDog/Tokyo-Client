@@ -6,12 +6,12 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.racoondog.meteorsharedaddonutils.features.arguments.AccountArgumentType;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISwarm;
 import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
-import io.github.racoondog.tokyo.mixininterface.ICommand;
 import io.github.racoondog.tokyo.systems.screen.MultiInstanceScreen;
 import io.github.racoondog.tokyo.utils.AccountUtil;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.commands.Command;
+import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
@@ -34,7 +34,7 @@ public class QuickLaunchCommand extends Command {
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        LiteralCommandNode<CommandSource> root = ICommand.getDispatcher(this).register(builder);
+        LiteralCommandNode<CommandSource> root = Commands.DISPATCHER.register(builder);
 
         builder.executes(this::execute);
 

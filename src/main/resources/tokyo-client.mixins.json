@@ -17,7 +17,6 @@
     "meteorpatches.logoutspots.vanillatextrenderer.TextOperationMixin",
     "meteorpatches.logoutspots.vanillatextrenderer.VanillaTextRendererMixin",
     "multiinstance.ClientCommandSourceMixin",
-    "multiinstance.CommandMixin",
     "multiinstance.WAccountMixin",
     "oldchunks.ChunkDeltaUpdateS2CPacketMixin",
     "oldchunks.ClientPlayNetworkHandlerMixin",
