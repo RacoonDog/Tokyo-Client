@@ -100,7 +100,6 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(UwUChat.INSTANCE);
         Modules.get().add(Jukebox.INSTANCE);
         Modules.get().add(SpamPlus.INSTANCE);
-        Modules.get().add(DragonNodeESP.INSTANCE);
         Modules.get().add(AutoUnfriend.INSTANCE);
         Modules.get().add(EntityPosDebugger.INSTANCE);
         Modules.get().add(DiscordSRV.INSTANCE);

@@ -2,15 +2,27 @@ package io.github.racoondog.tokyo.systems.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.racoondog.meteorsharedaddonutils.features.arguments.AccountArgumentType;
+import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISwarm;
+import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
+import io.github.racoondog.tokyo.mixininterface.ICommand;
+import io.github.racoondog.tokyo.systems.screen.MultiInstanceScreen;
 import io.github.racoondog.tokyo.utils.AccountUtil;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
+import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.commands.Command;
+import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.command.CommandSource;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Locale;
 
 @Environment(EnvType.CLIENT)
 public class QuickLaunchCommand extends Command {
@@ -22,32 +34,51 @@ public class QuickLaunchCommand extends Command {
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.executes(ctx -> execute(ctx, false))
-            .then(literal("-join").executes(ctx -> execute(ctx, true)));
+        LiteralCommandNode<CommandSource> root = ICommand.getDispatcher(this).register(builder);
 
-        builder.then(argument("account", AccountArgumentType.create()).executes(ctx -> executeAccount(ctx, false))
-            .then(literal("-join").executes(ctx -> executeAccount(ctx, true))));
+        builder.executes(this::execute);
+
+        builder.then(literal("-join")
+            .redirect(root, ctx -> modifySource(ctx, "join", true)));
+
+        builder.then(literal("-account")
+            .then(argument("account", AccountArgumentType.create())
+                .redirect(root, ctx -> modifySource(ctx, "account", AccountArgumentType.get(ctx)))));
+
+        builder.then(literal("-swarm")
+            .redirect(root, ctx -> modifySource(ctx, "swarm", true)));
     }
 
-    private int execute(CommandContext<CommandSource> ctx, boolean join) {
-        MeteorExecutor.execute(() -> {
-            InstanceBuilder builder = new InstanceBuilder(AccountUtil.getSelectedAccount());
-
-            if (join) configureJoin(builder);
-
-            builder.start();
-        });
-
-        info("Starting instance...");
-
-        return 1;
+    private CommandSource modifySource(CommandContext<CommandSource> ctx, String id, Object value) {
+        ClientCommandSource source = (ClientCommandSource) ctx.getSource();
+        IClientCommandSource.setMeta(source, id, value);
+        return source;
     }
 
-    private int executeAccount(CommandContext<CommandSource> ctx, boolean join) {
+    @Nullable
+    private Object meta(CommandContext<CommandSource> ctx, String id) {
+        return IClientCommandSource.getMeta((ClientCommandSource) ctx.getSource(), id);
+    }
+
+    private Object metaOrDefault(CommandContext<CommandSource> ctx, String id, Object defaultValue) {
+        Object returnValue = meta(ctx, id);
+        return returnValue == null ? defaultValue : returnValue;
+    }
+
+    private int execute(CommandContext<CommandSource> ctx) {
+        boolean join = (boolean) metaOrDefault(ctx, "join", false);
+        Account<?> account = (Account<?>) metaOrDefault(ctx, "account", AccountUtil.getSelectedAccount());
+        boolean swarm = (boolean) metaOrDefault(ctx, "swarm", false);
+
         MeteorExecutor.execute(() -> {
-            InstanceBuilder builder = new InstanceBuilder(AccountArgumentType.get(ctx));
+            InstanceBuilder builder = new InstanceBuilder(account);
 
             if (join) configureJoin(builder);
+            if (swarm) {
+                builder.modifyArg("--tokyo?swarmMode", MultiInstanceScreen.SwarmMode.Off.name().toLowerCase(Locale.ROOT));
+                builder.modifyArg("--tokyo?swarmIp", ((ISwarm) Modules.get().get(Swarm.class)).getIpAddress().get());
+                builder.modifyArg("--tokyo?swarmPort", ((ISwarm) Modules.get().get(Swarm.class)).getServerPort().toString());
+            }
 
             builder.start();
         });

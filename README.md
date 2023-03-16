@@ -16,7 +16,6 @@
 - Chat Manager
 - Client Sync (Unfinished)
 - Discord SRV (Beta)
-- Dragon Node ESP (Beta)
 - Entity Pos Debugger (Temporary)
 - Jukebox
 - Old Chunks (Beta)

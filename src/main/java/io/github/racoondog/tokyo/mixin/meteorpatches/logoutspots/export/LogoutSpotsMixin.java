@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.export.logoutspots;
+package io.github.racoondog.tokyo.mixin.meteorpatches.logoutspots.export;
 
 import io.github.racoondog.tokyo.utils.misc.CSVWriter;
 import io.github.racoondog.tokyo.utils.misc.ExportUtils;
