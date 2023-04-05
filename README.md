@@ -12,13 +12,10 @@
 # Modules
 - Announcer
 - Auto TPA
-- Auto Unfriend (Unfinished)
+- Auto Unfriend
 - Chat Manager
-- Client Sync (Unfinished)
 - Discord SRV (Beta)
-- Entity Pos Debugger (Temporary)
 - Jukebox
-- Old Chunks (Beta)
 - Prefix
 - Spam Plus
 - Better Chat
@@ -27,7 +24,6 @@
 # Other Features
 
 - Multi-instance
-- Starscript features
 
 # Patches
 - Export logout spots as .CSV
