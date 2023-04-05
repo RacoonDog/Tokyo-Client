@@ -79,6 +79,10 @@ processResources {
         expand(map)
     }
 }
+    
+java {
+    withSourcesJar()
+}
 
 jar {
     from("LICENSE") {
