@@ -18,7 +18,7 @@
   - Whitelist/blacklist or friends only
 - **Auto Unfriend**
   - Unfriend on significant damage taken
-- **hat Manager**
+- **Chat Manager**
   - Prevent chat spam kick
   - Priority system
 - **Discord SRV (Beta)**
