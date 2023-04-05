@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.meteorpatches.logoutspots.vanillatextrenderer;
+package io.github.racoondog.tokyo.mixin.meteorpatches.vanillatextrenderer;
 
 import io.github.racoondog.tokyo.mixininterface.IConfig;
 import meteordevelopment.meteorclient.renderer.text.VanillaTextRenderer;
@@ -30,8 +30,8 @@ public abstract class VanillaTextRendererMixin {
         if (!shadow && IConfig.getShadows() && !Config.get().customFont.get()) cir.setReturnValue(cir.getReturnValue() + 1 * scale);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Ljava/lang/String;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/render/VertexConsumerProvider;ZII)I"))
-    private int useShadows(TextRenderer instance, String text, float x, float y, int color, boolean shadow, Matrix4f matrix, VertexConsumerProvider vertexConsumers, boolean seeThrough, int backgroundColor, int light) {
-        return instance.draw(text, x, y, color, true, matrix, vertexConsumers, seeThrough, backgroundColor, light);
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Ljava/lang/String;FFIZLorg/joml/Matrix4f;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/client/font/TextRenderer$TextLayerType;II)I"))
+    private int useShadows(TextRenderer instance, String text, float x, float y, int color, boolean shadow, Matrix4f matrix, VertexConsumerProvider vertexConsumers, TextRenderer.TextLayerType layerType, int backgroundColor, int light) {
+        return instance.draw(text, x, y, color, IConfig.getShadows(), matrix, vertexConsumers, layerType, backgroundColor, light);
     }
 }

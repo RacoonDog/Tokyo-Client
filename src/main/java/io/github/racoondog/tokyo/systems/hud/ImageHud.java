@@ -10,14 +10,24 @@ import meteordevelopment.meteorclient.systems.hud.HudElementInfo;
 import meteordevelopment.meteorclient.systems.hud.HudRenderer;
 import meteordevelopment.meteorclient.utils.network.Http;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.client.texture.ResourceTexture;
+import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class ImageHud extends HudElement {
@@ -89,8 +99,9 @@ public class ImageHud extends HudElement {
         .build()
     );
 
-    private NativeImageBackedTexture ONLINE;
-    private Identifier TEXTURE;
+    private boolean firstRender = true;
+    private CompletableFuture<Supplier<AbstractTexture>> textureFetcher;
+    private AbstractTexture TEXTURE;
     private int width;
     private int height;
 
@@ -98,38 +109,77 @@ public class ImageHud extends HudElement {
         super(INFO);
     }
 
+    @SuppressWarnings("RedundantCast") //These casts are not redundant, removing them will break stuff
     private void update() {
-        switch (mode.get()) {
-            case Preset -> TEXTURE = preset.get().identifier;
-            case Resource -> TEXTURE = Identifier.tryParse(resource.get());
+        resetTexture();
+
+        textureFetcher = CompletableFuture.supplyAsync(() -> switch (mode.get()) {
             case Online -> {
-                ONLINE = null;
-                MeteorExecutor.execute(() -> {
-                    String imgUrl = url.get();
-                    if (imgUrl.isEmpty()) return;
+                String imgUrl = url.get();
+                if (!imgUrl.isEmpty()) {
                     try {
                         NativeImage img = NativeImage.read(Http.get(imgUrl).sendInputStream());
                         width = img.getWidth();
                         height = img.getHeight();
-                        ONLINE = new NativeImageBackedTexture(img);
                         updateSize();
+                        yield (Supplier<AbstractTexture>) () -> new NativeImageBackedTexture(img);
                     } catch (IOException ignored) {}
-                });
+                }
+                yield (Supplier<AbstractTexture>) () -> null;
             }
-        }
+            case Preset -> {
+                preset.get().updateSize(this);
+                yield (Supplier<AbstractTexture>) () -> mc.getTextureManager().getTexture(preset.get().identifier);
+            }
+            case Resource -> {
+                Identifier textureId = Identifier.tryParse(resource.get());
+
+                if (textureId != null) {
+                    Optional<Resource> optionalResource = mc.getResourceManager().getResource(textureId);
+                    if (optionalResource.isPresent()) {
+                        metaFromResource(optionalResource.get());
+                        updateSize();
+                        yield (Supplier<AbstractTexture>) () -> mc.getTextureManager().getTexture(textureId);
+                    }
+                }
+                yield (Supplier<AbstractTexture>) () -> null;
+            }
+        });
+    }
+
+    private void resetTexture() {
+        TEXTURE = null;
+        width = 64;
+        height = 64;
+        updateSize();
     }
 
     public void updateSize() {
-        double width = mode.get() == Mode.Online ? this.width : 64;
-        double height = mode.get() == Mode.Online ? this.height : 64;
-
         setSize(width * scale.get(), height * scale.get());
+    }
+
+    protected void metaFromResource(Resource resource) {
+        try (var inputStream = resource.getInputStream()) {
+            NativeImage nativeImage = NativeImage.read(inputStream);
+            width = nativeImage.getWidth();
+            height = nativeImage.getHeight();
+        } catch (IOException ignored) {}
     }
 
     @Override
     public void render(HudRenderer renderer) {
-        if (mode.get() == Mode.Online && ONLINE != null) ONLINE.upload();
-        else GL.bindTexture(this.TEXTURE);
+        if (firstRender) {
+            update();
+            firstRender = false;
+        }
+
+        if (textureFetcher != null && textureFetcher.isDone()) TEXTURE = textureFetcher.join().get();
+
+        if (TEXTURE == null) renderEmpty(renderer);
+        else {
+            if (TEXTURE instanceof NativeImageBackedTexture nativeTexture) nativeTexture.upload();
+            else TEXTURE.bindTexture();
+        }
 
         Renderer2D.TEXTURE.begin();
 
@@ -141,6 +191,11 @@ public class ImageHud extends HudElement {
         Renderer2D.TEXTURE.render(null);
     }
 
+    private void renderEmpty(HudRenderer renderer) {
+        renderer.line(x, y, x + getWidth(), y + getWidth(), Color.GRAY);
+        renderer.line(x, y + getWidth(), x + getWidth(), y, Color.GRAY);
+    }
+
     public enum Mode {
         Preset,
         Resource,
@@ -148,12 +203,33 @@ public class ImageHud extends HudElement {
     }
 
     public enum Preset {
-        Meteor("meteor-client:textures/meteor.png");
+        Meteor("meteor-client:textures/meteor.png", 128, 128),
+        LiveLeak("tokyo-client:textures/imagehud/liveleak.png"),
+        DallE("tokyo-client:textures/imagehud/dalle.png"),
+        HyperCam("tokyo-client:textures/imagehud/hypercam.png", 350, 30),
+        Brazzers("tokyo-client:textures/imagehud/brazzers.png", 262, 50),
+        ActivateWindows("tokyo-client:textures/imagehud/activate_windows.png");
 
         final Identifier identifier;
+        final int width;
+        final int height;
 
         Preset(String location) {
+            this(location, -1, -1);
+        }
+
+        Preset(String location, int width, int height) {
             this.identifier = Identifier.tryParse(location);
+            this.width = width;
+            this.height = height;
+        }
+
+        public void updateSize(ImageHud element) {
+            if (width != -1 && height != -1) {
+                element.width = width;
+                element.height = height;
+            } else element.metaFromResource(mc.getResourceManager().getResource(identifier).orElseThrow());
+            element.updateSize();
         }
     }
 }

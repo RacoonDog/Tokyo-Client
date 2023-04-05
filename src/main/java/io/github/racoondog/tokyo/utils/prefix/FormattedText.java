@@ -8,6 +8,8 @@ import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -15,6 +17,7 @@ import net.minecraft.text.Text;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
+@Environment(EnvType.CLIENT)
 public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, ISerializable<FormattedText> {
     //Defaults
     public final String defaultText;

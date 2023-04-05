@@ -81,7 +81,9 @@ processResources {
 }
 
 jar {
-    from("LICENSE")
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {

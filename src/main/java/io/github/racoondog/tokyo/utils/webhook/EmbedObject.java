@@ -5,11 +5,10 @@ import io.github.racoondog.tokyo.utils.misc.JsonSerializable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-//todo never
 @Environment(EnvType.CLIENT)
 public class EmbedObject implements JsonSerializable {
     @Override
     public JsonObject serialize() {
-        return null;
+        return new JsonObject();
     }
 }

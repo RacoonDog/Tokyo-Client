@@ -20,6 +20,8 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +30,7 @@ import java.util.Locale;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
+@Environment(EnvType.CLIENT)
 public class MultiInstanceScreen extends WindowScreen {
     private static final CharFilter NUMBER_FILTER = (text, c) -> '0' <= c && c <= '9';
     private static final CharFilter MEMORY_FILTER = (text, c) -> ('0' <= c && c <= '9') || c == 'k' || c == 'K' || c == 'm' || c == 'M' || c == 'g' || c == 'G';

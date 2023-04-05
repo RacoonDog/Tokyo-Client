@@ -263,7 +263,7 @@ public class Announcer extends Module {
 
         @EventHandler
         private void onBreakBlock(BreakBlockEvent event) {
-            Block block = event.getBlockState(mc.world).getBlock();
+            Block block = mc.world.getBlockState(event.blockPos).getBlock();
 
             if (lastBlock != null && lastBlock != block) {
                 sendMsg();

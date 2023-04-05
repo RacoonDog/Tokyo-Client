@@ -13,7 +13,7 @@ import java.util.Map;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientCommandSource.class)
 public abstract class ClientCommandSourceMixin implements IClientCommandSource {
-    @Unique private Map<String, Object> meta = new HashMap<>();
+    @Unique private final Map<String, Object> meta = new HashMap<>();
 
     @Override
     public Object tokyo$getMeta(String id) {

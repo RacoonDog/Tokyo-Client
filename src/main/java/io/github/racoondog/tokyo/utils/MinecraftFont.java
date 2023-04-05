@@ -2,18 +2,18 @@ package io.github.racoondog.tokyo.utils;
 
 import io.github.racoondog.tokyo.mixin.prefix.IFontManager;
 import io.github.racoondog.tokyo.mixin.prefix.IMinecraftClient;
-import io.github.racoondog.tokyo.utils.prefix.FormattedText;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
-import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Style;
 import net.minecraft.util.Identifier;
@@ -23,6 +23,7 @@ import java.util.Set;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
+@Environment(EnvType.CLIENT)
 public class MinecraftFont implements IScreenFactory, ICopyable<MinecraftFont>, ISerializable<MinecraftFont> {
     private Identifier font;
 

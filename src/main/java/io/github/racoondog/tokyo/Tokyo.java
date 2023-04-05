@@ -94,18 +94,14 @@ public class Tokyo extends MeteorAddon {
         // Modules
         Modules.get().add(ChatManager.INSTANCE);
         Modules.get().add(AutoTpa.INSTANCE);
-        Modules.get().add(OldChunks.INSTANCE);
         Modules.get().add(Announcer.INSTANCE);
         Modules.get().add(Prefix.INSTANCE);
         Modules.get().add(UwUChat.INSTANCE);
         Modules.get().add(Jukebox.INSTANCE);
         Modules.get().add(SpamPlus.INSTANCE);
         Modules.get().add(AutoUnfriend.INSTANCE);
-        Modules.get().add(EntityPosDebugger.INSTANCE);
         Modules.get().add(DiscordSRV.INSTANCE);
         Modules.get().add(TokyoBetterChat.INSTANCE);
-        Modules.get().add(ClientSync.INSTANCE);
-        Modules.get().add(Leitmotif.INSTANCE);
 
         Hud.get().register(ImageHud.INFO);
 

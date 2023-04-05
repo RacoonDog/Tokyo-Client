@@ -1,9 +1,8 @@
-package io.github.racoondog.tokyo.mixin.meteorpatches.logoutspots.vanillatextrenderer;
+package io.github.racoondog.tokyo.mixin.meteorpatches.vanillatextrenderer;
 
 import io.github.racoondog.tokyo.mixininterface.IConfig;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderOperation;
 import meteordevelopment.meteorclient.gui.renderer.operations.TextOperation;
-import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.systems.config.Config;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

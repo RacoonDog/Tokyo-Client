@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.meteorpatches.logoutspots.vanillatextrenderer;
+package io.github.racoondog.tokyo.mixin.meteorpatches.vanillatextrenderer;
 
 import io.github.racoondog.tokyo.mixininterface.IConfig;
 import io.github.racoondog.tokyo.utils.MinecraftFont;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
-@Mixin(Config.class)
+@Mixin(value = Config.class, remap = false)
 public abstract class ConfigMixin implements IConfig {
     @Shadow @Final private SettingGroup sgVisual;
     @Shadow @Final public Setting<Boolean> customFont;

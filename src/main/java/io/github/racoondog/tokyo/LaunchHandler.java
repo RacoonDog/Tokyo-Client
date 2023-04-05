@@ -9,12 +9,15 @@ import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.PostInit;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+@Environment(EnvType.CLIENT)
 public class LaunchHandler implements ArgsListener {
     public static final String[] LAUNCH_ARGS = FabricLoader.getInstance().getLaunchArguments(true);
     public static final List<String> JVM_OPTS = ManagementFactory.getRuntimeMXBean().getInputArguments();

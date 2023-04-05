@@ -6,7 +6,6 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.settings.GenericSetting;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
@@ -14,13 +13,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Pair;
 import org.jetbrains.annotations.ApiStatus;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
 @Environment(EnvType.CLIENT)
@@ -30,20 +23,8 @@ public class Prefix extends Module {
     public static final Text DEFAULT_METEOR = ChatUtils.getMeteorPrefix();
     public static final Text DEFAULT_TOKYO = Tokyo.getDefaultPrefix();
 
-    public static final List<Pair<String, Text>> PREFIX_OVERRIDES = new ArrayList<>();
-
-    private final SettingGroup sgGeneral = this.settings.getDefaultGroup();
     private final SettingGroup sgMeteor = this.settings.createGroup("Meteor");
     private final SettingGroup sgTokyo = this.settings.createGroup("Tokyo");
-
-    private final Map<String, List<Setting<FormattedText>>> prefixOverrideSettings = new HashMap<>();
-
-    private final Setting<List<String>> overriddenPrefixPackages = sgGeneral.add(new StringListSetting.Builder()
-        .name("overridden-prefix-packages")
-        .defaultValue()
-        .onChanged(o -> updateOverrides())
-        .build()
-    );
 
     // Meteor
     private final Setting<FormattedText> meteorPrefixTextSetting = sgMeteor.add(new GenericSetting.Builder<FormattedText>()
@@ -108,12 +89,6 @@ public class Prefix extends Module {
         if (!isActive()) return;
 
         TOKYO = Text.empty().append(tokyoBorderLeftTextSetting.get().get()).append(tokyoPrefixTextSetting.get().get()).append(tokyoBorderRightTextSetting.get().get());
-    }
-
-    private void updateOverrides() {
-        for (var packageName : overriddenPrefixPackages.get()) {
-            //todo fix this
-        }
     }
 
     public static Text getMeteor() {
