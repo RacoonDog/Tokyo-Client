@@ -51,6 +51,7 @@
   - `tokyo?swarmPort`: `Integer` (Configure Swarm socket port)
 - **Screen Overlays**
   - Crafting overlay
+- **Dark Purple Theme**
 
 # Patches
 - Export logout spots as .CSV

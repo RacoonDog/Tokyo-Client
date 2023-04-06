@@ -20,7 +20,7 @@ public final class ExportUtils {
     public static final Path EXPORT_FOLDER = FileUtils.TOKYO_FOLDER_LOCAL.resolve("export");
     public static final Supplier<String> WORLDNAME = Utils::getWorldName;
     public static final Supplier<String> DATETIME = Util::getFormattedCurrentTime;
-    private static final Pattern[] SEPARATORS = StringUtils.compile("/", "\\\\", File.separator);
+    private static final Pattern[] SEPARATORS = StringUtils.compile(Pattern.LITERAL, "/", "\\", File.separator);
 
     public static Path computePath(String fileName, @Nullable String fileExtension) {
         return computePath(fileName, fileExtension, Mode.OVERWRITE);

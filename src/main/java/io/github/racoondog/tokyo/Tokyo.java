@@ -7,8 +7,10 @@ import io.github.racoondog.tokyo.systems.TokyoStarscript;
 import io.github.racoondog.tokyo.systems.commands.QuickLaunchCommand;
 import io.github.racoondog.tokyo.systems.hud.ImageHud;
 import io.github.racoondog.tokyo.systems.modules.*;
+import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
+import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.hud.Hud;
@@ -52,6 +54,8 @@ public class Tokyo extends MeteorAddon {
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
 
+        // Pre Load
+
         INSTANCE = this;
 
         // ChatUtils prefix
@@ -91,7 +95,7 @@ public class Tokyo extends MeteorAddon {
             credit.sections.add(3, new TitleScreenCredits.Section(")", TitleScreenCredits.GRAY));
         });
 
-        // Modules
+        // Load
         Modules.get().add(ChatManager.INSTANCE);
         Modules.get().add(AutoTpa.INSTANCE);
         Modules.get().add(Announcer.INSTANCE);
@@ -107,6 +111,9 @@ public class Tokyo extends MeteorAddon {
 
         Commands.get().add(QuickLaunchCommand.INSTANCE);
 
+        GuiThemes.add(new DarkPurpleTheme());
+
+        // Post Load
         Systems.addPreLoadTask(ChatManager.INSTANCE::toggle);
 
         TokyoStarscript.init();

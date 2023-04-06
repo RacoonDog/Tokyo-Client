@@ -16,14 +16,18 @@ import java.util.regex.Pattern;
 public final class StringUtils {
     private static final Random RANDOM = ThreadLocalRandom.current();
 
-    public static Pattern[] compile(String... regexes) {
+    public static Pattern[] compile(int flag, String... regexes) {
         Pattern[] patterns = new Pattern[regexes.length];
 
         for (int i = 0; i < regexes.length; i++) {
-            patterns[i] = Pattern.compile(regexes[i]);
+            patterns[i] = Pattern.compile(regexes[i], flag);
         }
 
         return patterns;
+    }
+
+    public static Pattern[] compile(String... regexes) {
+        return compile(0, regexes);
     }
 
     public static String[] recursiveSplit(String root, Pattern... regexes) {
