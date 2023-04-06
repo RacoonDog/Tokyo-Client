@@ -109,11 +109,10 @@ public class ImageHud extends HudElement {
         super(INFO);
     }
 
-    @SuppressWarnings("RedundantCast") //These casts are not redundant, removing them will break stuff
     private void update() {
         resetTexture();
 
-        textureFetcher = CompletableFuture.supplyAsync(() -> switch (mode.get()) {
+        Supplier<Supplier<AbstractTexture>> supplier = () -> switch (mode.get()) {
             case Online -> {
                 String imgUrl = url.get();
                 if (!imgUrl.isEmpty()) {
@@ -122,14 +121,14 @@ public class ImageHud extends HudElement {
                         width = img.getWidth();
                         height = img.getHeight();
                         updateSize();
-                        yield (Supplier<AbstractTexture>) () -> new NativeImageBackedTexture(img);
+                        yield () -> new NativeImageBackedTexture(img);
                     } catch (IOException ignored) {}
                 }
-                yield (Supplier<AbstractTexture>) () -> null;
+                yield () -> null;
             }
             case Preset -> {
                 preset.get().updateSize(this);
-                yield (Supplier<AbstractTexture>) () -> mc.getTextureManager().getTexture(preset.get().identifier);
+                yield () -> mc.getTextureManager().getTexture(preset.get().identifier);
             }
             case Resource -> {
                 Identifier textureId = Identifier.tryParse(resource.get());
@@ -139,12 +138,14 @@ public class ImageHud extends HudElement {
                     if (optionalResource.isPresent()) {
                         metaFromResource(optionalResource.get());
                         updateSize();
-                        yield (Supplier<AbstractTexture>) () -> mc.getTextureManager().getTexture(textureId);
+                        yield () -> mc.getTextureManager().getTexture(textureId);
                     }
                 }
-                yield (Supplier<AbstractTexture>) () -> null;
+                yield () -> null;
             }
-        });
+        };
+
+        textureFetcher = CompletableFuture.supplyAsync(supplier);
     }
 
     private void resetTexture() {
