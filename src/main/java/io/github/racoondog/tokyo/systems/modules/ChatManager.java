@@ -1,15 +1,14 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
+import meteordevelopment.meteorclient.events.game.SendMessageEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.settings.EnumSetting;
-import meteordevelopment.meteorclient.settings.IntSetting;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
+import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.SharedConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +35,24 @@ public class ChatManager extends Module {
         .build()
     );
 
+    private final Setting<Boolean> stripIllegal = sgGeneral.add(new BoolSetting.Builder()
+        .name("strip-illegal")
+        .description("Prevent illegal characters from being sent")
+        .defaultValue(true)
+        .build()
+    );
+
     private final List<Message> messageBuffer = new ArrayList<>();
     private int lastIndex = 0;
     private int timer = 0;
 
     private ChatManager() {
         super(Tokyo.CATEGORY, "chat-manager", "Acts as a priority queue system to prevent accidentally passing the kick threshold.");
+    }
+
+    @EventHandler
+    private void onMessageSend(SendMessageEvent event) {
+        //todo implement
     }
 
     @EventHandler
@@ -91,6 +102,16 @@ public class ChatManager extends Module {
     }
 
     private void send(String message, boolean isCommand) {
+        if (stripIllegal.get()) {
+            StringBuilder sb = new StringBuilder(message.length());
+            for (int i = 0; i < message.length(); i++) {
+                char c = message.charAt(i);
+                if (SharedConstants.isValidChar(c)) sb.append(c);
+                else sb.append(' ');
+            }
+            message = sb.toString();
+        }
+
         if (isCommand) mc.player.networkHandler.sendChatCommand(message.substring(1));
         else mc.player.networkHandler.sendChatMessage(message);
     }

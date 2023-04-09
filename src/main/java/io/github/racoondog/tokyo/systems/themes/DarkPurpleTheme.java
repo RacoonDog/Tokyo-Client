@@ -8,6 +8,8 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class DarkPurpleTheme extends MeteorGuiTheme implements RecolorGuiTheme {
+    public static final DarkPurpleTheme INSTANCE = new DarkPurpleTheme();
+
     @Override
     public String getName() {
         return "DarkPurple";

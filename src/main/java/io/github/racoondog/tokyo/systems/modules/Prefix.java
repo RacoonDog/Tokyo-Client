@@ -11,6 +11,7 @@ import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.ApiStatus;
@@ -46,9 +47,9 @@ public class Prefix extends Module {
     );
 
     // Tokyo
-    private final Setting<FormattedText> tokyoPrefixTextSetting = sgTokyo.add(new GenericSetting.Builder<FormattedText>()
+    public final Setting<FormattedText> tokyoPrefixTextSetting = sgTokyo.add(new GenericSetting.Builder<FormattedText>()
         .name("tokyo-prefix")
-        .defaultValue(new FormattedText("Tokyo", Tokyo.INSTANCE.color, Tokyo.INSTANCE.color, new Color(112, 100, 129, 255)).onChanged(o -> updateTokyo()))
+        .defaultValue(new FormattedText("Tokyo", FormattedText.Mode.Fade, Style.EMPTY.withColor(Tokyo.INSTANCE.color.getPacked()).withBold(true), Tokyo.INSTANCE.color, new Color(112, 100, 129, 255)).onChanged(o -> updateTokyo()))
         .build()
     );
 

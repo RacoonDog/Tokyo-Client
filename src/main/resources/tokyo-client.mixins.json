@@ -5,6 +5,7 @@
   "client": [
     "PublicBackdoors",
     "Renderer2DMixin",
+    "RunnableClickEventMixin",
     "StarscriptMixin",
     "chatmanager.ChatScreenMixin",
     "chatmanager.ChatUtilsMixin",

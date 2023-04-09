@@ -24,6 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
+import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
+
 @Environment(EnvType.CLIENT)
 public class QuickLaunchCommand extends Command {
     public static final QuickLaunchCommand INSTANCE = new QuickLaunchCommand();
@@ -85,7 +87,7 @@ public class QuickLaunchCommand extends Command {
 
         info("Starting instance...");
 
-        return 1;
+        return SINGLE_SUCCESS;
     }
 
     private void configureJoin(InstanceBuilder builder) {

@@ -13,7 +13,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
-public class DamageUtils {
+public final class DamageUtils {
     public static double damageReduction(DamageSource source, double damageAmount) {
         if (source.isScaledWithDifficulty()) damageAmount = getDamageForDifficulty(damageAmount);
         damageAmount = resistanceReduction(mc.player, damageAmount);

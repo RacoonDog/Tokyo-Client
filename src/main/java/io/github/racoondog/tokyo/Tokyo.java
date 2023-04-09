@@ -2,15 +2,20 @@ package io.github.racoondog.tokyo;
 
 import com.mojang.logging.LogUtils;
 import io.github.racoondog.meteorsharedaddonutils.features.TitleScreenCredits;
+import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISystems;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAddon;
 import io.github.racoondog.tokyo.systems.TokyoStarscript;
 import io.github.racoondog.tokyo.systems.commands.QuickLaunchCommand;
+import io.github.racoondog.tokyo.systems.commands.ShareCommand;
+import io.github.racoondog.tokyo.systems.commands.ViewCommand;
 import io.github.racoondog.tokyo.systems.hud.ImageHud;
 import io.github.racoondog.tokyo.systems.modules.*;
+import io.github.racoondog.tokyo.systems.screen.TokyoConfig;
 import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.gui.GuiThemes;
+import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.hud.Hud;
@@ -38,7 +43,7 @@ public class Tokyo extends MeteorAddon {
     public static final ModContainer CONTAINER = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(() -> new IllegalStateException("Tokyo mod container not found!"));
     public static Tokyo INSTANCE;
 
-    private MutableText prefix;
+    private MutableText defaultPrefix;
 
     //todo mod integrations? (ClientCommands, SeedMapper, nodus dev stuff, etc.)
     //todo ai chat things? idfk
@@ -59,13 +64,13 @@ public class Tokyo extends MeteorAddon {
         INSTANCE = this;
 
         // ChatUtils prefix
-        prefix = Text.literal("")
+        defaultPrefix = Text.literal("")
             .setStyle(Style.EMPTY.withFormatting(Formatting.GRAY))
             .append("[");
 
-        Text FADE = TextUtils.colorFade("Tokyo Client", prefix.getStyle().withBold(true), this.color.getPacked(), SettingColor.fromRGBA(112, 100, 129, 255));
+        Text FADE = TextUtils.colorFade("Tokyo Client", defaultPrefix.getStyle().withBold(true), this.color.getPacked(), SettingColor.fromRGBA(112, 100, 129, 255));
 
-        prefix.append(FADE)
+        defaultPrefix.append(FADE)
             .append("] ");
 
         ChatUtils.registerCustomPrefix(getPackage(), Prefix::getTokyo);
@@ -77,7 +82,7 @@ public class Tokyo extends MeteorAddon {
             credit.sections.add(2, new TitleScreenCredits.Section(versionString, TitleScreenCredits.WHITE));
             credit.sections.add(3, new TitleScreenCredits.Section(")", TitleScreenCredits.GRAY));
 
-            credit.sections.set(0, new TitleScreenCredits.Section(FADE));
+            credit.sections.set(0, new TitleScreenCredits.Section(Prefix.INSTANCE.tokyoPrefixTextSetting.get().get()));
         });
 
         // Version strings for other addons
@@ -110,8 +115,13 @@ public class Tokyo extends MeteorAddon {
         Hud.get().register(ImageHud.INFO);
 
         Commands.get().add(QuickLaunchCommand.INSTANCE);
+        Commands.get().add(ShareCommand.INSTANCE);
+        Commands.get().add(ViewCommand.INSTANCE);
 
-        GuiThemes.add(new DarkPurpleTheme());
+        GuiThemes.add(DarkPurpleTheme.INSTANCE);
+
+        ISystems.invokeAdd(TokyoConfig.INSTANCE);
+        Tabs.add(TokyoConfig.TokyoConfigTab.INSTANCE);
 
         // Post Load
         Systems.addPreLoadTask(ChatManager.INSTANCE::toggle);
@@ -122,7 +132,7 @@ public class Tokyo extends MeteorAddon {
     }
 
     public static Text getDefaultPrefix() {
-        return INSTANCE.prefix;
+        return INSTANCE.defaultPrefix;
     }
 
     @Override
