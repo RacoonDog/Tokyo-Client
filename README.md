@@ -5,8 +5,10 @@
   <p>Anarchy tool of the future. Built for performance.</p>
 
   <!-- Fancy badges -->
-  <img src="https://img.shields.io/badge/Minecraft%20Version-1.19.3-blueviolet" alt="Minecraft Version">
-  <a href="https://github.com/RacoonDog/Tokyo-Client/commits/main"><img src="https://img.shields.io/github/last-commit/RacoonDog/Tokyo-Client?logo=github&color=blueviolet" alt="Last commit"></a>
+  <img src="https://img.shields.io/badge/Minecraft%20Version-1.19.4-blueviolet?style=flat-square" alt="Minecraft Version">
+  <img src="https://img.shields.io/github/downloads/RacoonDog/Tokyo-Client/total?color=blueviolet&style=flat-square" alt="GitHub Downloads">
+  <a href="https://github.com/RacoonDog/Tokyo-Client/commits/main"><img src="https://img.shields.io/github/last-commit/RacoonDog/Tokyo-Client?logo=github&color=blueviolet&style=flat-square" alt="Last commit"></a>
+  <img src="https://img.shields.io/github/languages/code-size/RacoonDog/Tokyo-Client?color=blueviolet&style=flat-square" alt="Code Size">
 </div>
 
 # Modules
