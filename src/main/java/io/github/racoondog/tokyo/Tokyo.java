@@ -5,6 +5,7 @@ import io.github.racoondog.meteorsharedaddonutils.features.TitleScreenCredits;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISystems;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAddon;
 import io.github.racoondog.tokyo.systems.TokyoStarscript;
+import io.github.racoondog.tokyo.systems.commands.Cummand;
 import io.github.racoondog.tokyo.systems.commands.QuickLaunchCommand;
 import io.github.racoondog.tokyo.systems.commands.ShareCommand;
 import io.github.racoondog.tokyo.systems.commands.ViewCommand;
@@ -14,10 +15,10 @@ import io.github.racoondog.tokyo.systems.screen.TokyoConfig;
 import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
+import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -111,12 +112,14 @@ public class Tokyo extends MeteorAddon {
         Modules.get().add(AutoUnfriend.INSTANCE);
         Modules.get().add(DiscordSRV.INSTANCE);
         Modules.get().add(TokyoBetterChat.INSTANCE);
+        //Modules.get().add(Sprint.INSTANCE);
+        Modules.get().add(ChatEmojis.INSTANCE);
 
         Hud.get().register(ImageHud.INFO);
 
-        Commands.get().add(QuickLaunchCommand.INSTANCE);
-        Commands.get().add(ShareCommand.INSTANCE);
-        Commands.get().add(ViewCommand.INSTANCE);
+        Commands.add(QuickLaunchCommand.INSTANCE);
+        Commands.add(ShareCommand.INSTANCE);
+        Commands.add(ViewCommand.INSTANCE);
 
         GuiThemes.add(DarkPurpleTheme.INSTANCE);
 
@@ -127,6 +130,8 @@ public class Tokyo extends MeteorAddon {
         Systems.addPreLoadTask(ChatManager.INSTANCE::toggle);
 
         TokyoStarscript.init();
+
+        Commands.add(new Cummand()); //todo fixme alsdfg
 
         LOG.info("Tokyo loaded in {} milliseconds.", System.currentTimeMillis() - startTime);
     }

@@ -9,9 +9,9 @@ import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
 import io.github.racoondog.tokyo.systems.screen.MultiInstanceScreen;
 import io.github.racoondog.tokyo.utils.AccountUtil;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
+import meteordevelopment.meteorclient.commands.Command;
+import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.systems.accounts.Account;
-import meteordevelopment.meteorclient.systems.commands.Command;
-import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Locale;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class QuickLaunchCommand extends Command {
@@ -74,6 +75,7 @@ public class QuickLaunchCommand extends Command {
 
         MeteorExecutor.execute(() -> {
             InstanceBuilder builder = new InstanceBuilder(account);
+            builder.addArg("tokyo?freezeSettings");
 
             if (join) configureJoin(builder);
             if (swarm) {

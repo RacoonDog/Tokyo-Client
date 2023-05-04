@@ -4,9 +4,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.github.racoondog.tokyo.utils.c2c.C2CNetworkHandler;
 import io.github.racoondog.tokyo.utils.c2c.packets.WaypointC2CPacket;
-import meteordevelopment.meteorclient.systems.commands.Command;
-import meteordevelopment.meteorclient.systems.commands.arguments.PlayerListEntryArgumentType;
-import meteordevelopment.meteorclient.systems.commands.arguments.WaypointArgumentType;
+import io.github.racoondog.tokyo.utils.commands.WaypointArgumentTypePlusPlus;
+import meteordevelopment.meteorclient.commands.Command;
+import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
+import meteordevelopment.meteorclient.commands.arguments.WaypointArgumentType;
 import meteordevelopment.meteorclient.systems.waypoints.Waypoint;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
@@ -23,7 +24,7 @@ public class ShareCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(
-            argument("waypoint", WaypointArgumentType.create())
+            argument("waypoint", WaypointArgumentTypePlusPlus.word())
                 .executes(ShareCommand::shareWaypointAll)
                 .then(argument("player", PlayerListEntryArgumentType.create())
                     .executes(ShareCommand::shareWaypointPlayer)

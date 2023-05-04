@@ -27,6 +27,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
@@ -205,8 +210,15 @@ public class C2CNetworkHandler implements C2CPacketListener {
     }
 
     private static byte[] decryptKey(byte[] bytes) {
-        //todo
-        return bytes;
+        try {
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(DigestUtils.sha1(TokyoConfig.INSTANCE.encryptionKey.get()), "AES"));
+
+            return bytes;
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
+            e.printStackTrace();
+            return bytes;
+        }
     }
 
     private static void decompressAndHandle(byte[] bytes) {

@@ -21,6 +21,9 @@
     ],
     "argsListener": [
       "io.github.racoondog.tokyo.LaunchHandler"
+    ],
+    "client": [
+      "io.github.racoondog.tokyo.ClientInit"
     ]
   },
   "mixins": [

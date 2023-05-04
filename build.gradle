@@ -53,6 +53,8 @@ dependencies {
 
     // Libraries
     modImplementation(include(fabricApi.module("fabric-api-base", project.fapi_version)))
+    modImplementation(include(fabricApi.module("fabric-resource-loader-v0", project.fapi_version)))
+
     modImplementation(include("io.github.racoondog:MeteorSharedAddonUtils:${project.msau_version}")) {
         transitive = false
     }
@@ -86,7 +88,7 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${project.archives_base_name}" }
     }
 }
 

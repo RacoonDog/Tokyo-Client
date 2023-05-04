@@ -6,7 +6,7 @@ import io.github.racoondog.tokyo.utils.InstanceBuilder;
 import io.github.racoondog.tokyo.utils.TableBuilder;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.gui.screens.AccountsScreen;
+import meteordevelopment.meteorclient.gui.screens.accounts.AccountsScreen;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
@@ -59,6 +59,7 @@ public class MultiInstanceScreen extends WindowScreen {
 
         this.account = account;
         this.builder = new InstanceBuilder(account);
+        builder.addArg("tokyo?freezeSettings");
     }
 
     @Override

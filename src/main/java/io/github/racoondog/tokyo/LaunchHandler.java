@@ -5,6 +5,7 @@ import io.github.racoondog.tokyo.utils.SwarmUtils;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
+import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -22,11 +23,13 @@ public class LaunchHandler implements ArgsListener {
     public static final String[] LAUNCH_ARGS = FabricLoader.getInstance().getLaunchArguments(true);
     public static final List<String> JVM_OPTS = ManagementFactory.getRuntimeMXBean().getInputArguments();
 
+    private static OptionSpec<Void> freezeSettingsSpec;
     private static OptionSpec<Void> deactivateSpec;
     private static OptionSpec<String> swarmModeSpec;
     private static OptionSpec<String> swarmIpSpec;
     private static OptionSpec<Integer> swarmPortSpec;
 
+    public static boolean freezeSettings;
     private static boolean deactivate;
     private static String swarmMode;
     private static String swarmIp;
@@ -35,6 +38,7 @@ public class LaunchHandler implements ArgsListener {
     @Override
     public void createSpecs(OptionParser optionParser) {
         deactivateSpec = optionParser.accepts("tokyo?deactivate");
+        freezeSettingsSpec = optionParser.accepts("tokyo?freezeSettings");
         swarmModeSpec = optionParser.accepts("tokyo?swarmMode").withRequiredArg();
         swarmIpSpec = optionParser.accepts("tokyo?swarmIp").withRequiredArg();
         swarmPortSpec = optionParser.accepts("tokyo?swarmPortSpec").withRequiredArg().ofType(Integer.class).defaultsTo(25565);
@@ -42,6 +46,7 @@ public class LaunchHandler implements ArgsListener {
 
     @Override
     public void parseArgs(OptionSet optionSet) {
+        freezeSettings = optionSet.has(freezeSettingsSpec);
         deactivate = optionSet.has(deactivateSpec);
         swarmMode = optionSet.valueOf(swarmModeSpec);
         swarmIp = optionSet.valueOf(swarmIpSpec);
