@@ -6,7 +6,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.racoondog.meteorsharedaddonutils.features.arguments.AccountArgumentType;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISwarm;
 import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
-import io.github.racoondog.tokyo.systems.screen.MultiInstanceScreen;
+import io.github.racoondog.tokyo.gui.MultiInstanceScreen;
 import io.github.racoondog.tokyo.utils.AccountUtil;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
 import meteordevelopment.meteorclient.commands.Command;

@@ -3,6 +3,13 @@
   "package": "io.github.racoondog.tokyo.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "IArrayPalette",
+    "IBiMapPalette",
+    "IClientChunkManager",
+    "IClientChunkMap",
+    "IClientPlayNetworkHandler",
+    "IHttpRequest",
+    "IPalettedContainer",
     "PublicBackdoors",
     "Renderer2DMixin",
     "RunnableClickEventMixin",

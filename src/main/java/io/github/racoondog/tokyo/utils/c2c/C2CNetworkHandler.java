@@ -3,8 +3,10 @@ package io.github.racoondog.tokyo.utils.c2c;
 import io.github.racoondog.tokyo.Tokyo;
 import io.github.racoondog.tokyo.systems.modules.ChatManager;
 import io.github.racoondog.tokyo.systems.modules.Prefix;
-import io.github.racoondog.tokyo.systems.screen.TokyoConfig;
+import io.github.racoondog.tokyo.systems.config.TokyoConfig;
+import io.github.racoondog.tokyo.utils.ChunkManagerHelper;
 import io.github.racoondog.tokyo.utils.RunnableClickEvent;
+import io.github.racoondog.tokyo.utils.c2c.packets.ChunkC2CPacket;
 import io.github.racoondog.tokyo.utils.c2c.packets.WaypointC2CPacket;
 import io.netty.buffer.Unpooled;
 import meteordevelopment.meteorclient.MeteorClient;
@@ -25,6 +27,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.world.chunk.WorldChunk;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.crypto.Cipher;
@@ -45,6 +48,10 @@ public class C2CNetworkHandler implements C2CPacketListener {
 
     private C2CNetworkHandler() {
         MeteorClient.EVENT_BUS.subscribe(this);
+    }
+
+    public static PacketByteBuf createBuf() {
+        return new PacketByteBuf(Unpooled.buffer());
     }
 
     public void sendPacket(C2CPacket packet) {
@@ -112,7 +119,7 @@ public class C2CNetworkHandler implements C2CPacketListener {
     }
 
     private static byte[][] encodePacket(C2CPacket packet, int id) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        PacketByteBuf buf = createBuf();
         buf.writeInt(id);
         packet.write(buf);
 
@@ -247,5 +254,16 @@ public class C2CNetworkHandler implements C2CPacketListener {
             ChatUtils.info("Accepted waypoint!");
         }))));
         MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(message);
+    }
+
+    @Override
+    public void onChunkC2CPacket(ChunkC2CPacket packet) {
+        //ChunkManagerHelper.loadChunk(packet.chunkX, packet.chunkZ, packet.chunkData.getSectionsDataBuf(), packet.chunkData.getHeightmap(), packet.chunkData.getBlockEntities(packet.chunkX, packet.chunkZ));
+        mc.world.enqueueChunkUpdate(() -> {
+            WorldChunk worldChunk = mc.world.getChunkManager().getWorldChunk(packet.chunkX, packet.chunkZ, false);
+            if (worldChunk != null) {
+                ChunkManagerHelper.scheduleRenderChunk(worldChunk, packet.chunkX, packet.chunkZ);
+            }
+        });
     }
 }

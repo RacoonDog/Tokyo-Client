@@ -8,10 +8,12 @@ import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.zip.Deflater;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -95,7 +97,9 @@ public final class ConversionHelper {
             if (bytes == null || bytes.length == 0) return bytes;
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            try (GZIPOutputStream gzip = new GZIPOutputStream(out)) {
+            try (ConfigurableGZIPOutputStream gzip = new ConfigurableGZIPOutputStream(out)) {
+            //try (XZOutputStream gzip = new XZOutputStream(out, new LZMA2Options(9))) {
+                gzip.setLevel(Deflater.BEST_COMPRESSION);
                 gzip.write(bytes);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,6 +146,16 @@ public final class ConversionHelper {
                 e.printStackTrace();
                 return null;
             }
+        }
+    }
+
+    public static class ConfigurableGZIPOutputStream extends GZIPOutputStream {
+        public ConfigurableGZIPOutputStream(OutputStream out) throws IOException {
+            super(out);
+        }
+
+        public void setLevel(int level) {
+            this.def.setLevel(level);
         }
     }
 }

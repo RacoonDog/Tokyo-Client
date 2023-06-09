@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.systems.screen;
+package io.github.racoondog.tokyo.gui;
 
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISwarm;
 import io.github.racoondog.tokyo.utils.ArgsUtils;

@@ -2,24 +2,11 @@ package io.github.racoondog.tokyo;
 
 import com.mojang.logging.LogUtils;
 import io.github.racoondog.meteorsharedaddonutils.features.TitleScreenCredits;
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISystems;
 import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAddon;
-import io.github.racoondog.tokyo.systems.TokyoStarscript;
-import io.github.racoondog.tokyo.systems.commands.Cummand;
-import io.github.racoondog.tokyo.systems.commands.QuickLaunchCommand;
-import io.github.racoondog.tokyo.systems.commands.ShareCommand;
-import io.github.racoondog.tokyo.systems.commands.ViewCommand;
-import io.github.racoondog.tokyo.systems.hud.ImageHud;
+import io.github.racoondog.tokyo.systems.TokyoSystems;
 import io.github.racoondog.tokyo.systems.modules.*;
-import io.github.racoondog.tokyo.systems.screen.TokyoConfig;
-import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.commands.Commands;
-import meteordevelopment.meteorclient.gui.GuiThemes;
-import meteordevelopment.meteorclient.gui.tabs.Tabs;
-import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -60,8 +47,6 @@ public class Tokyo extends MeteorAddon {
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
 
-        // Pre Load
-
         INSTANCE = this;
 
         // ChatUtils prefix
@@ -101,37 +86,7 @@ public class Tokyo extends MeteorAddon {
             credit.sections.add(3, new TitleScreenCredits.Section(")", TitleScreenCredits.GRAY));
         });
 
-        // Load
-        Modules.get().add(ChatManager.INSTANCE);
-        Modules.get().add(AutoTpa.INSTANCE);
-        Modules.get().add(Announcer.INSTANCE);
-        Modules.get().add(Prefix.INSTANCE);
-        Modules.get().add(UwUChat.INSTANCE);
-        Modules.get().add(Jukebox.INSTANCE);
-        Modules.get().add(SpamPlus.INSTANCE);
-        Modules.get().add(AutoUnfriend.INSTANCE);
-        Modules.get().add(DiscordSRV.INSTANCE);
-        Modules.get().add(TokyoBetterChat.INSTANCE);
-        //Modules.get().add(Sprint.INSTANCE);
-        Modules.get().add(ChatEmojis.INSTANCE);
-
-        Hud.get().register(ImageHud.INFO);
-
-        Commands.add(QuickLaunchCommand.INSTANCE);
-        Commands.add(ShareCommand.INSTANCE);
-        Commands.add(ViewCommand.INSTANCE);
-
-        GuiThemes.add(DarkPurpleTheme.INSTANCE);
-
-        ISystems.invokeAdd(TokyoConfig.INSTANCE);
-        Tabs.add(TokyoConfig.TokyoConfigTab.INSTANCE);
-
-        // Post Load
-        Systems.addPreLoadTask(ChatManager.INSTANCE::toggle);
-
-        TokyoStarscript.init();
-
-        Commands.add(new Cummand()); //todo fixme alsdfg
+        TokyoSystems.initialize();
 
         LOG.info("Tokyo loaded in {} milliseconds.", System.currentTimeMillis() - startTime);
     }

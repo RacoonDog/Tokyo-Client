@@ -9,4 +9,8 @@ public final class MathUtils {
     public static double distance(double deltaX, double deltaZ) {
         return Math.sqrt(Math.fma(deltaX, deltaX, deltaZ * deltaZ));
     }
+
+    public static double log(int base, int x) {
+        return java.lang.Math.log(x) / java.lang.Math.log(base);
+    }
 }

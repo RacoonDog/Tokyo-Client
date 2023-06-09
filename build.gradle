@@ -16,9 +16,9 @@ repositories {
     maven {
         name = "meteor-maven"
         url = "https://maven.meteordev.org/releases"
-        content {
-            includeGroup "meteordevelopment"
-        }
+        //content {
+        //   includeGroup "meteordevelopment"
+        //}
     }
     maven {
         name = "meteor-maven-snapshots"

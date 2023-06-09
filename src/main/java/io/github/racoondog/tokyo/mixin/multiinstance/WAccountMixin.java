@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.mixin.multiinstance;
 
-import io.github.racoondog.tokyo.systems.screen.MultiInstanceScreen;
+import io.github.racoondog.tokyo.gui.MultiInstanceScreen;
 import meteordevelopment.meteorclient.gui.widgets.WAccount;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;

@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.mixin.overlays;
 
-import io.github.racoondog.tokyo.systems.screen.TokyoConfig;
-import io.github.racoondog.tokyo.systems.screen.overlays.CraftingScreenOverlay;
+import io.github.racoondog.tokyo.gui.overlays.CraftingScreenOverlay;
+import io.github.racoondog.tokyo.systems.config.TokyoConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

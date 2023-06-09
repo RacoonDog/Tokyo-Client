@@ -33,8 +33,8 @@ public final class ExportUtils {
 
         String[] tokens = splitSeparator(fileName);
 
-        for (int i = 0; i < tokens.length - 1; i++) {
-            p = p.resolve(tokens[i]);
+        for (var token : tokens) {
+            p = p.resolve(token);
         }
         fileName = tokens[tokens.length - 1];
 

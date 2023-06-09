@@ -72,38 +72,30 @@ public final class StringUtils {
         return charCount;
     }
 
-    public static String uniformChanceAppend(String text, CharSequence[] append, double totalChance) {
-        if (totalChance <= 0.0d) return text;
+    public static String uniformChanceAppend(CharSequence text, CharSequence[] append, double totalChance) {
+        if (totalChance <= 0.0d) return text.toString();
         totalChance = Math.max(totalChance, 1.0d);
 
         double localChance = totalChance / append.length;
+        int rng = (int) (RANDOM.nextFloat() / localChance);
 
-        for (var str : append) {
-            if (RANDOM.nextFloat() < localChance) {
-                return text.concat(str.toString());
-            }
-        }
-        return text;
+        return rng >= append.length ? text.toString() : text.toString().concat(append[rng].toString());
     }
 
     public static void uniformChanceAppend(StringBuilder text, CharSequence[] append, double totalChance) {
         double localChance = totalChance / append.length;
+        int rng = (int) (RANDOM.nextFloat() / localChance);
 
-        for (var str : append) {
-            if (RANDOM.nextFloat() < localChance) {
-                text.append(str);
-                return;
-            }
-        }
+        if (rng < append.length) text.append(append[rng]);
     }
 
     public static boolean isLastCharAlphabetic(CharSequence seq) {
         return Character.isAlphabetic(seq.charAt(seq.length() - 1));
     }
 
-    public static String randomChanceKeepCaseReplace(String text, CharSequence target, CharSequence replacement, double chance) {
-        if (chance <= 0.0d) return text;
-        if (chance >= 1.0d) return text.replace(target, replacement);
+    public static String randomChanceKeepCaseReplace(CharSequence text, CharSequence target, CharSequence replacement, double chance) {
+        if (chance <= 0.0d) return text.toString();
+        if (chance >= 1.0d) return text.toString().replace(target, replacement);
 
         StringBuilder sb = new StringBuilder(text);
         randomChanceKeepCaseReplace(sb, target, replacement, chance);

@@ -1,16 +1,19 @@
-package io.github.racoondog.tokyo.systems.screen;
+package io.github.racoondog.tokyo.systems.config;
 
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISystems;
-import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
+import io.github.racoondog.tokyo.systems.seedresolver.SeedResolver;
+import io.github.racoondog.tokyo.utils.OrderedEnumSetting;
+import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
-import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.System;
-import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.orbit.EventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -18,6 +21,8 @@ import net.minecraft.nbt.NbtCompound;
 
 import java.util.List;
 import java.util.UUID;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class TokyoConfig extends System<TokyoConfig> {
@@ -33,6 +38,13 @@ public class TokyoConfig extends System<TokyoConfig> {
         .name("screen-overlays")
         .description("Enable screen overlays.")
         .defaultValue(true)
+        .build()
+    );
+
+    public final Setting<List<SeedResolver.ResolutionMethod>> seedResolutionMethods = sgGeneral.add(new OrderedEnumSetting.Builder<SeedResolver.ResolutionMethod>()
+        .name("seed-resolution-methods")
+        .description("Priority")
+        .defaultValue(SeedResolver.ResolutionMethod.CommandSource, SeedResolver.ResolutionMethod.SeedConfig, SeedResolver.ResolutionMethod.SavedSeedConfigs, SeedResolver.ResolutionMethod.OnlineDatabase)
         .build()
     );
 
@@ -77,6 +89,8 @@ public class TokyoConfig extends System<TokyoConfig> {
 
     private TokyoConfig() {
         super("tokyo-config");
+
+        MeteorClient.EVENT_BUS.subscribe(this);
     }
 
     @Override
@@ -104,7 +118,7 @@ public class TokyoConfig extends System<TokyoConfig> {
 
         @Override
         public TabScreen createScreen(GuiTheme theme) {
-            return new TokyoConfigScreen(theme, this);
+            return new TokyoConfigScreen(theme);
         }
 
         @Override
@@ -116,8 +130,8 @@ public class TokyoConfig extends System<TokyoConfig> {
     public static class TokyoConfigScreen extends WindowTabScreen {
         private final Settings settings = TokyoConfig.INSTANCE.settings;
 
-        public TokyoConfigScreen(GuiTheme theme, Tab tab) {
-            super(theme, tab);
+        public TokyoConfigScreen(GuiTheme theme) {
+            super(theme, TokyoConfigTab.INSTANCE);
 
             settings.onActivated();
         }

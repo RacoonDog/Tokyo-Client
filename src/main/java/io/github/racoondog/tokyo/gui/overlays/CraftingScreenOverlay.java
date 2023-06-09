@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.systems.screen.overlays;
+package io.github.racoondog.tokyo.gui.overlays;
 
 import io.github.racoondog.meteorsharedaddonutils.features.ScreenContainer;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
