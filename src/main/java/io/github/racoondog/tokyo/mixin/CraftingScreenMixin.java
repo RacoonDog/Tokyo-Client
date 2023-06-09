@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.overlays;
+package io.github.racoondog.tokyo.mixin;
 
 import io.github.racoondog.tokyo.gui.overlays.CraftingScreenOverlay;
 import io.github.racoondog.tokyo.systems.config.TokyoConfig;

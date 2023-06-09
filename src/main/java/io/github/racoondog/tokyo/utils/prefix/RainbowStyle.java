@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.utils.prefix;
 
-import io.github.racoondog.tokyo.mixin.prefix.IStyle;
+import io.github.racoondog.tokyo.mixin.IStyle;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

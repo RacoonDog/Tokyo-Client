@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.jukebox;
+package io.github.racoondog.tokyo.mixin;
 
 import io.github.racoondog.tokyo.systems.modules.Jukebox;
 import net.fabricmc.api.EnvType;

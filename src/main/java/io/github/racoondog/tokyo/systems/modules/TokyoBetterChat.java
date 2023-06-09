@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
-import io.github.racoondog.tokyo.mixininterface.IMutableText;
+import io.github.racoondog.tokyo.mixin.IMutableText;
 import it.unimi.dsi.fastutil.chars.Char2CharMap;
 import it.unimi.dsi.fastutil.chars.Char2CharOpenHashMap;
 import meteordevelopment.meteorclient.events.game.ReceiveMessageEvent;
@@ -76,7 +76,7 @@ public class TokyoBetterChat extends Module {
                 if (unicodeTable.containsKey(c)) sb.append(unicodeTable.get(c));
                 else sb.append(c);
             }
-            IMutableText.setTextContent(mutableText, new LiteralTextContent(sb.toString()));
+            ((IMutableText) mutableText).tokyo$setContent(new LiteralTextContent(sb.toString()));
         }
     }
 }

@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.meteorpatches.freezesettings;
+package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.LaunchHandler;
 import meteordevelopment.meteorclient.systems.Systems;

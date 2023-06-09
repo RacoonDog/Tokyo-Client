@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.utils.prefix;
 
-import io.github.racoondog.tokyo.mixin.prefix.IFontManager;
-import io.github.racoondog.tokyo.mixin.prefix.IMinecraftClient;
+import io.github.racoondog.tokyo.mixin.IFontManager;
+import io.github.racoondog.tokyo.mixin.IMinecraftClient;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;

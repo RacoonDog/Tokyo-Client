@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.chatemojis;
+package io.github.racoondog.tokyo.mixin;
 
 import io.github.racoondog.tokyo.systems.modules.ChatEmojis;
 import io.github.racoondog.tokyo.utils.TextUtils;

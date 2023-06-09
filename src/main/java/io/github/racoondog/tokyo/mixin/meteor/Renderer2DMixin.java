@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin;
+package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.mixininterface.IRenderer2D;
 import meteordevelopment.meteorclient.renderer.Mesh;

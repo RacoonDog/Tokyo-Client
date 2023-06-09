@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.meteorpatches.vanillatextrenderer;
+package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.mixininterface.IConfig;
 import meteordevelopment.meteorclient.renderer.text.VanillaTextRenderer;

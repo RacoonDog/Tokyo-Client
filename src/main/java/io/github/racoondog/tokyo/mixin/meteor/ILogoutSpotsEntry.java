@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.meteorpatches.logoutspots.export;
+package io.github.racoondog.tokyo.mixin.meteor;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

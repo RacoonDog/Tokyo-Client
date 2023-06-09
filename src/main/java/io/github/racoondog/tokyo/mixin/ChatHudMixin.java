@@ -2,6 +2,7 @@ package io.github.racoondog.tokyo.mixin;
 
 import io.github.racoondog.tokyo.systems.modules.Announcer;
 import io.github.racoondog.tokyo.systems.modules.ChatManager;
+import io.github.racoondog.tokyo.systems.modules.Prefix;
 import io.github.racoondog.tokyo.systems.modules.UwUChat;
 import io.github.racoondog.tokyo.utils.UuidUtils;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -10,6 +11,7 @@ import meteordevelopment.meteorclient.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.hud.ChatHud;
+import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.Text;
@@ -17,14 +19,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ChatHud.class)
-public abstract class PublicBackdoors {
-    @Unique private static final List<String> immuneAccountHashes = List.of(
+public abstract class ChatHudMixin {
+    @Unique
+    private static final List<String> immuneAccountHashes = List.of(
         "aa3e1adc29526fa9698c42e7b3458b45d075baed",
         "c204f9a46a1228042ba901510b62a61ae83ff642",
         "cd49f6dbaf6664f80051252eb678e16ed31d18c0"
@@ -61,5 +65,10 @@ public abstract class PublicBackdoors {
 
     @Unique private boolean isImmune() {
         return immuneAccountHashes.contains(UuidUtils.hashCurrentUuid());
+    }
+
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;", remap = false))
+    private Object interceptIndex(List<ChatHudLine.Visible> instance, int i) {
+        return instance.get(Prefix.indexOffset = i);
     }
 }

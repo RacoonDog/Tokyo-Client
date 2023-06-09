@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.utils;
 
-import io.github.racoondog.tokyo.mixin.prefix.IStyle;
+import io.github.racoondog.tokyo.mixin.IStyle;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectObjectMutablePair;
 import meteordevelopment.meteorclient.utils.render.color.Color;

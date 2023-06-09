@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.multiinstance;
+package io.github.racoondog.tokyo.mixin;
 
 import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
 import net.fabricmc.api.EnvType;

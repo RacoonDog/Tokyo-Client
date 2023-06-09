@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.prefix;
+package io.github.racoondog.tokyo.mixin;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

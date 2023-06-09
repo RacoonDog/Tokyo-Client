@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.chatmanager;
+package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.systems.modules.ChatManager;
 import io.github.racoondog.tokyo.utils.misc.VerboseUtils;

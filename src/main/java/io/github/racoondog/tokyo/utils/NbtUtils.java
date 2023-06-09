@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.utils;
 
-import io.github.racoondog.tokyo.mixin.prefix.IStyle;
+import io.github.racoondog.tokyo.mixin.IStyle;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.nbt.*;

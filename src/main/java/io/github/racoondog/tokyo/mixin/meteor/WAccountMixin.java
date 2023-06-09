@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.mixin.multiinstance;
+package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.gui.MultiInstanceScreen;
 import meteordevelopment.meteorclient.gui.widgets.WAccount;
