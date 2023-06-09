@@ -6,6 +6,7 @@ import io.github.racoondog.tokyo.systems.modules.UwUChat;
 import io.github.racoondog.tokyo.utils.UuidUtils;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.Spam;
+import meteordevelopment.meteorclient.utils.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.hud.ChatHud;
@@ -31,7 +32,7 @@ public abstract class PublicBackdoors {
 
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;ILnet/minecraft/client/gui/hud/MessageIndicator;Z)V", at = @At("HEAD"))
     private void spamBackdoor(Text message, MessageSignatureData signature, int ticks, MessageIndicator indicator, boolean refresh, CallbackInfo ci) {
-        if (isImmune()) return;
+        if (!Utils.canUpdate() || isImmune()) return;
         String text = message.getString();
 
         antiSpam(text);
