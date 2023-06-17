@@ -5,6 +5,7 @@ import meteordevelopment.meteorclient.gui.widgets.WAccount;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Account;
+import meteordevelopment.meteorclient.systems.accounts.AccountType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import org.spongepowered.asm.mixin.Final;
@@ -23,7 +24,9 @@ public abstract class WAccountMixin extends WHorizontalList {
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lmeteordevelopment/meteorclient/gui/GuiTheme;button(Ljava/lang/String;)Lmeteordevelopment/meteorclient/gui/widgets/pressable/WButton;"))
     private void addButton(CallbackInfo ci) {
-        WButton multiInstance = add(theme.button("Multi Instance")).widget();
-        multiInstance.action = () -> mc.setScreen(new MultiInstanceScreen(theme, account));
+        if (account.getType() == AccountType.Microsoft) {
+            WButton multiInstance = add(theme.button("Multi Instance")).widget();
+            multiInstance.action = () -> mc.setScreen(new MultiInstanceScreen(theme, account));
+        }
     }
 }
