@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.mixininterface.IConfig;
-import io.github.racoondog.tokyo.utils.MinecraftFont;
+import io.github.racoondog.tokyo.utils.settings.MinecraftFont;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.BoolSetting;
 import meteordevelopment.meteorclient.settings.GenericSetting;

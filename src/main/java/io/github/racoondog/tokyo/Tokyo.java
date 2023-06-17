@@ -6,9 +6,11 @@ import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAd
 import io.github.racoondog.tokyo.systems.TokyoSystems;
 import io.github.racoondog.tokyo.systems.modules.*;
 import io.github.racoondog.tokyo.utils.TextUtils;
+import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.fabricmc.api.EnvType;
@@ -88,6 +90,8 @@ public class Tokyo extends MeteorAddon {
 
         TokyoSystems.initialize();
 
+        DiscordPresence.registerCustomState("com.wildfire.gui.screen", "Changing options");
+
         LOG.info("Tokyo loaded in {} milliseconds.", System.currentTimeMillis() - startTime);
     }
 
@@ -103,5 +107,15 @@ public class Tokyo extends MeteorAddon {
     @Override
     public String getPackage() {
         return "io.github.racoondog.tokyo";
+    }
+
+    @Override
+    public GithubRepo getRepo() {
+        return new GithubRepo("RacoonDog", "bidoof-meteor");
+    }
+
+    @Override
+    public String getWebsite() {
+        return "https://discord.gg/4RBmBCFSTc";
     }
 }

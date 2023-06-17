@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.mixininterface;
 
-import io.github.racoondog.tokyo.utils.MinecraftFont;
+import io.github.racoondog.tokyo.utils.settings.MinecraftFont;
 import meteordevelopment.meteorclient.systems.config.Config;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

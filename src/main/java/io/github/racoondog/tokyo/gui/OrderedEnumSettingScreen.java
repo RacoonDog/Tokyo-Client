@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.gui;
 
-import io.github.racoondog.tokyo.utils.OrderedEnumSetting;
+import io.github.racoondog.tokyo.utils.settings.OrderedEnumSetting;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
@@ -12,7 +12,6 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.utils.PreInit;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;

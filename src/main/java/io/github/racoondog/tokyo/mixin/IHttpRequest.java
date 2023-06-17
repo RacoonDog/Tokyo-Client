@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.net.http.HttpRequest;
 
 @Environment(EnvType.CLIENT)
-@Mixin(Http.Request.class)
+@Mixin(value = Http.Request.class, remap = false)
 public interface IHttpRequest {
     @Accessor("builder")
     HttpRequest.Builder tokyo$getBuilder();

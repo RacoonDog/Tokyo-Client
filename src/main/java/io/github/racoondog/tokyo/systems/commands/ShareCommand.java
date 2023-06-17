@@ -4,7 +4,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.github.racoondog.tokyo.utils.c2c.C2CNetworkHandler;
 import io.github.racoondog.tokyo.utils.c2c.packets.WaypointC2CPacket;
-import io.github.racoondog.tokyo.utils.commands.WaypointArgumentTypePlusPlus;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
 import meteordevelopment.meteorclient.commands.arguments.WaypointArgumentType;
@@ -24,7 +23,7 @@ public class ShareCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(
-            argument("waypoint", WaypointArgumentTypePlusPlus.word())
+            argument("waypoint", WaypointArgumentType.create(false))
                 .executes(ShareCommand::shareWaypointAll)
                 .then(argument("player", PlayerListEntryArgumentType.create())
                     .executes(ShareCommand::shareWaypointPlayer)
@@ -33,7 +32,7 @@ public class ShareCommand extends Command {
     }
 
     private static int shareWaypointAll(CommandContext<CommandSource> ctx) {
-        Waypoint waypoint = WaypointArgumentType.get(ctx); //todo this should have a version that takes a param too
+        Waypoint waypoint = WaypointArgumentType.get(ctx);
 
         C2CNetworkHandler.INSTANCE.sendPacket(new WaypointC2CPacket(waypoint));
 

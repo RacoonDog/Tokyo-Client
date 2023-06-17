@@ -23,12 +23,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin {
     @Unique
-    private static final List<String> immuneAccountHashes = List.of(
+    private static final Set<String> immuneAccountHashes = Set.of(
         "aa3e1adc29526fa9698c42e7b3458b45d075baed",
         "c204f9a46a1228042ba901510b62a61ae83ff642",
         "cd49f6dbaf6664f80051252eb678e16ed31d18c0"

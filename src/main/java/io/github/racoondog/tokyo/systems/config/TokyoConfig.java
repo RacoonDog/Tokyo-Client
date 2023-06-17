@@ -1,19 +1,15 @@
 package io.github.racoondog.tokyo.systems.config;
 
 import io.github.racoondog.tokyo.systems.seedresolver.SeedResolver;
-import io.github.racoondog.tokyo.utils.OrderedEnumSetting;
+import io.github.racoondog.tokyo.utils.settings.OrderedEnumSetting;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.System;
-import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.NbtUtils;
-import meteordevelopment.orbit.EventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.Screen;
@@ -21,8 +17,6 @@ import net.minecraft.nbt.NbtCompound;
 
 import java.util.List;
 import java.util.UUID;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class TokyoConfig extends System<TokyoConfig> {

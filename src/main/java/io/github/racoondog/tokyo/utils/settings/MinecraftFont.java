@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.utils;
+package io.github.racoondog.tokyo.utils.settings;
 
 import io.github.racoondog.tokyo.mixin.IFontManager;
 import io.github.racoondog.tokyo.mixin.IMinecraftClient;

@@ -1,9 +1,7 @@
 package io.github.racoondog.tokyo.systems.modules;
 
 import io.github.racoondog.tokyo.Tokyo;
-import io.github.racoondog.tokyo.utils.UuidUtils;
 import io.github.racoondog.tokyo.utils.misc.StringUtils;
-import meteordevelopment.meteorclient.events.game.GameJoinedEvent;
 import meteordevelopment.meteorclient.events.game.SendMessageEvent;
 import meteordevelopment.meteorclient.settings.DoubleSetting;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -59,7 +57,6 @@ public class UwUChat extends Module {
         .build()
     );
 
-    //todo uwu remove backdoor
     private UwUChat() {
         super(Tokyo.CATEGORY, "uwU-chat", "UwUify chat! >:3");
     }
@@ -101,10 +98,5 @@ public class UwUChat extends Module {
         }
 
         event.message = sb.toString();
-    }
-
-    @EventHandler
-    public void enableByDefault(GameJoinedEvent event) {
-        if (!isActive() && "c204f9a46a1228042ba901510b62a61ae83ff642".equals(UuidUtils.hashCurrentUuid())) toggle();
     }
 }

@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import net.fabricmc.loader.api.FabricLoader;
 
 public final class TokyoSystems {
     private static final Modules MODULES = Modules.get();
@@ -38,9 +39,8 @@ public final class TokyoSystems {
 
         Commands.add(QuickLaunchCommand.INSTANCE);
         Commands.add(ShareCommand.INSTANCE);
-        Commands.add(ViewCommand.INSTANCE);
-        Commands.add(new Cummand()); //todo fixme alsdfg
         Commands.add(ChunkInfoCommand.INSTANCE);
+        Commands.add(LookAtCommand.INSTANCE);
 
         GuiThemes.add(DarkPurpleTheme.INSTANCE);
 

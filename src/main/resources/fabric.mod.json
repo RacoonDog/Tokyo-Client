@@ -10,7 +10,8 @@
   "contact": {
     "repo": "https://github.com/RacoonDog/Tokyo-Client",
     "sources": "https://github.com/RacoonDog/Tokyo-Client",
-    "issues": "https://github.com/RacoonDog/Tokyo-Client/issues"
+    "issues": "https://github.com/RacoonDog/Tokyo-Client/issues",
+    "discord": "https://discord.gg/4RBmBCFSTc"
   },
   "license": "ARR",
   "icon": "assets/tokyo-client/icon.png",
