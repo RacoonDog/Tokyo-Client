@@ -111,7 +111,7 @@ public class Tokyo extends MeteorAddon {
 
     @Override
     public GithubRepo getRepo() {
-        return new GithubRepo("RacoonDog", "bidoof-meteor");
+        return new GithubRepo("RacoonDog", "Tokyo-Client");
     }
 
     @Override

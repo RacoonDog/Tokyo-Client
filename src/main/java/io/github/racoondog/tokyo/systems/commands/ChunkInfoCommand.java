@@ -3,6 +3,7 @@ package io.github.racoondog.tokyo.systems.commands;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.github.racoondog.tokyo.utils.c2c.C2CNetworkHandler;
+import io.github.racoondog.tokyo.utils.c2c.C2CPacketHandler;
 import io.github.racoondog.tokyo.utils.c2c.ConversionHelper;
 import io.github.racoondog.tokyo.utils.c2c.packets.ChunkC2CPacket;
 import meteordevelopment.meteorclient.commands.Command;
@@ -36,7 +37,7 @@ public class ChunkInfoCommand extends Command {
     private int serialize(ChunkPos chunkPos) {
         info("Showing serialization info for chunk (%s, %s)", chunkPos.x, chunkPos.z);
         ChunkC2CPacket p = ChunkC2CPacket.of(chunkPos);
-        PacketByteBuf buf = C2CNetworkHandler.createBuf();
+        PacketByteBuf buf = C2CPacketHandler.createBuf();
         p.write(buf);
         byte[] uncompressedArray = buf.getWrittenBytes();
         info("Uncompressed size: %s bytes.", uncompressedArray.length);

@@ -5,6 +5,7 @@ import io.github.racoondog.tokyo.systems.commands.*;
 import io.github.racoondog.tokyo.systems.hud.ImageHud;
 import io.github.racoondog.tokyo.systems.modules.*;
 import io.github.racoondog.tokyo.systems.config.TokyoConfig;
+import io.github.racoondog.tokyo.systems.modules.clientsync.ClientSync;
 import io.github.racoondog.tokyo.systems.seedresolver.SeedResolver;
 import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -31,6 +32,7 @@ public final class TokyoSystems {
         MODULES.add(DiscordSRV.INSTANCE);
         MODULES.add(TokyoBetterChat.INSTANCE);
         MODULES.add(ChatEmojis.INSTANCE);
+        MODULES.add(ClientSync.INSTANCE);
         //MODULES.add(Sprint.INSTANCE);
         //MODULES.add(NewChunks.INSTANCE);
         //MODULES.add(StrafeSpeed.INSTANCE);

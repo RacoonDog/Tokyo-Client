@@ -1,13 +1,15 @@
 package io.github.racoondog.tokyo.utils.c2c;
 
 import io.github.racoondog.tokyo.Tokyo;
+import io.github.racoondog.tokyo.mixin.IKeyboard;
+import io.github.racoondog.tokyo.mixin.IMouse;
 import io.github.racoondog.tokyo.systems.modules.ChatManager;
 import io.github.racoondog.tokyo.systems.modules.Prefix;
 import io.github.racoondog.tokyo.systems.config.TokyoConfig;
+import io.github.racoondog.tokyo.systems.modules.clientsync.ClientSync;
 import io.github.racoondog.tokyo.utils.ChunkManagerHelper;
 import io.github.racoondog.tokyo.utils.RunnableClickEvent;
-import io.github.racoondog.tokyo.utils.c2c.packets.ChunkC2CPacket;
-import io.github.racoondog.tokyo.utils.c2c.packets.WaypointC2CPacket;
+import io.github.racoondog.tokyo.utils.c2c.packets.*;
 import io.netty.buffer.Unpooled;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.ReceiveMessageEvent;
@@ -50,18 +52,8 @@ public class C2CNetworkHandler implements C2CPacketListener {
         MeteorClient.EVENT_BUS.subscribe(this);
     }
 
-    public static PacketByteBuf createBuf() {
-        return new PacketByteBuf(Unpooled.buffer());
-    }
-
     public void sendPacket(C2CPacket packet) {
-        int id = C2CPacketHandler.getId(packet.getClass());
-        if (id == -1) {
-            Tokyo.LOG.warn("Unregistered packet {}!", packet.getClass().getSimpleName());
-            return;
-        }
-
-        byte[][] chunks = encodePacket(packet, id);
+        byte[][] chunks = encodePacket(packet);
 
         chunks = encryptKey(chunks);
 
@@ -76,12 +68,6 @@ public class C2CNetworkHandler implements C2CPacketListener {
     }
 
     public void sendPacket(C2CPacket packet, PlayerListEntry recipient) {
-        int id = C2CPacketHandler.getId(packet.getClass());
-        if (id == -1) {
-            Tokyo.LOG.warn("Unregistered packet {}!", packet.getClass().getSimpleName());
-            return;
-        }
-
         PublicPlayerSession session = recipient.getSession();
         if (session == null) {
             Tokyo.LOG.warn("Public key not found for user {}.", recipient.getProfile().getName());
@@ -95,7 +81,7 @@ public class C2CNetworkHandler implements C2CPacketListener {
 
         PublicKey key = ppk.data().key();
 
-        byte[][] chunkedData = encodePacket(packet, id);
+        byte[][] chunkedData = encodePacket(packet);
 
         for (int i = 0; i < chunkedData.length; i++) {
             byte[] chunk = ConversionHelper.RsaEcb.encrypt(chunkedData[i], key);
@@ -118,10 +104,8 @@ public class C2CNetworkHandler implements C2CPacketListener {
         //todo possibly outgoing filter api for receivemessageevent && receivepacketevent && sendpacketevent && sentpacketevent && sendmessageevent
     }
 
-    private static byte[][] encodePacket(C2CPacket packet, int id) {
-        PacketByteBuf buf = createBuf();
-        buf.writeInt(id);
-        packet.write(buf);
+    private static byte[][] encodePacket(C2CPacket packet) {
+        PacketByteBuf buf = C2CPacketHandler.writePacket(packet);
 
         byte[] compressed = ConversionHelper.Gzip.compress(buf.getWrittenBytes());
         int chunks = (compressed.length + 244) / 245;
@@ -168,13 +152,16 @@ public class C2CNetworkHandler implements C2CPacketListener {
         byte infoByte = bytes[0];
         bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
 
-        if ((infoByte & 1) == 1) {
-            boolean isKey = ((infoByte >> 1) & 1) == 1;
+        boolean encrypted = (infoByte & 1) == 1;
+
+        if (encrypted) {
+            boolean aesEncrypted = ((infoByte >> 1) & 1) == 1;
             try {
-                bytes = isKey ? decryptKey(bytes) : decryptNative(bytes);
+                bytes = aesEncrypted ? decryptKey(bytes) : decryptNative(bytes);
             } catch (Exception e) {
+                //Try opposite
                 try {
-                    bytes = isKey ? decryptNative(bytes) : decryptKey(bytes);
+                    bytes = aesEncrypted ? decryptNative(bytes) : decryptKey(bytes);
                 } catch (Exception e2) {
                     e2.addSuppressed(e);
                     e2.printStackTrace();
@@ -187,10 +174,10 @@ public class C2CNetworkHandler implements C2CPacketListener {
     }
 
     private static byte[] decryptNative(byte[] bytes) {
-        if (!(mc.getProfileKeys() instanceof ProfileKeysImpl privateKeyHolder)) throw new RuntimeException("Oops");
+        if (!(mc.getProfileKeys() instanceof ProfileKeysImpl privateKeyHolder)) throw new RuntimeException("Private key not found");
 
         Optional<PrivateKey> key = privateKeyHolder.fetchKeyPair().join().map(PlayerKeyPair::privateKey);
-        if (key.isEmpty()) throw new RuntimeException("Oops");
+        if (key.isEmpty()) throw new RuntimeException("Private key not present");
 
         //Separate and decrypt
         int length = bytes.length & ~0xFF;
@@ -200,7 +187,7 @@ public class C2CNetworkHandler implements C2CPacketListener {
             int index = i * 256;
             byte[] chunk = Arrays.copyOfRange(bytes, index, index + 256);
             chunk = ConversionHelper.RsaEcb.decrypt(chunk, key.get());
-            if (chunk == null) throw new RuntimeException("Oops");
+            if (chunk == null) throw new RuntimeException("Error decrypting data");
             decryptedLength += chunk.length;
             chunks[i] = chunk;
         }
@@ -229,9 +216,11 @@ public class C2CNetworkHandler implements C2CPacketListener {
     }
 
     private static void decompressAndHandle(byte[] bytes) {
-        // Decompress
-        byte[] uncompressed = ConversionHelper.Gzip.uncompress(bytes);
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.wrappedBuffer(uncompressed));
+        handle(ConversionHelper.Gzip.uncompress(bytes));
+    }
+
+    public static void handle(byte[] bytes) {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.wrappedBuffer(bytes));
         int id = buf.readInt();
 
         // Handle
@@ -243,6 +232,8 @@ public class C2CNetworkHandler implements C2CPacketListener {
             e.printStackTrace();
         }
     }
+
+    /** Packet handling implementation */
 
     @Override
     public void onWaypointC2CPacket(WaypointC2CPacket packet) {
@@ -265,5 +256,44 @@ public class C2CNetworkHandler implements C2CPacketListener {
                 ChunkManagerHelper.scheduleRenderChunk(worldChunk, packet.chunkX, packet.chunkZ);
             }
         });
+    }
+
+    @Override
+    public void onInputSyncMouseButtonC2CPacket(InputSyncMouseButtonC2CPacket packet) {
+        if (ClientSync.INSTANCE.isWorker() && ClientSync.INSTANCE.syncInputs.get()) {
+            IMouse mouse = (IMouse) MinecraftClient.getInstance().mouse;
+            mouse.tokyo$invokeOnMouseButton(MinecraftClient.getInstance().getWindow().getHandle(), packet.button, packet.action, packet.modifiers);
+        }
+    }
+
+    @Override
+    public void onInputSyncMouseScrollC2CPacket(InputSyncMouseScrollC2CPacket packet) {
+        if (ClientSync.INSTANCE.isWorker() && ClientSync.INSTANCE.syncInputs.get()) {
+            IMouse mouse = (IMouse) MinecraftClient.getInstance().mouse;
+            mouse.tokyo$invokeOnMouseScroll(MinecraftClient.getInstance().getWindow().getHandle(), packet.horizontalScroll, packet.verticalScroll);
+        }
+    }
+
+    @Override
+    public void onInputSyncMouseMoveC2CPacket(InputSyncMouseMoveC2CPacket packet) {
+        if (ClientSync.INSTANCE.isWorker() && ClientSync.INSTANCE.syncInputs.get()) {
+            IMouse mouse = (IMouse) MinecraftClient.getInstance().mouse;
+            mouse.tokyo$invokeOnCursorPos(MinecraftClient.getInstance().getWindow().getHandle(), packet.x, packet.y);
+        }
+    }
+
+    @Override
+    public void onInputSyncKeyPressC2CPacket(InputSyncKeyPressC2CPacket packet) {
+        if (ClientSync.INSTANCE.isWorker() && ClientSync.INSTANCE.syncInputs.get()) {
+            MinecraftClient.getInstance().keyboard.onKey(MinecraftClient.getInstance().getWindow().getHandle(), packet.key, packet.scancode, packet.action, packet.modifiers);
+        }
+    }
+
+    @Override
+    public void onInputSyncCharTypedC2CPacket(InputSyncCharTypedC2CPacket packet) {
+        if (ClientSync.INSTANCE.isWorker() && ClientSync.INSTANCE.syncInputs.get()) {
+            IKeyboard keyboard = (IKeyboard) MinecraftClient.getInstance().keyboard;
+            keyboard.tokyo$invokeOnChar(MinecraftClient.getInstance().getWindow().getHandle(), packet.codePoint, packet.modifiers);
+        }
     }
 }
