@@ -36,6 +36,7 @@ public class ChatEmojis extends Module {
     private static final Map<String, Emoji> REGISTRY = new HashMap<>();
     private static final List<AnimatedEmoji> TICKABLE_EMOJIS = new ArrayList<>();
     private static final Identifier BUILTIN_EMOJI_ATLAS_ID = new Identifier(Tokyo.MOD_ID, "textures/builtin-chat-emojis.png");
+    private static final Identifier EMOJI_TEXTURE_ID = new Identifier(Tokyo.MOD_ID, "textures/emoji");
 
     public static void earlyInit() {
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SimpleSynchronousResourceReloadListener() {
@@ -144,18 +145,13 @@ public class ChatEmojis extends Module {
         }
 
         public void render(DrawContext context, int x, int y, int fontHeight) {
-            if (texture instanceof NativeImageBackedTexture nativeImageBackedTexture) nativeImageBackedTexture.upload();
-            else texture.bindTexture();
-
-            RenderSystem._setShaderTexture(0, texture.getGlId());
-
             int ratio = Math.max(texHeight, texWidth) / fontHeight;
 
             int width = texWidth / ratio;
             int height = texHeight / ratio;
 
-            //todo fix
-            context.drawTexture(new Identifier("asd"), x, y, width, height, u, v, regWidth, regHeight, texWidth, texHeight);
+            MinecraftClient.getInstance().getTextureManager().registerTexture(EMOJI_TEXTURE_ID, texture);
+            context.drawTexture(EMOJI_TEXTURE_ID, x, y, width, height, u, v, regWidth, regHeight, texWidth, texHeight);
         }
 
         public static Emoji fromAtlas(Identifier atlasId, int width, int height, int u, int v) {

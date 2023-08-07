@@ -3,6 +3,10 @@ package io.github.racoondog.tokyo.systems.modules;
 import io.github.racoondog.tokyo.Tokyo;
 import meteordevelopment.meteorclient.events.game.SendMessageEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.widgets.WWidget;
+import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
@@ -45,20 +49,28 @@ public class ChatManager extends Module {
     private final List<Message> messageBuffer = new ArrayList<>();
     private int lastIndex = 0;
     private int timer = 0;
+    private long disabledTimestamp = System.currentTimeMillis();
 
     private ChatManager() {
         super(Tokyo.CATEGORY, "chat-manager", "Acts as a priority queue system to prevent accidentally passing the kick threshold.");
     }
 
-    @EventHandler
-    private void onMessageSend(SendMessageEvent event) {
-        //todo implement
+    @Override
+    public void onActivate() {
+        int ticksPassed = (int) (System.currentTimeMillis() - disabledTimestamp) / 50;
+        if (ticksPassed < 0) timer = 0; //overflow
+        else timer = Math.max(0, timer - ticksPassed);
+    }
+
+    @Override
+    public void onDeactivate() {
+        disabledTimestamp = System.currentTimeMillis();
     }
 
     @EventHandler
     private void onTick(TickEvent.Pre tickEvent) {
         timer = Math.max(timer - 1, 0);
-        if (timer == 0) {
+        if (timer < 200) {
             //Priority
             if (priority.get() != Priority.None && lastIndex < messageBuffer.size()) {
                 int index = lastIndex;
@@ -66,7 +78,7 @@ public class ChatManager extends Module {
                     Message message = messageBuffer.get(index++);
                     if (message.priority == priority.get()) {
                         lastIndex = index;
-                        timer = chatDelay.get();
+                        timer += chatDelay.get();
                         send(message);
                         messageBuffer.remove(index);
                     }
@@ -76,7 +88,7 @@ public class ChatManager extends Module {
             //Send first if none is found
             if (!messageBuffer.isEmpty()) {
                 if (lastIndex > 0) lastIndex--;
-                timer = chatDelay.get();
+                timer += chatDelay.get();
                 Message message = messageBuffer.remove(0);
                 send(message);
             }
@@ -84,12 +96,10 @@ public class ChatManager extends Module {
     }
 
     public void queueSend(String string, Priority priority) {
-        if (timer == 0) {
+        if (!isActive() || (timer < 200 && messageBuffer.isEmpty())) {
             timer += chatDelay.get();
             send(string, priority == Priority.Command);
-            return;
-        }
-        messageBuffer.add(new Message(string, priority));
+        } else messageBuffer.add(new Message(string, priority));
     }
 
     public void sendNow(String message) {
@@ -114,6 +124,21 @@ public class ChatManager extends Module {
 
         if (isCommand) mc.player.networkHandler.sendChatCommand(message.substring(1));
         else mc.player.networkHandler.sendChatMessage(message);
+    }
+
+    @Override
+    public WWidget getWidget(GuiTheme theme) {
+        WVerticalList list = theme.verticalList();
+
+        WButton clear = list.add(theme.button("Clear")).expandX().widget();
+        clear.action = () -> {
+            timer = 0;
+            lastIndex = 0;
+            disabledTimestamp = System.currentTimeMillis();
+            messageBuffer.clear();
+        };
+
+        return list;
     }
 
     @Override

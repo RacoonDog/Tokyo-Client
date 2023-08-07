@@ -1,6 +1,5 @@
 package io.github.racoondog.tokyo.systems.commands;
 
-import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -21,7 +20,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.command.CommandSource;
-import org.apache.commons.collections.ListUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -106,7 +104,7 @@ public class QuickLaunchCommand extends Command {
             warning("Could not obtain server information.");
             return;
         }
-        
+
         builder.modifyArg("--quickPlayMultiplayer", serverInfo.address);
     }
 }

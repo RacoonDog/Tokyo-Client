@@ -56,6 +56,8 @@ public abstract class ChatInputSuggestorMixin {
 
     @Redirect(method = "refresh", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientCommandSource;getChatSuggestions()Ljava/util/Collection;"))
     private Collection<String> yeah(ClientCommandSource instance) {
+        if (!ChatEmojis.INSTANCE.isActive()) return instance.getChatSuggestions();
+
         Set<String> suggestions = new HashSet<>(instance.getChatSuggestions());
 
         String input = textField.getText();
