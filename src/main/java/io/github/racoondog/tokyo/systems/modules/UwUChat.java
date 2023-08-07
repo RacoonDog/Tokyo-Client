@@ -40,8 +40,16 @@ public class UwUChat extends Module {
         .build()
     );
 
-    private final Setting<Double> skipPercentage = sgGeneral.add(new DoubleSetting.Builder()
-        .name("skip-percentage")
+    private final Setting<List<String>> emoticons = sgGeneral.add(new StringListSetting.Builder()
+        .name("emoticons")
+        .description("Ecomitons")
+        .defaultValue(" :3", " >:3", " :>", " :D")
+        .visible(() -> emoticonChance.get() > 0.0d)
+        .build()
+    );
+
+    private final Setting<Double> integrity = sgGeneral.add(new DoubleSetting.Builder()
+        .name("integrity")
         .description("Skip a word if a certain percentage of it would be modified.")
         .defaultValue(0.6d)
         .range(0.0d, 1.0d)
@@ -66,7 +74,7 @@ public class UwUChat extends Module {
         String originalMessage = event.message;
         StringBuilder sb = new StringBuilder();
 
-        if (skipPercentage.get() >= 1.0d || replacementChance.get() <= 0.0d) sb.append(originalMessage);
+        if (integrity.get() >= 1.0d || replacementChance.get() <= 0.0d) sb.append(originalMessage);
         else {
             String[] tokens = originalMessage.split(" ");
 
@@ -80,7 +88,7 @@ public class UwUChat extends Module {
                     continue;
                 }
 
-                if ((float) StringUtils.countChars(token, 'r', 'l') / token.length() <= skipPercentage.get()) {
+                if ((float) StringUtils.countChars(token, 'r', 'l') / token.length() <= integrity.get()) {
                     StringBuilder tsb = new StringBuilder(token);
                     StringUtils.randomChanceKeepCaseReplace(tsb, "ove", "uv", replacementChance.get());
                     StringUtils.randomChanceKeepCaseReplace(tsb, "the", "da", replacementChance.get());
@@ -94,7 +102,7 @@ public class UwUChat extends Module {
         }
 
         if (emoticonChance.get() > 0.0d && StringUtils.isLastCharAlphabetic(sb)) {
-            StringUtils.uniformChanceAppend(sb, new String[]{" :3", " >:3"}, emoticonChance.get());
+            StringUtils.uniformChanceAppend(sb, emoticons.get(), emoticonChance.get());
         }
 
         event.message = sb.toString();

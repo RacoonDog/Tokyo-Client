@@ -30,10 +30,10 @@ public final class TokyoSystems {
         MODULES.add(AutoUnfriend.INSTANCE);
         MODULES.add(DiscordSRV.INSTANCE);
         MODULES.add(TokyoBetterChat.INSTANCE);
-        MODULES.add(ChatEmojis.INSTANCE);
-        MODULES.add(Sprint.INSTANCE);
-        MODULES.add(NewChunks.INSTANCE);
-        MODULES.add(StrafeSpeed.INSTANCE);
+        //MODULES.add(ChatEmojis.INSTANCE);
+        //MODULES.add(Sprint.INSTANCE);
+        //MODULES.add(NewChunks.INSTANCE);
+        //MODULES.add(StrafeSpeed.INSTANCE);
 
         HUD.register(ImageHud.INFO);
 

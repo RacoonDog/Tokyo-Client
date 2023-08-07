@@ -16,9 +16,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.texture.*;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.ResourceType;
@@ -144,7 +143,7 @@ public class ChatEmojis extends Module {
             this(texture, texWidth, texHeight, 0, 0, texWidth, texHeight);
         }
 
-        public void render(MatrixStack matrices, int x, int y, int fontHeight) {
+        public void render(DrawContext context, int x, int y, int fontHeight) {
             if (texture instanceof NativeImageBackedTexture nativeImageBackedTexture) nativeImageBackedTexture.upload();
             else texture.bindTexture();
 
@@ -155,7 +154,8 @@ public class ChatEmojis extends Module {
             int width = texWidth / ratio;
             int height = texHeight / ratio;
 
-            DrawableHelper.drawTexture(matrices, x, y, width, height, u, v, regWidth, regHeight, texWidth, texHeight);
+            //todo fix
+            context.drawTexture(new Identifier("asd"), x, y, width, height, u, v, regWidth, regHeight, texWidth, texHeight);
         }
 
         public static Emoji fromAtlas(Identifier atlasId, int width, int height, int u, int v) {
@@ -276,7 +276,7 @@ public class ChatEmojis extends Module {
         }
 
         @Override
-        public void render(MatrixStack matrices, int x, int y, int fontHeight) {
+        public void render(DrawContext context, int x, int y, int fontHeight) {
             if (texture instanceof NativeImageBackedTexture nativeImageBackedTexture) nativeImageBackedTexture.upload();
             else texture.bindTexture();
 
@@ -291,7 +291,7 @@ public class ChatEmojis extends Module {
             int u = frameIndex / regionsHeight * regWidth;
             int v = frameIndex % regionsHeight * regHeight;
 
-            DrawableHelper.drawTexture(matrices, x, y, width, height, u, v, regWidth, regHeight, texWidth, texHeight);
+            context.drawTexture(new Identifier("asd"), x, y, width, height, u, v, regWidth, regHeight, texWidth, texHeight);
         }
 
         public void tick() {

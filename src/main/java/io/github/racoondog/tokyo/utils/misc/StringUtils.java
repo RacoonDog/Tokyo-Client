@@ -89,6 +89,23 @@ public final class StringUtils {
         if (rng < append.length) text.append(append[rng]);
     }
 
+    public static String uniformChanceAppend(CharSequence text, List<? extends CharSequence> append, double totalChance) {
+        if (totalChance <= 0.0d) return text.toString();
+        totalChance = Math.max(totalChance, 1.0d);
+
+        double localChance = totalChance / append.size();
+        int rng = (int) (RANDOM.nextFloat() / localChance);
+
+        return rng >= append.size() ? text.toString() : text.toString().concat(append.get(rng).toString());
+    }
+
+    public static void uniformChanceAppend(StringBuilder text, List<? extends CharSequence> append, double totalChance) {
+        double localChance = totalChance / append.size();
+        int rng = (int) (RANDOM.nextFloat() / localChance);
+
+        if (rng < append.size()) text.append(append.get(rng));
+    }
+
     public static boolean isLastCharAlphabetic(CharSequence seq) {
         return Character.isAlphabetic(seq.charAt(seq.length() - 1));
     }
@@ -110,7 +127,7 @@ public final class StringUtils {
         int lenDiff = replacementString.length() - targetString.length();
         int index = org.apache.commons.lang3.StringUtils.indexOfIgnoreCase(text, targetString);
         while (index != -1) {
-            if (RANDOM.nextDouble() > chance) {
+            if (chance >= RANDOM.nextDouble()) {
                 boolean upper = isMostlyUppercase(text, index, targetString.length());
 
                 int endIdx = index + replacementString.length();
@@ -139,7 +156,7 @@ public final class StringUtils {
         int lenDiff = replacementString.length() - targetString.length();
         int index = text.indexOf(targetString);
         while (index != -1) {
-            if (RANDOM.nextDouble() > chance) {
+            if (chance >= RANDOM.nextDouble()) {
                 int endIdx = index + replacementString.length();
                 text.replace(index, endIdx + push, replacementString);
                 push += lenDiff;

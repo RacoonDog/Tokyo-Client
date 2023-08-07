@@ -61,6 +61,7 @@ public class AutoTpa extends Module {
         .description("Regex used to detect a TPA request, with \"username\" as the named capture group to find the username.")
         .defaultValue("(^|\\s)(?<username>[a-zA-Z0-9_.]*?) has requested to teleport to you\\.")
         .onChanged(o -> recompileRegex())
+        .wide()
         .build()
     );
 

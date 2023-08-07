@@ -1,5 +1,6 @@
 package io.github.racoondog.tokyo.systems.commands;
 
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -20,6 +21,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientCommandSource;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.command.CommandSource;
+import org.apache.commons.collections.ListUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -39,7 +41,7 @@ public class QuickLaunchCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         LiteralCommandNode<CommandSource> root = Commands.DISPATCHER.register(builder);
 
-        builder.executes(this::execute);
+        builder.then(literal("run").executes(this::execute));
 
         builder.then(literal("-join")
             .redirect(root, ctx -> modifySource(ctx, "join", true)));
@@ -104,11 +106,8 @@ public class QuickLaunchCommand extends Command {
             warning("Could not obtain server information.");
             return;
         }
-
-        String[] address = serverInfo.address.split(":");
-
-        builder.modifyArg("--server", address[0])
-            .modifyArg("--port", address.length > 1 ? address[1] : "25565");
+        
+        builder.modifyArg("--quickPlayMultiplayer", serverInfo.address);
     }
 }
 
