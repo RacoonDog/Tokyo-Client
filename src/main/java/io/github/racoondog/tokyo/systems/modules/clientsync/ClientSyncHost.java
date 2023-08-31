@@ -117,7 +117,6 @@ public class ClientSyncHost extends Thread {
 
     @EventHandler
     private void onCharTyped(CharTypedEvent event) {
-        System.out.println("Inside event handler :O");
         if (ClientSync.INSTANCE.syncInputs.get()) sendPacket(new InputSyncCharTypedC2CPacket(event.codePoint, event.modifiers));
     }
 }

@@ -3,6 +3,9 @@ package io.github.racoondog.tokyo.utils.c2c;
 import io.github.racoondog.tokyo.Tokyo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import org.tukaani.xz.LZMA2Options;
+import org.tukaani.xz.XZInputStream;
+import org.tukaani.xz.XZOutputStream;
 
 import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
@@ -13,8 +16,6 @@ import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
-import java.util.zip.Deflater;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 @Environment(EnvType.CLIENT)
@@ -97,9 +98,7 @@ public final class ConversionHelper {
             if (bytes == null || bytes.length == 0) return bytes;
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            try (ConfigurableGZIPOutputStream gzip = new ConfigurableGZIPOutputStream(out)) {
-            //try (XZOutputStream gzip = new XZOutputStream(out, new LZMA2Options(9))) {
-                gzip.setLevel(Deflater.BEST_COMPRESSION);
+            try (XZOutputStream gzip = new XZOutputStream(out, new LZMA2Options(LZMA2Options.PRESET_MAX))) {
                 gzip.write(bytes);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -112,7 +111,7 @@ public final class ConversionHelper {
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-            try (GZIPInputStream ungzip = new GZIPInputStream(in)) {
+            try (XZInputStream ungzip = new XZInputStream(in)) {
                 byte[] buffer = new byte[256];
                 int n;
                 while ((n = ungzip.read(buffer)) >= 0) {

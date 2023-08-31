@@ -40,7 +40,6 @@ public class ClientSyncWorker extends Thread {
         try {
             DataInputStream in = new DataInputStream(socket.getInputStream());
 
-
             while (!isInterrupted()) {
                 byte[] read = in.readAllBytes();
 

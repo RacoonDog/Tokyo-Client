@@ -14,7 +14,6 @@ import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import net.fabricmc.loader.api.FabricLoader;
 
 public final class TokyoSystems {
     private static final Modules MODULES = Modules.get();
