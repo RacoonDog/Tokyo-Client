@@ -3,12 +3,12 @@ package io.github.racoondog.tokyo.systems.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import io.github.racoondog.meteorsharedaddonutils.features.arguments.AccountArgumentType;
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISwarm;
+import io.github.racoondog.tokyo.mixin.meteor.ISwarm;
 import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
 import io.github.racoondog.tokyo.gui.MultiInstanceScreen;
 import io.github.racoondog.tokyo.utils.AccountUtil;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
+import io.github.racoondog.tokyo.utils.commands.AccountArgumentType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.Commands;
 import meteordevelopment.meteorclient.systems.accounts.Account;
@@ -80,8 +80,8 @@ public class QuickLaunchCommand extends Command {
             if (join) configureJoin(builder);
             if (swarm) {
                 builder.modifyArg("--tokyo?swarmMode", MultiInstanceScreen.SwarmMode.Off.name().toLowerCase(Locale.ROOT));
-                builder.modifyArg("--tokyo?swarmIp", ((ISwarm) Modules.get().get(Swarm.class)).getIpAddress().get());
-                builder.modifyArg("--tokyo?swarmPort", ((ISwarm) Modules.get().get(Swarm.class)).getServerPort().toString());
+                builder.modifyArg("--tokyo?swarmIp", ((ISwarm) Modules.get().get(Swarm.class)).tokyo$getIpAddress().get());
+                builder.modifyArg("--tokyo?swarmPort", ((ISwarm) Modules.get().get(Swarm.class)).tokyo$getServerPort().toString());
             }
 
             builder.start();

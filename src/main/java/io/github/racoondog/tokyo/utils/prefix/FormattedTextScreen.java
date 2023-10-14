@@ -2,6 +2,7 @@ package io.github.racoondog.tokyo.utils.prefix;
 
 import io.github.racoondog.tokyo.mixin.IFontManager;
 import io.github.racoondog.tokyo.mixin.IMinecraftClient;
+import io.github.racoondog.tokyo.utils.settings.MinecraftFont;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
@@ -134,6 +135,16 @@ public class FormattedTextScreen extends WindowScreen {
             .build()
         );
 
+        sgStyle.add(new GenericSetting.Builder<MinecraftFont>()
+            .name("font")
+            .defaultValue(new MinecraftFont())
+            .onChanged(font -> {
+                formattedText.style = formattedText.style.withFont(font.get());
+                formattedText.onChanged();
+            })
+            .build()
+        );
+
         //Fade
 
         sgFade.add(new ColorSetting.Builder()
@@ -154,6 +165,19 @@ public class FormattedTextScreen extends WindowScreen {
             .onModuleActivated(colorSetting -> colorSetting.set(formattedText.to.toSetting()))
             .onChanged(color -> {
                 formattedText.to.set(color);
+                formattedText.onChanged();
+            })
+            .visible(() -> formattedText.mode == FormattedText.Mode.Fade)
+            .build()
+        );
+
+        sgFade.add(new BoolSetting.Builder()
+            .name("lerp-hsv")
+            .description("Fades based on the HSV color space instead of RGB.")
+            .defaultValue(formattedText.hsv)
+            .onModuleActivated(colorSetting -> colorSetting.set(formattedText.hsv))
+            .onChanged(bool -> {
+                formattedText.hsv = bool;
                 formattedText.onChanged();
             })
             .visible(() -> formattedText.mode == FormattedText.Mode.Fade)
@@ -239,36 +263,5 @@ public class FormattedTextScreen extends WindowScreen {
 
         settings.onActivated();
         add(theme.settings(settings)).expandX();
-
-        add(theme.horizontalSeparator()).expandX();
-
-        WHorizontalList fontList = add(theme.horizontalList()).expandX().widget();
-        fontList.add(theme.label("Font")).expandWidgetX().widget();
-        WDropdown<String> fontDropdown = fontList.add(theme.dropdown(getLoadedFonts(), formattedText.style.getFont().toString())).expandWidgetX().widget();
-        fontDropdown.action = () -> {
-            try {
-                formattedText.style = formattedText.style.withFont(Identifier.tryParse(fontDropdown.get()));
-            } catch (InvalidIdentifierException ignored) {}
-        };
-        WButton resetButton = fontList.add(theme.button(GuiRenderer.RESET)).right().widget();
-        resetButton.action = () -> {
-            formattedText.style = formattedText.style.withFont(null);
-            fontDropdown.set(Style.DEFAULT_FONT_ID.toString());
-        };
-
-        onClosed(() -> formattedText.style = formattedText.style.withFont(Identifier.tryParse(fontDropdown.get())));
-    }
-
-    @SuppressWarnings("resource")
-    private static String[] getLoadedFonts() {
-        Set<Identifier> fontIdentifiers = ((IFontManager) ((IMinecraftClient) mc).tokyo$getFontManager()).tokyo$getFontStorages().keySet();
-        String[] fontNames = new String[fontIdentifiers.size()];
-
-        int index = 0;
-        for (var identifier : fontIdentifiers) {
-            fontNames[index++] = identifier.toString();
-        }
-
-        return fontNames;
     }
 }

@@ -97,6 +97,6 @@ public class Prefix extends Module {
     }
 
     public static Text getTokyo() {
-        return INSTANCE.isActive() ? INSTANCE.TOKYO : DEFAULT_TOKYO;
+        return INSTANCE.isActive() && INSTANCE.TOKYO != null ? INSTANCE.TOKYO : DEFAULT_TOKYO;
     }
 }

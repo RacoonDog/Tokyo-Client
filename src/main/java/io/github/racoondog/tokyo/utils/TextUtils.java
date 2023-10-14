@@ -15,22 +15,22 @@ import java.util.*;
 public final class TextUtils {
     /* Prefix */
 
-    public static Text colorFade(String text, Color from, Color to) {
-        return colorFade(text, from.getPacked(), to.getPacked());
+    public static Text colorFade(String text, Color from, Color to, boolean hsv) {
+        return colorFade(text, from.getPacked(), to.getPacked(), hsv);
     }
 
-    public static Text colorFade(String text, int from, int to) {
-        return colorFade(text, Style.EMPTY, from, to);
+    public static Text colorFade(String text, int from, int to, boolean hsv) {
+        return colorFade(text, Style.EMPTY, from, to, hsv);
     }
 
-    public static Text colorFade(String text, Style rootStyle, Color from, Color to) {
-        return colorFade(text, rootStyle, from.getPacked(), to.getPacked());
+    public static Text colorFade(String text, Style rootStyle, Color from, Color to, boolean hsv) {
+        return colorFade(text, rootStyle, from.getPacked(), to.getPacked(), hsv);
     }
 
-    public static Text colorFade(String text, Style rootStyle, int from, int to) {
+    public static Text colorFade(String text, Style rootStyle, int from, int to, boolean hsv) {
         MutableText characterRoot = Text.empty().setStyle(rootStyle);
 
-        Text[] fadeText = generateFadeText(text, rootStyle, from, to);
+        Text[] fadeText = generateFadeText(text, rootStyle, from, to, hsv);
 
         for (var value : fadeText) {
             characterRoot.append(value);
@@ -39,24 +39,46 @@ public final class TextUtils {
         return characterRoot;
     }
 
-    public static Text[] generateFadeText(String text, Style rootStyle, Color from, Color to) {
-        return generateFadeText(text, rootStyle, from.getPacked(), to.getPacked());
+    public static Text[] generateFadeText(String text, Style rootStyle, Color from, Color to, boolean hsb) {
+        return generateFadeText(text, rootStyle, from.getPacked(), to.getPacked(), hsb);
     }
 
-    public static Text[] generateFadeText(String text, Style rootStyle, int from, int to) {
+    public static Text[] generateFadeText(String text, Style rootStyle, int from, int to, boolean hsv) {
         String[] characters = text.split("");
         Text[] output = new Text[characters.length];
 
         for (int i = 0; i < characters.length; i++) {
             output[i] = Text.literal(characters[i])
-                .setStyle(rootStyle.withColor(TextColor.fromRgb(new Color(
-                    MathHelper.lerp(((float) i) / characters.length, Color.toRGBAR(from), Color.toRGBAR(to)),
-                    MathHelper.lerp(((float) i) / characters.length, Color.toRGBAG(from), Color.toRGBAG(to)),
-                    MathHelper.lerp(((float) i) / characters.length, Color.toRGBAB(from), Color.toRGBAB(to))
-                ).getPacked())));
+                .setStyle(rootStyle.withColor(TextColor.fromRgb(
+                    hsv ? lerpHsv(i / (characters.length - 1f), from, to) : lerpRgb(i / (characters.length - 1f), from, to)
+                )));
         }
 
         return output;
+    }
+
+    public static int lerpRgb(float delta, int from, int to) {
+        int r = MathHelper.lerp(delta, Color.toRGBAR(from), Color.toRGBAR(to));
+        int g = MathHelper.lerp(delta, Color.toRGBAG(from), Color.toRGBAG(to));
+        int b = MathHelper.lerp(delta, Color.toRGBAB(from), Color.toRGBAB(to));
+        int a = MathHelper.lerp(delta, Color.toRGBAA(from), Color.toRGBAA(to));
+
+        return Color.fromRGBA(r, g, b, a);
+    }
+
+    public static int lerpHsv(float delta, int from, int to) {
+        float[] fromHsb = new float[3];
+        java.awt.Color.RGBtoHSB(Color.toRGBAR(from), Color.toRGBAG(from), Color.toRGBAB(from), fromHsb);
+
+        float[] toHsb = new float[3];
+        java.awt.Color.RGBtoHSB(Color.toRGBAR(to), Color.toRGBAG(to), Color.toRGBAB(to), toHsb);
+
+        float h = MathHelper.lerp(delta, fromHsb[0], toHsb[0]);
+        float s = MathHelper.lerp(delta, fromHsb[1], toHsb[1]);
+        float b = MathHelper.lerp(delta, fromHsb[2], toHsb[2]);
+        int a = MathHelper.lerp(delta, Color.toRGBAA(from), Color.toRGBAA(to));
+
+        return new Color(java.awt.Color.HSBtoRGB(h, s, b)).a(a).getPacked();
     }
 
     public static Style cloneStyle(Style root) {

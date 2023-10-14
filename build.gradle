@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.3-SNAPSHOT'
+    id 'fabric-loom' version '1.4-SNAPSHOT'
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
@@ -22,6 +22,8 @@ repositories {
         content {
             includeGroup "meteordevelopment"
             includeGroup "com.github.LlamaLad7.MixinExtras"
+            includeGroup "io.github.racoondog"
+            includeGroup "de.florianmichael"
         }
     }
     maven {
@@ -32,7 +34,14 @@ repositories {
             includeGroup "baritone"
         }
     }
-    mavenLocal()
+}
+
+configurations {
+    modImplementation.extendsFrom(modImplementationInclude)
+    include.extendsFrom(modImplementationInclude)
+
+    implementation.extendsFrom(implementationInclude)
+    include.extendsFrom(implementationInclude)
 }
 
 dependencies {
@@ -40,22 +49,17 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "meteordevelopment:meteor-client:${project.meteor_version}"
+    modImplementation("meteordevelopment:meteor-client:${project.meteor_version}") {
+        transitive = true
+    }
 
     // Libraries
-    modImplementation(include(fabricApi.module("fabric-api-base", project.fapi_version)))
-    modImplementation(include(fabricApi.module("fabric-resource-loader-v0", project.fapi_version)))
+    modImplementationInclude fabricApi.module("fabric-api-base", project.fapi_version)
+    modImplementationInclude fabricApi.module("fabric-resource-loader-v0", project.fapi_version)
 
-    modImplementation(include("io.github.racoondog:MeteorSharedAddonUtils:${project.msau_version}")) {
-        transitive = false
-    }
-    modImplementation(include("io.github.racoondog:LaunchArgsAPI:${project.launchargsapi_version}")) {
-        transitive = false
-    }
+    modImplementationInclude "io.github.racoondog:LaunchArgsAPI:${project.launchargsapi_version}"
 
-    implementation(include("com.opencsv:opencsv:4.1"))
-
-    implementation(include("net.dv8tion:JDA:${project.jda_version}")) {
+    implementationInclude("net.dv8tion:JDA:${project.jda_version}") {
         exclude module: 'opus-java'
     }
 }
@@ -63,8 +67,7 @@ dependencies {
 processResources {
     def map = [
         "version": project.version,
-        "mc_version": project.minecraft_version,
-        "msau_version": project.msau_version
+        "mc_version": project.minecraft_version
     ]
 
     inputs.properties(map)

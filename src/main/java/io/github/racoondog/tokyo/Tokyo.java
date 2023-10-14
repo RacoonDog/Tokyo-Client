@@ -1,17 +1,17 @@
 package io.github.racoondog.tokyo;
 
 import com.mojang.logging.LogUtils;
-import io.github.racoondog.meteorsharedaddonutils.features.TitleScreenCredits;
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixininterface.IMeteorAddon;
 import io.github.racoondog.tokyo.systems.TokyoSystems;
 import io.github.racoondog.tokyo.systems.modules.*;
 import io.github.racoondog.tokyo.utils.TextUtils;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,8 +23,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.slf4j.Logger;
 
-import java.util.Optional;
-
 @Environment(EnvType.CLIENT)
 public class Tokyo extends MeteorAddon {
     public static final Logger LOG = LogUtils.getLogger();
@@ -33,7 +31,23 @@ public class Tokyo extends MeteorAddon {
     public static final ModContainer CONTAINER = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(() -> new IllegalStateException("Tokyo mod container not found!"));
     public static Tokyo INSTANCE;
 
-    private MutableText defaultPrefix;
+    private final MutableText defaultPrefix;
+
+    public Tokyo() {
+        INSTANCE = this;
+
+        defaultPrefix = Text.literal("")
+            .setStyle(Style.EMPTY.withFormatting(Formatting.GRAY))
+            .append("[");
+
+        Color color = new Color(204, 48, 255);
+        if (CONTAINER.getMetadata().containsCustomValue(MeteorClient.MOD_ID + ":color")) color.parse(CONTAINER.getMetadata().getCustomValue(MeteorClient.MOD_ID + ":color").getAsString());
+
+        Text FADE = TextUtils.colorFade("Tokyo Client", defaultPrefix.getStyle().withBold(true), color.getPacked(), SettingColor.fromRGBA(112, 100, 129, 255), false);
+
+        defaultPrefix.append(FADE)
+            .append("] ");
+    }
 
     //todo mod integrations? (ClientCommands, SeedMapper, nodus dev stuff, etc.)
     //todo ai chat things? idfk
@@ -49,44 +63,8 @@ public class Tokyo extends MeteorAddon {
     public void onInitialize() {
         long startTime = System.currentTimeMillis();
 
-        INSTANCE = this;
-
         // ChatUtils prefix
-        defaultPrefix = Text.literal("")
-            .setStyle(Style.EMPTY.withFormatting(Formatting.GRAY))
-            .append("[");
-
-        Text FADE = TextUtils.colorFade("Tokyo Client", defaultPrefix.getStyle().withBold(true), this.color.getPacked(), SettingColor.fromRGBA(112, 100, 129, 255));
-
-        defaultPrefix.append(FADE)
-            .append("] ");
-
         ChatUtils.registerCustomPrefix(getPackage(), Prefix::getTokyo);
-
-        // Title Screen Credit
-        final String versionString = CONTAINER.getMetadata().getVersion().getFriendlyString();
-        TitleScreenCredits.modifyAddonCredit(this, credit -> {
-            credit.sections.add(1, new TitleScreenCredits.Section(" (", TitleScreenCredits.GRAY));
-            credit.sections.add(2, new TitleScreenCredits.Section(versionString, TitleScreenCredits.WHITE));
-            credit.sections.add(3, new TitleScreenCredits.Section(")", TitleScreenCredits.GRAY));
-
-            credit.sections.set(0, new TitleScreenCredits.Section(Prefix.INSTANCE.tokyoPrefixTextSetting.get().get()));
-        });
-
-        // Version strings for other addons
-        TitleScreenCredits.registerGlobalCreditModification(credit -> {
-            String id = credit.addon.name.equals("Meteor Client") ? "meteor-client" : ((IMeteorAddon) credit.addon).getId();
-            Optional<ModContainer> optionalModContainer = FabricLoader.getInstance().getModContainer(id);
-            if (optionalModContainer.isEmpty()) {
-                LOG.info("Could not find mod container for {} (id: {}).", credit.addon.name, id);
-                return;
-            }
-            String localVersionString = optionalModContainer.get().getMetadata().getVersion().getFriendlyString();
-
-            credit.sections.add(1, new TitleScreenCredits.Section(" (", TitleScreenCredits.GRAY));
-            credit.sections.add(2, new TitleScreenCredits.Section(localVersionString, TitleScreenCredits.WHITE));
-            credit.sections.add(3, new TitleScreenCredits.Section(")", TitleScreenCredits.GRAY));
-        });
 
         TokyoSystems.initialize();
 

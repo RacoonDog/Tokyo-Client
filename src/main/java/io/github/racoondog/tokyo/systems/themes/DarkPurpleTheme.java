@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.systems.themes;
 
-import io.github.racoondog.meteorsharedaddonutils.features.RecolorGuiTheme;
+import io.github.racoondog.tokyo.utils.RecolorGuiTheme;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorGuiTheme;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.fabricmc.api.EnvType;
@@ -83,7 +83,7 @@ public class DarkPurpleTheme extends MeteorGuiTheme implements RecolorGuiTheme {
     // Scrollbar
 
     @Override
-    public TriColorSetting getScrollbarColor() {
+    public RecolorGuiTheme.TriColorSetting getScrollbarColor() {
         return new TriColorSetting(new SettingColor(69, 69, 75, 200), new SettingColor(74, 74, 80, 200), new SettingColor(79, 79, 85, 200));
     }
 

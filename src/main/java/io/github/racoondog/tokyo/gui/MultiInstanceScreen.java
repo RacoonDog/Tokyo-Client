@@ -1,6 +1,6 @@
 package io.github.racoondog.tokyo.gui;
 
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISwarm;
+import io.github.racoondog.tokyo.mixin.meteor.ISwarm;
 import io.github.racoondog.tokyo.utils.ArgsUtils;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
 import io.github.racoondog.tokyo.utils.TableBuilder;
@@ -188,11 +188,11 @@ public class MultiInstanceScreen extends WindowScreen {
     }
 
     private String getSwarmIp() {
-        return ((ISwarm) Modules.get().get(Swarm.class)).getIpAddress().get();
+        return ((ISwarm) Modules.get().get(Swarm.class)).tokyo$getIpAddress().get();
     }
 
     private String getSwarmPort() {
-        return ((ISwarm) Modules.get().get(Swarm.class)).getServerPort().toString();
+        return ((ISwarm) Modules.get().get(Swarm.class)).tokyo$getServerPort().toString();
     }
 
     private List<String> modifyJvmOpts(List<String> baseOpts) {

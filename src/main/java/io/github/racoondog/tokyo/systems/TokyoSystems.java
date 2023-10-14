@@ -1,11 +1,10 @@
 package io.github.racoondog.tokyo.systems;
 
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.ISystems;
+import io.github.racoondog.tokyo.mixin.meteor.ISystems;
 import io.github.racoondog.tokyo.systems.commands.*;
 import io.github.racoondog.tokyo.systems.hud.ImageHud;
 import io.github.racoondog.tokyo.systems.modules.*;
 import io.github.racoondog.tokyo.systems.config.TokyoConfig;
-import io.github.racoondog.tokyo.systems.modules.clientsync.ClientSync;
 import io.github.racoondog.tokyo.systems.seedresolver.SeedResolver;
 import io.github.racoondog.tokyo.systems.themes.DarkPurpleTheme;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -27,26 +26,19 @@ public final class TokyoSystems {
         MODULES.add(UwUChat.INSTANCE);
         MODULES.add(Jukebox.INSTANCE);
         MODULES.add(SpamPlus.INSTANCE);
-        MODULES.add(AutoUnfriend.INSTANCE);
         MODULES.add(DiscordSRV.INSTANCE);
         MODULES.add(TokyoBetterChat.INSTANCE);
         MODULES.add(ChatEmojis.INSTANCE);
-        MODULES.add(ClientSync.INSTANCE);
-        //MODULES.add(Sprint.INSTANCE);
-        //MODULES.add(NewChunks.INSTANCE);
-        //MODULES.add(StrafeSpeed.INSTANCE);
 
         HUD.register(ImageHud.INFO);
 
         Commands.add(QuickLaunchCommand.INSTANCE);
-        Commands.add(ShareCommand.INSTANCE);
-        Commands.add(ChunkInfoCommand.INSTANCE);
         Commands.add(LookAtCommand.INSTANCE);
 
         GuiThemes.add(DarkPurpleTheme.INSTANCE);
 
-        ISystems.invokeAdd(TokyoConfig.INSTANCE);
-        ISystems.invokeAdd(SeedResolver.INSTANCE);
+        ISystems.tokyo$invokeAdd(TokyoConfig.INSTANCE);
+        ISystems.tokyo$invokeAdd(SeedResolver.INSTANCE);
 
         Tabs.add(TokyoConfig.TokyoConfigTab.INSTANCE);
 

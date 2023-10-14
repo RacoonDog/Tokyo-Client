@@ -31,6 +31,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
     public Style style;
     public Color from;
     public Color to;
+    public boolean hsv;
 
     private @Nullable Consumer<FormattedText> onChanged;
     public RainbowColor rainbowColor = new RainbowColor();
@@ -61,7 +62,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
     public Text get() {
         return switch (mode) {
             case Regular -> Text.literal(text).setStyle(style);
-            case Fade -> TextUtils.colorFade(text, style, from, to);
+            case Fade -> TextUtils.colorFade(text, style, from, to, hsv);
             case Rainbow -> RainbowStyle.fadeOffset(text, style, rainbowColor);
         };
     }
@@ -87,6 +88,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
         style = TextUtils.cloneStyle(value.style);
         from = value.from.copy();
         to = value.to.copy();
+        hsv = value.hsv;
         rainbowColor = value.rainbowColor;
         onChanged = value.onChanged;
         return this;
@@ -100,6 +102,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
         formattedText.style = TextUtils.cloneStyle(style);
         formattedText.from = from.copy();
         formattedText.to = to.copy();
+        formattedText.hsv = hsv;
         formattedText.rainbowColor = rainbowColor;
         formattedText.onChanged = onChanged;
         return formattedText;
@@ -115,6 +118,7 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
 
         compound.put("from", from.toTag());
         compound.put("to", to.toTag());
+        compound.putBoolean("hsv", hsv);
 
         compound.put("rainbowColor", rainbowColor.toTag());
 
@@ -130,6 +134,8 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
         from.fromTag(tag.getCompound("from"));
         to.fromTag(tag.getCompound("to"));
 
+        hsv = tag.getBoolean("hsv");
+
         rainbowColor.fromTag(tag.getCompound("rainbowColor"));
 
         return this;
@@ -137,8 +143,8 @@ public class FormattedText implements IScreenFactory, ICopyable<FormattedText>, 
 
     @Override
     public String toString() {
-        return "%s[mode=%s,style=%s,from=%s,to=%s,rainbow=%s]"
-            .formatted(text, mode.name(), style, from, to, rainbowColor);
+        return "%s[mode=%s,style=%s,from=%s,to=%s,hsv=%s,rainbow=%s]"
+            .formatted(text, mode.name(), style, from, to, hsv, rainbowColor);
     }
 
     public enum Mode {

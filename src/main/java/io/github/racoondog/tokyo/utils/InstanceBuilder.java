@@ -1,8 +1,8 @@
 package io.github.racoondog.tokyo.utils;
 
-import io.github.racoondog.meteorsharedaddonutils.mixin.mixin.IMicrosoftAccount;
 import io.github.racoondog.tokyo.LaunchHandler;
 import io.github.racoondog.tokyo.Tokyo;
+import io.github.racoondog.tokyo.mixin.meteor.IMicrosoftAccount;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.accounts.types.MicrosoftAccount;
 import net.fabricmc.api.EnvType;
@@ -67,7 +67,7 @@ public final class InstanceBuilder {
         if (account != null) {
             ArgsUtils.modifyArg(launchArgs, "--username", account.getUsername());
             if (account.getCache().uuid != null) ArgsUtils.modifyArg(launchArgs, "--uuid", account.getCache().uuid);
-            if (account instanceof MicrosoftAccount msacc) ArgsUtils.modifyArg(launchArgs, "--accessToken", ((IMicrosoftAccount) msacc).invokeAuth());
+            if (account instanceof MicrosoftAccount msacc) ArgsUtils.modifyArg(launchArgs, "--accessToken", ((IMicrosoftAccount) msacc).tokyo$invokeAuth());
         }
 
         //Append launch arguments
