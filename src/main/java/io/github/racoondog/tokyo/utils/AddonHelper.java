@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.internal;
+package io.github.racoondog.tokyo.utils;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;

@@ -1,19 +1,17 @@
 package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.Tokyo;
-import io.github.racoondog.tokyo.internal.AddonHelper;
 import io.github.racoondog.tokyo.internal.reflection.Reflection;
 import io.github.racoondog.tokyo.internal.reflection.UncheckedConstructor;
 import io.github.racoondog.tokyo.internal.reflection.UncheckedField;
 import io.github.racoondog.tokyo.internal.reflection.UncheckedIntField;
 import io.github.racoondog.tokyo.systems.modules.Prefix;
+import io.github.racoondog.tokyo.utils.AddonHelper;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.utils.player.TitleScreenCredits;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -26,9 +24,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.sql.Ref;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;

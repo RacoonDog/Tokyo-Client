@@ -1,11 +1,11 @@
-package io.github.racoondog.tokyo.systems.commands;
+package io.github.racoondog.tokyo.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.github.racoondog.tokyo.gui.MultiInstanceScreen;
 import io.github.racoondog.tokyo.mixin.meteor.ISwarm;
 import io.github.racoondog.tokyo.mixininterface.IClientCommandSource;
-import io.github.racoondog.tokyo.gui.MultiInstanceScreen;
 import io.github.racoondog.tokyo.utils.AccountUtil;
 import io.github.racoondog.tokyo.utils.InstanceBuilder;
 import io.github.racoondog.tokyo.utils.commands.AccountArgumentType;
@@ -29,9 +29,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class QuickLaunchCommand extends Command {
-    public static final QuickLaunchCommand INSTANCE = new QuickLaunchCommand();
-
-    private QuickLaunchCommand() {
+    public QuickLaunchCommand() {
         super("quick-launch", "Quickly launch another instance of Minecraft with the specified configurations.", "ql", "launch");
     }
 

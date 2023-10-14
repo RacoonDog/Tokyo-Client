@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class LaunchHandler implements ArgsListener {
+public final class LaunchHandler implements ArgsListener {
     public static final String[] LAUNCH_ARGS = FabricLoader.getInstance().getLaunchArguments(true);
     public static final List<String> JVM_OPTS = ManagementFactory.getRuntimeMXBean().getInputArguments();
 

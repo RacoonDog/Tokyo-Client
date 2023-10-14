@@ -1,8 +1,7 @@
-package io.github.racoondog.tokyo.systems;
+package io.github.racoondog.tokyo;
 
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.starscript.Starscript;
-import meteordevelopment.starscript.utils.StarscriptError;
 import meteordevelopment.starscript.value.Value;
 import meteordevelopment.starscript.value.ValueMap;
 import net.fabricmc.api.EnvType;

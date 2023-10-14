@@ -1,4 +1,4 @@
-package io.github.racoondog.tokyo.systems.commands;
+package io.github.racoondog.tokyo.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import io.github.racoondog.tokyo.utils.commands.Vec3ArgumentType;
@@ -14,9 +14,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class LookAtCommand extends Command {
-    public static final LookAtCommand INSTANCE = new LookAtCommand();
-
-    private LookAtCommand() {
+    public LookAtCommand() {
         super("lookAt", "Looks at the specified location");
     }
 

@@ -1,25 +1,12 @@
 package io.github.racoondog.tokyo.utils.prefix;
 
-import io.github.racoondog.tokyo.mixin.IFontManager;
-import io.github.racoondog.tokyo.mixin.IMinecraftClient;
 import io.github.racoondog.tokyo.utils.settings.MinecraftFont;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
-import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
-import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
-import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.text.Style;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.InvalidIdentifierException;
-
-import java.util.Set;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Environment(EnvType.CLIENT)
 public class FormattedTextScreen extends WindowScreen {

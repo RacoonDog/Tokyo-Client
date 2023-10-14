@@ -1,8 +1,9 @@
 package io.github.racoondog.tokyo;
 
 import com.mojang.logging.LogUtils;
+import io.github.racoondog.tokyo.commands.TokyoCommands;
 import io.github.racoondog.tokyo.systems.TokyoSystems;
-import io.github.racoondog.tokyo.systems.modules.*;
+import io.github.racoondog.tokyo.systems.modules.Prefix;
 import io.github.racoondog.tokyo.utils.TextUtils;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.GithubRepo;
@@ -66,7 +67,9 @@ public class Tokyo extends MeteorAddon {
         // ChatUtils prefix
         ChatUtils.registerCustomPrefix(getPackage(), Prefix::getTokyo);
 
-        TokyoSystems.initialize();
+        TokyoStarscript.init();
+        TokyoCommands.init();
+        TokyoSystems.init();
 
         DiscordPresence.registerCustomState("com.wildfire.gui.screen", "Changing options");
 

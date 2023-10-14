@@ -9,7 +9,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.text.*;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public final class TextUtils {
