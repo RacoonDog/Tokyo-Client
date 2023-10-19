@@ -1,16 +1,11 @@
 package io.github.racoondog.tokyo.utils;
 
 import io.github.racoondog.tokyo.mixin.IStyle;
-import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.objects.ObjectObjectMutablePair;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.*;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public final class TextUtils {
@@ -95,29 +90,5 @@ public final class TextUtils {
             .withHoverEvent(accessor.tokyo$getHoverEvent())
             .withInsertion(accessor.tokyo$getInsertion())
             .withFont(accessor.tokyo$getFont());
-    }
-
-    /* Chat Emojis */
-
-
-    public static List<Pair<String, Style>> dissect(OrderedText orderedText) {
-        List<Pair<String, Style>> list = new ArrayList<>();
-
-        orderedText.accept((index, style, codePoint) -> {
-            if (list.isEmpty() || !list.get(list.size() - 1).right().equals(style)) {
-                list.add(new ObjectObjectMutablePair<>(Character.toString(codePoint), style));
-            } else {
-                Pair<String, Style> last = list.get(list.size() - 1);
-                last.left(last.left() + Character.toString(codePoint));
-            }
-
-            return true;
-        });
-
-        return list;
-    }
-
-    public static OrderedText toOrderedText(String text, Style style) {
-        return Text.literal(text).setStyle(style).asOrderedText();
     }
 }

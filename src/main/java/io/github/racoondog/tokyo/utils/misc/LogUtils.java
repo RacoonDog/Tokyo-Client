@@ -11,12 +11,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
-public final class VerboseUtils {
+public final class LogUtils {
     private static final Int2LongMap tickingLogMap = new Int2LongOpenHashMap();
 
     @PostInit
     public static void postInit() {
-        MeteorClient.EVENT_BUS.subscribe(VerboseUtils.class);
+        MeteorClient.EVENT_BUS.subscribe(LogUtils.class);
     }
 
     @EventHandler

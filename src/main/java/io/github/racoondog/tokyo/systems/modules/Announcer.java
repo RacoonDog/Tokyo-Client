@@ -3,7 +3,7 @@ package io.github.racoondog.tokyo.systems.modules;
 import io.github.racoondog.tokyo.Tokyo;
 import io.github.racoondog.tokyo.mixininterface.IStarscript;
 import io.github.racoondog.tokyo.utils.misc.MathUtils;
-import io.github.racoondog.tokyo.utils.misc.VerboseUtils;
+import io.github.racoondog.tokyo.utils.misc.LogUtils;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.DropItemsEvent;
 import meteordevelopment.meteorclient.events.entity.player.BreakBlockEvent;
@@ -52,7 +52,7 @@ public class Announcer extends Module {
             }
 
             if (delay <= 0) {
-                VerboseUtils.warnInLoop("Minimum Announcer delay is lower than ChatManager's chat delay!");
+                LogUtils.warnInLoop("Minimum Announcer delay is lower than ChatManager's chat delay!");
                 if (isActive()) {
                     ChatUtils.info("Deactivating Announcer...");
                     toggle();

@@ -1,7 +1,7 @@
 package io.github.racoondog.tokyo.mixin.meteor;
 
 import io.github.racoondog.tokyo.systems.modules.ChatManager;
-import io.github.racoondog.tokyo.utils.misc.VerboseUtils;
+import io.github.racoondog.tokyo.utils.misc.LogUtils;
 import meteordevelopment.meteorclient.settings.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.Spam;
@@ -21,7 +21,7 @@ public abstract class SpamMixin {
         instance.onChanged(spamDelay -> {
             if (ChatManager.INSTANCE.isActive()) {
                 if (spamDelay < ChatManager.INSTANCE.chatDelay.get()) {
-                    VerboseUtils.warnInLoop("Spam delay is lower than ChatManager's chat delay!");
+                    LogUtils.warnInLoop("Spam delay is lower than ChatManager's chat delay!");
                     Spam spam = Modules.get().get(Spam.class);
                     if (spam.isActive()) {
                         ChatUtils.info("Tokyo", "Deactivating Spam...");

@@ -3,7 +3,7 @@ package io.github.racoondog.tokyo.systems.modules;
 import io.github.racoondog.tokyo.Tokyo;
 import io.github.racoondog.tokyo.utils.TextPresets;
 import io.github.racoondog.tokyo.utils.misc.FileUtils;
-import io.github.racoondog.tokyo.utils.misc.VerboseUtils;
+import io.github.racoondog.tokyo.utils.misc.LogUtils;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -56,7 +56,7 @@ public class SpamPlus extends Module {
             timer = o;
             if (ChatManager.INSTANCE.isActive()) {
                 if (o < ChatManager.INSTANCE.chatDelay.get()) {
-                    VerboseUtils.warnInLoop("Miminum SpamPlus delay is lower than ChatManager's chat delay!");
+                    LogUtils.warnInLoop("Miminum SpamPlus delay is lower than ChatManager's chat delay!");
                     if (isActive()) {
                         info("Deactivating SpamPlus...");
                         toggle();

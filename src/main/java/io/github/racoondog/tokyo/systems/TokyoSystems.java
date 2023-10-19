@@ -27,7 +27,6 @@ public final class TokyoSystems {
         modules.add(SpamPlus.INSTANCE);
         modules.add(DiscordSRV.INSTANCE);
         modules.add(TokyoBetterChat.INSTANCE);
-        modules.add(ChatEmojis.INSTANCE);
 
         hud.register(ImageHud.INFO);
 
