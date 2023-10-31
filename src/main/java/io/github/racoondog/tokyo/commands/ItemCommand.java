@@ -7,15 +7,18 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.EChestMemory;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.ItemSlotArgumentType;
 import net.minecraft.command.argument.ItemStackArgumentType;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 
 import static com.mojang.brigadier.Command.SINGLE_SUCCESS;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -47,10 +50,10 @@ public class ItemCommand extends Command {
                 argument("slot", ItemSlotArgumentType.itemSlot()).then(
                     literal("with").then(
                         argument("item", ItemStackArgumentType.itemStack(REGISTRY_ACCESS))
-                            //.executes(ctx -> replace(ItemStackArgumentType.getItemStackArgument(ctx, "item").createStack(1, false), ItemSlotArgumentType.getItemSlot(ctx, "slot")))
+                            .executes(ctx -> replace(ItemStackArgumentType.getItemStackArgument(ctx, "item").createStack(1, false), ctx.getArgument("slot", Integer.class)))
                             .then(
                                 argument("count", IntegerArgumentType.integer(1, 64))
-                                    //.executes(ctx -> replace(ItemStackArgumentType.getItemStackArgument(ctx, "item").createStack(IntegerArgumentType.getInteger(ctx, "count"), false), ItemSlotArgumentType.getItemSlot(ctx, "slot")))
+                                    .executes(ctx -> replace(ItemStackArgumentType.getItemStackArgument(ctx, "item").createStack(IntegerArgumentType.getInteger(ctx, "count"), false), ctx.getArgument("slot", Integer.class)))
                             )
                     )
                 ).then(
@@ -58,13 +61,13 @@ public class ItemCommand extends Command {
                         literal("block").then(
                             argument("source", BlockPosArgumentType.blockPos()).then(
                                 argument("sourceSlot", ItemSlotArgumentType.itemSlot())
-                                    .executes(ctx -> replaceFromBlock(BlockPosArgumentType.getBlockPos(ctx, "source"), ItemSlotArgumentType.getItemSlot(ctx, "sourceSlot"), ItemSlotArgumentType.getItemSlot(ctx, "slot")))
+                                    .executes(ctx -> replaceFromBlock(ctx.getArgument("source", PosArgument.class).toAbsoluteBlockPos(mc.player.getCommandSource()), ctx.getArgument("sourceSlot", Integer.class), ctx.getArgument("slot", Integer.class)))
                             )
                         )
                     )*/.then(
                         literal("slot").then(
                             argument("sourceSlot", ItemSlotArgumentType.itemSlot())
-                                //.executes(ctx -> replaceFromSlot(ItemSlotArgumentType.getItemSlot(ctx, "sourceSlot"), ItemSlotArgumentType.getItemSlot(ctx, "slot")))
+                                .executes(ctx -> replaceFromSlot(ctx.getArgument("sourceSlot", Integer.class), ctx.getArgument("slot", Integer.class)))
                         )
                     )
                 )
@@ -78,7 +81,7 @@ public class ItemCommand extends Command {
     }
 
     /*
-    private int replaceFromBlock(CommandContext<CommandSource> ctx, BlockPos blockPos, int sourceSlot, int slot) throws CommandSyntaxException {
+    private int replaceFromBlock(BlockPos blockPos, int sourceSlot, int slot) throws CommandSyntaxException {
         if (!PlayerUtils.isWithinReach(blockPos.toCenterPos())) throw NOT_IN_RANGE_EXCEPTION.create();
         if (!(mc.world.getBlockEntity(blockPos) instanceof Inventory)) throw NOT_A_CONTAINER_TARGET_EXCEPTION.create(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         return SINGLE_SUCCESS;
