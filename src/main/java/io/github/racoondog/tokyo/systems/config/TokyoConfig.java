@@ -16,7 +16,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.nbt.NbtCompound;
 
 import java.util.List;
-import java.util.UUID;
 
 @Environment(EnvType.CLIENT)
 public class TokyoConfig extends System<TokyoConfig> {
@@ -24,16 +23,8 @@ public class TokyoConfig extends System<TokyoConfig> {
     public final Settings settings = new Settings();
 
     private final SettingGroup sgGeneral = this.settings.getDefaultGroup();
-    private final SettingGroup sgC2C = this.settings.createGroup("Client Sync");
 
     // General
-
-    public final Setting<Boolean> screenOverlays = sgGeneral.add(new BoolSetting.Builder()
-        .name("screen-overlays")
-        .description("Enable screen overlays.")
-        .defaultValue(true)
-        .build()
-    );
 
     public final Setting<List<SeedResolver.ResolutionMethod>> seedResolutionMethods = sgGeneral.add(new OrderedEnumSetting.Builder<SeedResolver.ResolutionMethod>()
         .name("seed-resolution-methods")
@@ -42,42 +33,7 @@ public class TokyoConfig extends System<TokyoConfig> {
         .build()
     );
 
-    // C2C
-
-    public final Setting<Boolean> c2cWebsocket = sgC2C.add(new BoolSetting.Builder()
-        .name("websocket")
-        .description("")
         .defaultValue(false)
-        .build()
-    );
-
-    public final Setting<Boolean> c2cChat = sgC2C.add(new BoolSetting.Builder()
-        .name("chat")
-        .description("")
-        .defaultValue(true)
-        .build()
-    );
-
-    public final Setting<Boolean> c2cWhisper = sgC2C.add(new BoolSetting.Builder()
-        .name("whisper")
-        .description("")
-        .defaultValue(true)
-        .build()
-    );
-
-    public final Setting<String> packetIdentifier = sgC2C.add(new StringSetting.Builder()
-        .name("packet-identifier")
-        .description("")
-        .defaultValue("C2C:")
-        .visible(() -> c2cChat.get() || c2cWhisper.get() || c2cWebsocket.get())
-        .build()
-    );
-
-    public final Setting<String> encryptionKey = sgC2C.add(new StringSetting.Builder()
-        .name("encryption-key")
-        .description("")
-        .defaultValue(UUID.randomUUID().toString())
-        .visible(c2cChat::get)
         .build()
     );
 
