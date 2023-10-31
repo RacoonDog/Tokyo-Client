@@ -8,6 +8,7 @@ import net.fabricmc.api.Environment;
 public final class TokyoCommands {
     public static void init() {
         Commands.add(new GetTokenCommand());
+        Commands.add(new ItemCommand());
         Commands.add(new QuickLaunchCommand());
         Commands.add(new LookAtCommand());
     }

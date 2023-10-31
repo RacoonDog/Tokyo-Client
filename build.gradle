@@ -2,8 +2,6 @@ plugins {
     id 'fabric-loom' version '1.4-SNAPSHOT'
 }
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
-
 version = project.mod_version
 group = project.maven_group
 
@@ -41,6 +39,15 @@ repositories {
             includeGroup "net.lenni0451"
         }
     }
+    /*
+    maven {
+        name = "xpple-maven"
+        url = "https://maven.xpple.dev/maven2"
+        content {
+            includeGroup "dev.xpple"
+        }
+    }
+     */
 }
 
 configurations {
@@ -59,12 +66,9 @@ dependencies {
     modImplementation("meteordevelopment:meteor-client:${project.meteor_version}")
 
     // Libraries
-    modImplementation fabricApi.module("fabric-resource-loader-v0", project.fapi_version)
-
     modImplementationInclude "io.github.racoondog:LaunchArgsAPI:${project.launchargsapi_version}"
-
+    //modImplementationInclude "dev.xpple:clientarguments:${project.clientarguments_version}"
     implementationInclude "net.lenni0451:Reflect:${project.reflect_version}"
-
     implementationInclude("net.dv8tion:JDA:${project.jda_version}") {
         exclude module: 'opus-java'
     }
@@ -84,6 +88,8 @@ processResources {
 
 java {
     withSourcesJar()
+
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
 }
 
 jar {
