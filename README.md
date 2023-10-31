@@ -14,12 +14,10 @@
 # Modules
 
 - **Announcer**
-  - Removed Meteor Client module.
+  - Former Meteor Client module.
 - **Auto TPA**
   - Automatically accept/deny TPA requests
   - Whitelist/blacklist or friends only
-- **Auto Unfriend**
-  - Unfriend on significant damage taken
 - **Chat Manager**
   - Prevent chat spam kick
   - Priority system
@@ -39,21 +37,29 @@
   - Strip Fancy (Remove weird ascii text)
 - **UwU Chat**
 
+# Commands
+
+- `.getToken`
+  - Outputs your Minecraft account's access token in chat.
+- `.item`
+  - Client-sided version of the `/item` command.
+- `.lookAt`
+  - Look at the target coordinates.
+- `.quick-launch`
+  - Quickly launch another instance from in-game.
+
 # Other Features
 
 - **Multi-instance**
   - Quickly launch another instance from in-game
 - **ImageHud**
   - Popular watermarks (Liveleak, HyperCam, Windows, etc)
-  - Custom image support
+  - Custom image support (Resource Pack & URL)
 - **Launch Args**
   - `tokyo?deactivate` (Deactivate Meteor Client features)
   - `tokyo?swarmMode`: `String` (Activate Swarm)
   - `tokyo?swarmIp`: `String` (Configure Swarm socket IP)
   - `tokyo?swarmPort`: `Integer` (Configure Swarm socket port)
-- **Screen Overlays**
-  - Crafting overlay
 - **Dark Purple Theme**
-
-# Patches
-- Export logout spots as .CSV
+- **Token Account**
+  - Add an account to the Meteor alt switcher using an Access Token
