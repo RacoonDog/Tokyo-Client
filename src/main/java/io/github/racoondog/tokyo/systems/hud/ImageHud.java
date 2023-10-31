@@ -1,5 +1,6 @@
 package io.github.racoondog.tokyo.systems.hud;
 
+import com.mojang.blaze3d.platform.TextureUtil;
 import io.github.racoondog.tokyo.mixininterface.IRenderer2D;
 import meteordevelopment.meteorclient.renderer.Renderer2D;
 import meteordevelopment.meteorclient.settings.*;
@@ -17,8 +18,10 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
+import org.lwjgl.stb.STBImage;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -157,9 +160,12 @@ public class ImageHud extends HudElement {
 
     protected void metaFromResource(Resource resource) {
         try (var inputStream = resource.getInputStream()) {
-            NativeImage nativeImage = NativeImage.read(inputStream);
-            width = nativeImage.getWidth();
-            height = nativeImage.getHeight();
+            ByteBuffer buffer = TextureUtil.readResource(inputStream).rewind();
+            int[] width = new int[1];
+            int[] height = new int[1];
+            STBImage.stbi_info_from_memory(buffer, width, height, new int[1]);
+            this.width = width[0];
+            this.height = height[0];
         } catch (IOException ignored) {}
     }
 
