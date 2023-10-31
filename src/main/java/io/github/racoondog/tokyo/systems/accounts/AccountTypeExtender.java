@@ -2,9 +2,12 @@ package io.github.racoondog.tokyo.systems.accounts;
 
 import meteordevelopment.meteorclient.systems.accounts.AccountType;
 import meteordevelopment.meteorclient.utils.PreInit;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.lenni0451.reflect.Enums;
 
-public class AccountTypeExtender {
+@Environment(EnvType.CLIENT)
+public final class AccountTypeExtender {
     public static final AccountType AccessToken;
 
     static {
