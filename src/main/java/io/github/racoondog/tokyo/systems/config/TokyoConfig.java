@@ -33,6 +33,9 @@ public class TokyoConfig extends System<TokyoConfig> {
         .build()
     );
 
+    public final Setting<Boolean> eventDebug = sgGeneral.add(new BoolSetting.Builder()
+        .name("event-debugging")
+        .description("Adds event handlers to the f3 debug pie.")
         .defaultValue(false)
         .build()
     );

@@ -18,6 +18,7 @@
     "meteor.IMicrosoftAccount",
     "meteor.ISwarm",
     "meteor.ISystems",
+    "meteor.LambdaListenerMixin",
     "meteor.Renderer2DMixin",
     "meteor.SpamMixin",
     "meteor.StarscriptMixin",
