@@ -3,6 +3,7 @@ package io.github.racoondog.tokyo.systems.modules;
 import io.github.racoondog.tokyo.Tokyo;
 import io.github.racoondog.tokyo.utils.webhook.WebhookContent;
 import io.github.racoondog.tokyo.utils.webhook.WebhookHandler;
+import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.game.ReceiveMessageEvent;
 import meteordevelopment.meteorclient.settings.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -32,6 +33,12 @@ public class DiscordSRV extends Module {
         .name("mode")
         .defaultValue(Mode.Webhook)
         .onChanged(o -> changeMode())
+        .build()
+    );
+
+    private final Setting<Boolean> deactivateOnLeave = sgGeneral.add(new BoolSetting.Builder()
+        .name("deactivate-on-leave")
+        .defaultValue(false)
         .build()
     );
 
@@ -90,7 +97,14 @@ public class DiscordSRV extends Module {
         .build()
     );
 
+    private final Setting<Boolean> noEmbedLinks = sgFilter.add(new BoolSetting.Builder()
+        .name("no-embed-links")
+        .defaultValue(true)
+        .build()
+    );
+
     private final Pattern formattingRegex = Pattern.compile("§[0-9a-fklmnor]");
+    private final Pattern linkRegex = Pattern.compile("(?:https?:\\/\\/)?(?:www\\.)?\\w+\\.\\w{2,}(?:\\w{2,})?(?:\\/[^ ]+)*\\/?(?:\\?\\w+=\\w+&?)*(?:#.*)?");
     private final List<Pattern> compiledRegexFilters = new ArrayList<>();
     private boolean requireRebuild = true;
     @Nullable
@@ -115,26 +129,32 @@ public class DiscordSRV extends Module {
     @EventHandler
     private void onMessageReceive(ReceiveMessageEvent event) {
         String message = event.getMessage().getString();
-
         if (stripFormatting.get()) message = formattingRegex.matcher(message).replaceAll("");
+        if (noEmbedLinks.get()) message = linkRegex.matcher(message).replaceAll("<$0>");
 
         for (var filter : compiledRegexFilters) {
             if (filter.matcher(message).find()) return;
         }
 
-        if (mode.get() == Mode.Bot) {
-            if (bot == null || requireRebuild) rebuildBot();
-            if (channel == null) getChannel();
-            if (channel == null) return;
+        String finalMessage = message;
 
-            try {
-                channel.sendMessage(message);
-            } catch (Throwable t) {
-                warning("Could not send message.");
-            }
+        if (mode.get() == Mode.Bot) {
+            MeteorExecutor.execute(() -> {
+                if (bot == null || requireRebuild) rebuildBot();
+                if (channel == null) {
+                    getChannel();
+                    if (channel == null) return;
+                }
+
+                try {
+                    channel.sendMessage(finalMessage);
+                } catch (Throwable t) {
+                    warning("Could not send message.");
+                    t.printStackTrace();
+                }
+            });
         } else {
             if (!webhookUrl.get().equals("enter webhook url")) {
-                String finalMessage = message;
                 MeteorExecutor.execute(() -> {
                     try {
                         WebhookHandler.send(webhookUrl.get(), new WebhookContent(
@@ -151,6 +171,11 @@ public class DiscordSRV extends Module {
                 });
             }
         }
+    }
+
+    @EventHandler
+    private void onLeave(GameLeftEvent event) {
+        if (deactivateOnLeave.get()) toggle();
     }
 
     private void rebuildBot() {
