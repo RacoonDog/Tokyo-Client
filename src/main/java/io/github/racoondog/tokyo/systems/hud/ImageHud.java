@@ -63,7 +63,7 @@ public class ImageHud extends HudElement {
     private final Setting<String> url = sgGeneral.add(new StringSetting.Builder()
         .name("url")
         .defaultValue("https://raw.githubusercontent.com/RacoonDog/RacoonDog/main/csnail.PNG")
-        .visible(() -> mode.get() == Mode.Online)
+        .visible(() -> mode.get() == Mode.Url)
         .onChanged(s -> update())
         .build()
     );
@@ -112,7 +112,7 @@ public class ImageHud extends HudElement {
         resetTexture();
 
         Supplier<Supplier<AbstractTexture>> supplier = () -> switch (mode.get()) {
-            case Online -> {
+            case Url -> {
                 String imgUrl = url.get();
                 if (!imgUrl.isEmpty()) {
                     try {
@@ -202,7 +202,7 @@ public class ImageHud extends HudElement {
     public enum Mode {
         Preset,
         Resource,
-        Online
+        Url
     }
 
     public enum Preset {
