@@ -3,6 +3,7 @@ package io.github.racoondog.tokyo.utils.webhook;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import io.github.racoondog.tokyo.Tokyo;
 import meteordevelopment.meteorclient.utils.network.Http;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,6 +15,10 @@ public class WebhookHandler {
     public static void send(String url, WebhookContent content) {
         JsonObject jsonObject = content.serialize();
 
-        Http.post(url).bodyJson(GSON.toJson(jsonObject)).send();
+        try {
+            Http.post(url).bodyJson(GSON.toJson(jsonObject)).send();
+        } catch (Throwable t) {
+            Tokyo.LOG.error("Could not send webhook: " + t.getMessage());
+        }
     }
 }
