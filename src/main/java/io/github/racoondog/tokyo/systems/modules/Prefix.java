@@ -66,6 +66,8 @@ public class Prefix extends Module {
     );
     private Text METEOR;
     private Text TOKYO;
+    private Text INNER_TOKYO;
+
     @ApiStatus.Internal
     public static int indexOffset = 0;
 
@@ -89,7 +91,8 @@ public class Prefix extends Module {
     private void updateTokyo() {
         if (!isActive()) return;
 
-        TOKYO = Text.empty().append(tokyoBorderLeftTextSetting.get().get()).append(tokyoPrefixTextSetting.get().get()).append(tokyoBorderRightTextSetting.get().get());
+        INNER_TOKYO = tokyoPrefixTextSetting.get().get();
+        TOKYO = Text.empty().append(tokyoBorderLeftTextSetting.get().get()).append(INNER_TOKYO).append(tokyoBorderRightTextSetting.get().get());
     }
 
     public static Text getMeteor() {
@@ -98,5 +101,9 @@ public class Prefix extends Module {
 
     public static Text getTokyo() {
         return INSTANCE.isActive() && INSTANCE.TOKYO != null ? INSTANCE.TOKYO : DEFAULT_TOKYO;
+    }
+
+    public static Text getInnerTokyo() {
+        return INSTANCE.isActive() && INSTANCE.INNER_TOKYO != null ? INSTANCE.INNER_TOKYO : Tokyo.getDefaultInnerPrefix();
     }
 }

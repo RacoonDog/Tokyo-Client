@@ -33,20 +33,21 @@ public class Tokyo extends MeteorAddon {
     public static Tokyo INSTANCE;
 
     private final MutableText defaultPrefix;
+    private final Text defaultInnerPrefix;
 
     public Tokyo() {
         INSTANCE = this;
 
-        defaultPrefix = Text.literal("")
+        defaultPrefix = Text.empty()
             .setStyle(Style.EMPTY.withFormatting(Formatting.GRAY))
             .append("[");
 
         Color color = new Color(204, 48, 255);
         if (CONTAINER.getMetadata().containsCustomValue(MeteorClient.MOD_ID + ":color")) color.parse(CONTAINER.getMetadata().getCustomValue(MeteorClient.MOD_ID + ":color").getAsString());
 
-        Text FADE = TextUtils.colorFade("Tokyo Client", defaultPrefix.getStyle().withBold(true), color.getPacked(), SettingColor.fromRGBA(112, 100, 129, 255), false);
+        defaultInnerPrefix = TextUtils.colorFade("Tokyo Client", defaultPrefix.getStyle().withBold(true), color.getPacked(), SettingColor.fromRGBA(112, 100, 129, 255), false);
 
-        defaultPrefix.append(FADE)
+        defaultPrefix.append(defaultInnerPrefix)
             .append("] ");
     }
 
@@ -78,6 +79,10 @@ public class Tokyo extends MeteorAddon {
 
     public static Text getDefaultPrefix() {
         return INSTANCE.defaultPrefix;
+    }
+
+    public static Text getDefaultInnerPrefix() {
+        return INSTANCE.defaultInnerPrefix;
     }
 
     @Override

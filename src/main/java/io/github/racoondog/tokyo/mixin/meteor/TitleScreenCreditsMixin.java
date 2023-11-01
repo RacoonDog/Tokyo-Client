@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.lang.invoke.VarHandle;
+import java.util.AbstractList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -45,17 +46,16 @@ public abstract class TitleScreenCreditsMixin {
     @Unique private static final VarHandle SECTION_WIDTH = Reflection.lookup(lookup -> lookup.findVarHandle(SECTION_CLASS, "width", int.class));
     @Unique private static final VarHandle SECTION_TEXT = Reflection.lookup(lookup -> lookup.findVarHandle(SECTION_CLASS, "text", String.class));
     @Unique private static final VarHandle SECTION_COLOR = Reflection.lookup(lookup -> lookup.findVarHandle(SECTION_CLASS, "color", int.class));
+    @Unique private static final VarHandle ABSTRACT_LIST_MODCOUNT = Reflection.lookup(lookup -> lookup.findVarHandle(AbstractList.class, "modCount", int.class));
 
-    @Unique private static final MutableText tokyoText = Text.literal("(").formatted(Formatting.GRAY).append(Text.literal(Tokyo.CONTAINER.getMetadata().getVersion().getFriendlyString()).formatted(Formatting.WHITE)).append(") by ");
-    @Unique private static int previousWidth;
+    @Unique private static final MutableText tokyoAuthorText = Text.literal("(").formatted(Formatting.GRAY).append(Text.literal(Tokyo.CONTAINER.getMetadata().getVersion().getFriendlyString()).formatted(Formatting.WHITE)).append(") by ");
+    @Unique private static Object tokyoCredit;
 
     static {
         for (int i = 0; i < Tokyo.INSTANCE.authors.length; i++) {
-            if (i > 0) tokyoText.append(Text.literal(i == Tokyo.INSTANCE.authors.length - 1 ? " & " : ", "));
-            tokyoText.append(Text.literal(Tokyo.INSTANCE.authors[i]).formatted(Formatting.WHITE));
+            if (i > 0) tokyoAuthorText.append(Text.literal(i == Tokyo.INSTANCE.authors.length - 1 ? " & " : ", "));
+            tokyoAuthorText.append(Text.literal(Tokyo.INSTANCE.authors[i]).formatted(Formatting.WHITE));
         }
-
-        previousWidth = MinecraftClient.getInstance().textRenderer.getWidth(Prefix.getTokyo()) + MinecraftClient.getInstance().textRenderer.getWidth(tokyoText);
     }
 
     @SuppressWarnings("unchecked")
@@ -81,9 +81,7 @@ public abstract class TitleScreenCreditsMixin {
                     sections.add(2, sectionConstructor.invokeExact(versionString, WHITE));
                     sections.add(3, sectionConstructor.invokeExact(")", GRAY));
                 } catch (Throwable ignored) {}
-            } else {
-                CREDIT_WIDTH.set(credit, previousWidth);
-            }
+            } else tokyoCredit = credit;
         }
     }
 
@@ -98,17 +96,23 @@ public abstract class TitleScreenCreditsMixin {
 
         int y = 3;
         TextRenderer renderer = MinecraftClient.getInstance().textRenderer;
+
+        Text tokyoText = Text.empty().append(Prefix.getInnerTokyo()).append(" ").append(tokyoAuthorText);
+
+        int tokyoWidth = renderer.getWidth(tokyoText);
+
+        if (tokyoWidth != (int) CREDIT_WIDTH.get(tokyoCredit)) {
+            CREDIT_WIDTH.set(tokyoCredit, tokyoWidth);
+            int modCount = (int) ABSTRACT_LIST_MODCOUNT.get(credits); //prevent error
+            credits.sort(Comparator.comparingInt(value -> CREDIT_ADDON.get(value) == MeteorClient.ADDON ? Integer.MIN_VALUE : -(int) CREDIT_WIDTH.get(value)));
+            ABSTRACT_LIST_MODCOUNT.set(credits, modCount);
+        }
+
         for (var credit : credits) {
             if (CREDIT_ADDON.get(credit) == Tokyo.INSTANCE) {
-                if (previousWidth != (int) CREDIT_WIDTH.get(credit)) {
-                    previousWidth = renderer.getWidth(Prefix.getTokyo()) + renderer.getWidth(tokyoText);
-                    CREDIT_WIDTH.set(credit, previousWidth);
-                    credits.sort(Comparator.comparingInt(value -> CREDIT_ADDON.get(value) == MeteorClient.ADDON ? Integer.MIN_VALUE : -(int) CREDIT_WIDTH.get(value)));
-                }
+                int x = MinecraftClient.getInstance().currentScreen.width - 3 - tokyoWidth;
 
-                int x = MinecraftClient.getInstance().currentScreen.width - 3 - previousWidth;
-
-                context.drawTextWithShadow(renderer, Text.empty().append(Prefix.getTokyo()).append(tokyoText), x, y, -1);
+                context.drawTextWithShadow(renderer, tokyoText, x, y, -1);
 
                 continue;
             } else {
