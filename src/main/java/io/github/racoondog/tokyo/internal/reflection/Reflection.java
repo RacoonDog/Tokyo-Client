@@ -1,14 +1,34 @@
 package io.github.racoondog.tokyo.internal.reflection;
 
 import org.jetbrains.annotations.ApiStatus;
+import sun.misc.Unsafe;
 
-import java.lang.reflect.Constructor;
+import java.lang.constant.Constable;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.util.function.Function;
 
 @ApiStatus.Internal
 public final class Reflection {
+    private static final Unsafe UNSAFE;
+    private static final MethodHandles.Lookup TRUSTED_LOOKUP;
+
     private Reflection() {}
+
+    static {
+        try {
+            Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+            unsafeField.setAccessible(true);
+            UNSAFE = (Unsafe) unsafeField.get(null);
+
+            MethodHandles.lookup();
+            Field lookupField = MethodHandles.Lookup.class.getDeclaredField("IMPL_LOOKUP");
+            long lookupFieldOffset = UNSAFE.staticFieldOffset(lookupField);
+            TRUSTED_LOOKUP = (MethodHandles.Lookup) UNSAFE.getObject(MethodHandles.Lookup.class, lookupFieldOffset);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 
     public static Class<?> forName(String className) {
         try {
@@ -18,49 +38,25 @@ public final class Reflection {
         }
     }
 
-    public static <T> Constructor<T> getPrivateCtor(Class<T> targetClass, Class<?>... paramTypes) {
+    public static <T extends Constable, E extends ReflectiveOperationException> T lookup(ReflectiveOperation<T, E> operation) {
+        return lookup(operation, Reflection::rethrow);
+    }
+
+    public static <T extends Constable, E extends ReflectiveOperationException> T lookup(ReflectiveOperation<T, E> operation, Function<ReflectiveOperationException, T> errorHandler) {
         try {
-            Constructor<T> ctor = targetClass.getConstructor(paramTypes);
-            ctor.setAccessible(true);
-            return ctor;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            return operation.lookup(TRUSTED_LOOKUP);
+        } catch (ReflectiveOperationException e) {
+            return errorHandler.apply(e);
         }
     }
 
-    public static Method getPrivateMethod(Class<?> targetClass, String methodName, Class<?> paramTypes) {
-        try {
-            Method method = targetClass.getDeclaredMethod(methodName, paramTypes);
-            method.setAccessible(true);
-            return method;
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+    private static <T, E extends Throwable> T rethrow(E throwable) {
+        UNSAFE.throwException(throwable);
+        return null;
     }
 
-    public static Field getPrivateField(Class<?> targetClass, String fieldName) {
-        try {
-            Field field = targetClass.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field;
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static <T> UncheckedConstructor<T> unchecked(Constructor<T> ctor) {
-        return new UncheckedConstructor<>(ctor);
-    }
-
-    public static <T> UncheckedField<T> unchecked(Field field, Class<T> fieldType) {
-        return new UncheckedField<>(field, fieldType);
-    }
-
-    public static UncheckedIntField uncheckedInt(Field field) {
-        return new UncheckedIntField(field);
-    }
-
-    public static <T> UncheckedMethod<T> unchecked(Method method, Class<T> returnType) {
-        return new UncheckedMethod<>(method, returnType);
+    @FunctionalInterface
+    public interface ReflectiveOperation<T extends Constable, E extends ReflectiveOperationException> {
+        T lookup(MethodHandles.Lookup lookup) throws E;
     }
 }
