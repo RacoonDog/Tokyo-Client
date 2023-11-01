@@ -32,19 +32,17 @@ public class SeedResolver extends System<SeedResolver> {
         super("seed-resolver");
 
         MeteorExecutor.execute(() -> {
-            try {
-                Http.Request request = Http.get("https://script.google.com/macros/s/AKfycbxvJa3GPh2B_atqbxFdlpInPw4XGKk1jR7lHqALx1durf0X-VXi6bG4zi7Jg-FCU3DfFg/exec");
-                ((IHttpRequest) request).tokyo$getBuilder().timeout(Duration.ofSeconds(30));
-                JsonArray databaseSeedArray = request.sendJson(JsonArray.class);
-                if (databaseSeedArray == null) return;
-                for (var databaseEntry : databaseSeedArray) {
-                    JsonArray seedEntry = databaseEntry.getAsJsonArray();
-                    String address = seedEntry.get(0).getAsString();
-                    String seedString = seedEntry.get(2).getAsString();
-                    long seed = Long.parseLong(seedString.substring(0, seedString.length() - 1));
-                    databaseSeeds.put(address, seed);
-                }
-            } catch (Exception ignored) {}
+            Http.Request request = Http.get("https://script.google.com/macros/s/AKfycbxvJa3GPh2B_atqbxFdlpInPw4XGKk1jR7lHqALx1durf0X-VXi6bG4zi7Jg-FCU3DfFg/exec");
+            ((IHttpRequest) request).tokyo$getBuilder().timeout(Duration.ofSeconds(30));
+            JsonArray databaseSeedArray = request.sendJson(JsonArray.class);
+            if (databaseSeedArray == null) return;
+            for (var databaseEntry : databaseSeedArray) {
+                JsonArray seedEntry = databaseEntry.getAsJsonArray();
+                String address = seedEntry.get(0).getAsString();
+                String seedString = seedEntry.get(2).getAsString();
+                long seed = Long.parseLong(seedString.substring(0, seedString.length() - 1));
+                databaseSeeds.put(address, seed);
+            }
         });
 
         MeteorClient.EVENT_BUS.subscribe(this);
